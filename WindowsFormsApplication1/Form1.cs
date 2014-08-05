@@ -26,7 +26,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using Planimate5engine;
+using Planimate.Engine;
 
 namespace WindowsFormsApplication1
 {
@@ -36,11 +36,12 @@ namespace WindowsFormsApplication1
     public Form1()
     {
       InitializeComponent();
-      pl5engine1.EngineInit("demo", this.Handle);
-      dataGridView1.DataSource = pl5engine1.GetDataTable("Input_1", true);
-      dataGridView2.DataSource = pl5engine1.GetDataTable("Formats", true);
+      PLLoader1.InitPLLoader();
+      PLLoader1.CreatePL("demo.mdl /debugdll");
+      dataGridView1.DataSource = PLLoader1.GetEngine().GetDataTable("Input_1", true);
+      dataGridView2.DataSource = PLLoader1.GetEngine().GetDataTable("Formats", true);
       DataTable dt = (DataTable)dataGridView2.DataSource;
-      pl5engine1.SetDataTable(ref dt,pl5engine1.FindDataObjectName("formats_copy"));
+      PLLoader1.GetEngine().SetDataTable(ref dt, PLLoader1.GetEngine().FindDataObjectName("formats_copy"));
     }
 
     public ePLRESULT broadcast_callback_function(IntPtr broadcast, int no_params, string[] tuple_names, double[] tuple_values)
@@ -51,27 +52,27 @@ namespace WindowsFormsApplication1
 
     private void button3_Click(object sender, EventArgs e)
     {
-      IntPtr broadcast = pl5engine1.FindBroadcastName("Process");
+      IntPtr broadcast = PLLoader1.GetEngine().FindBroadcastName("Process");
       if (broadcast == IntPtr.Zero)
       {
         MessageBox.Show("Broadcast Not Found");
         return;
       }
-      pl5engine.tPL_BroadcastCallback callback;
-      callback = new pl5engine.tPL_BroadcastCallback(broadcast_callback_function);
-      ePLRESULT reg_res = pl5engine1.RegisterBroadcastCallback(broadcast, callback);
-      ePLRESULT brd_res = pl5engine1.SendBroadcast(broadcast, 1, new string[] { "_height" }, new double[] { Convert.ToDouble(numericUpDown1.Value) });
+      PLEngine.tPL_BroadcastCallback callback;
+      callback = new PLEngine.tPL_BroadcastCallback(broadcast_callback_function);
+      ePLRESULT reg_res = PLLoader1.GetEngine().RegisterBroadcastCallback(broadcast, callback);
+      ePLRESULT brd_res = PLLoader1.GetEngine().SendBroadcast(broadcast, 1, new string[] { "_height" }, new double[] { Convert.ToDouble(numericUpDown1.Value) });
     }
 
     private void button1_Click(object sender, EventArgs e)
     {
-      dataGridView2.DataSource = pl5engine1.GetDataTable("Formats", true);
+      dataGridView2.DataSource = PLLoader1.GetEngine().GetDataTable("Formats", true);
     }
 
     private void button2_Click(object sender, EventArgs e)
     {
       DataTable dt = (DataTable)dataGridView2.DataSource;
-      pl5engine1.SetDataTable(ref dt, pl5engine1.FindDataObjectName("formats_copy"));
+      PLLoader1.GetEngine().SetDataTable(ref dt, PLLoader1.GetEngine().FindDataObjectName("formats_copy"));
     }
   }
 }

@@ -107,9 +107,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pl5engine\pl5engine.csproj">
+    <ProjectReference Include="..\pl5engine\PLEngine.csproj">
       <Project>{0D9A8225-58D7-4F5C-9251-2D1734553752}</Project>
-      <Name>pl5engine</Name>
+      <Name>PLEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

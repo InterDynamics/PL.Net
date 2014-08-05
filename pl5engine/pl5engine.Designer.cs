@@ -17,9 +17,9 @@
  * along with pl5engine.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Planimate5engine
+namespace Planimate.Engine
 {
-  partial class pl5engine
+  partial class PLLoader
   {
         /// <summary>Required designer variable.</summary>
         private System.ComponentModel.IContainer components = null;
