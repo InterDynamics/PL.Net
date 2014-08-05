@@ -1,0 +1,2 @@
+C:\Users\crchandl\Documents\Visual Studio 2013\Projects\pl5engine\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Users\crchandl\Documents\Visual Studio 2013\Projects\PL.Net\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config

@@ -1,0 +1,1546 @@
+; This model last saved by Planimate(r) Win V5.24h on Tue Mar 23 13:48:51 2010
+; User: Craig Chandler, InterDynamics Pty Ltd
+V 578
+IFFontTable 13
+-13 0 0 0 400 0 0 0 0 0 0 0 48 0 "Arial" ; (14)
+-16 0 0 0 400 0 0 0 0 0 0 0 48 0 "Arial" ; (3)
+-19 0 0 0 400 0 0 0 0 0 0 0 48 0 "Arial" ; (2)
+-13 0 0 0 400 0 0 0 0 0 0 0 49 0 "Courier New" ; (1)
+-16 0 0 0 900 0 0 0 0 0 0 0 48 16777215 "Arial" ; (1)
+-16 0 0 0 400 0 0 0 0 0 0 0 48 16777215 "Arial" ; (1)
+-16 0 0 0 900 0 0 0 0 0 0 0 48 64512 "Arial" ; (1)
+-16 0 0 0 400 0 0 0 0 0 0 0 48 64764 "Arial" ; (1)
+-16 0 0 0 400 0 0 0 0 0 0 0 48 64512 "Arial" ; (1)
+-16 0 0 0 400 0 0 0 0 0 0 0 48 16579584 "Arial" ; (1)
+-16 0 0 0 900 0 0 0 0 0 0 0 48 64764 "Arial" ; (1)
+-16 0 0 0 400 1 0 0 0 0 0 0 48 16777215 "Arial" ; (1)
+-12 0 0 0 400 0 0 0 0 0 0 0 49 0 "Courier New" ; (1)
+6
+0 0 ; FREF
+0 0 ; FREF
+1 0 ; FREF
+0 0 ; FREF
+12 0 ; FREF
+2 0 ; FREF
+
+0 0 ; FREF
+0 0 ; FREF
+1 0 ; FREF
+0 0 ; FREF
+0 0 ; FREF
+0 0 ; FREF
+0 0 ; FREF
+2 0 ; FREF
+1 0 ; FREF
+3 0 ; FREF
+0 0 ; FREF
+0 0 ; FREF
+0 0 ; FREF
+0 0 ; FREF
+0 0 ; FREF
+4 0 ; FREF
+5 0 ; FREF
+6 0 ; FREF
+7 0 ; FREF
+8 0 ; FREF
+9 0 ; FREF
+10 0 ; FREF
+11 0 ; FREF
+
+
+Colors 48
+ 99ffff
+ 8282ff
+ 6699ff
+ 71c6ff
+ 1de29d
+ caffe4
+ f1cea3
+ f7f3ef
+ cccccc
+ ffe097
+ cccc00
+ cc9933
+ ccccff
+ 9999cc
+ cc99cc
+ 66ffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+ ffffff
+IDInfo "" "" "" ""
+Scenarios 30 0
+"Data Set" "DATASET"
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+"" ""
+ExSet 1 0 "" "" "" "" "" "" ""
+Set 0 2 16908288 134217728 512 44 5000 5000
+Stream
+ 0 1
+End
+Clock 0 0 0 0 3 0 -1 1 -1 0 0 1009843200 1293926400 0  1 15 0 255
+LabelLists 19
+"_boolean" 1 2
+0 "False"
+0
+1 "True"
+0
+0
+0 "_border_styles" 1 7
+0 "None"
+0
+1 "Single"
+0
+2 "Double"
+0
+3 "Shadow"
+0
+4 "Double Shadow"
+0
+5 "Indent"
+0
+6 "Double Indent"
+0
+0
+0 "_colors" 1 17
+0 "Black"
+0
+1 "Blue"
+0
+2 "Green"
+0
+3 "Cyan"
+0
+4 "Red"
+0
+5 "Purple"
+0
+6 "Brown"
+0
+7 "Light Grey"
+0
+8 "Dark Grey"
+0
+9 "Light Blue"
+0
+10 "Light Green"
+0
+11 "Light Cyan"
+0
+12 "Light Red"
+0
+13 "Light Magenta"
+0
+14 "Yellow"
+0
+15 "White"
+0
+255 "None"
+0
+0
+0 "_column_properties" 1 25
+0 "Width"
+0
+1 "ClearValue"
+0
+2 "ContentAlignment"
+0
+3 "TitleAlignment"
+0
+4 "ProtectFromEdit"
+0
+5 "IncludeInGantt"
+0
+6 "EditResetProperty"
+0
+7 "DontShowZero"
+0
+8 "HideRepeated"
+0
+9 "KeepPrivate"
+0
+10 "InPlaceLabelEdit"
+0
+11 "InPlaceLabelRename"
+0
+12 "PreciseEdits"
+0
+13 "TitleToolTips"
+0
+15 "InPlaceLabelCombo"
+0
+16 "OnlyExistingLabels"
+0
+17 "ComboListWidth"
+0
+18 "OpenWithComboList"
+0
+19 "RotateTitle"
+0
+20 "BackgroundColor"
+0
+21 "TextColor"
+0
+22 "IgnoreHoverColor"
+0
+23 "DynamicList"
+0
+24 "NoClip"
+0
+25 "DisableFilter"
+0
+0
+0 "_dataset_errors" 1 16
+0 "None"
+0
+1 "Bad Data Reference"
+0
+2 "Repeated Data Object"
+0
+3 "Missing Control Columns"
+0
+4 "No DataSet Table Rows"
+0
+5 "File Open Failed"
+0
+6 "File Write Failed"
+0
+7 "XML Parse Error"
+0
+8 "XML Load Bad"
+0
+9 "Resource Index Is Zero"
+0
+10 "Invalid Resource Index"
+0
+11 "Data Type Mismatch"
+0
+12 "Blob header corrupt"
+0
+13 "Blob data invalid"
+0
+14 "Blob not found"
+0
+15 "Blob size mismatch"
+0
+0
+0 "_external_files" 1 0
+0
+0 "_keycodes" 1 12
+15104 "F1"
+0
+15360 "F2"
+0
+15616 "F3"
+0
+15872 "F4"
+0
+16128 "F5"
+0
+16384 "F6"
+0
+16640 "F7"
+0
+16896 "F8"
+0
+17152 "F9"
+0
+17408 "F10"
+0
+17664 "F11"
+0
+17920 "F12"
+0
+0
+0 "_labellist_properties" 1 14
+0 "SortByName"
+0
+1 "LabelRegions"
+0
+2 "CyclicSelection"
+0
+3 "OnlyModellersAdd"
+0
+4 "AutoAddLabelsOnImport"
+0
+5 "AutoIndexStartingAtZero"
+0
+6 "DontClearWhenImporting"
+0
+7 "DontAcceptNumericLabels"
+0
+8 "TreatNumericLabelsAsIndicies"
+0
+9 "RemoveLeadingSpaces"
+0
+10 "RemoveTrailingSpaces"
+0
+11 "Interpret0AsLabelIndex0"
+0
+12 "InterpretEmptyInputAsLabelIndex0"
+0
+13 "DataSet2LoadsLabelsByIndexNotLabel"
+0
+0
+0 "_line_styles" 1 9
+0 "Solid"
+0
+1 "Long Dashed"
+0
+2 "Medium Dotted"
+0
+3 "Dash Dotted"
+0
+4 "Medium Dashed"
+0
+5 "Dash 2 Dots"
+0
+6 "Short Dashed"
+0
+7 "Dense Dotted"
+0
+8 "Sparse Dotted"
+0
+0
+0 "_object_types" 1 11
+1 "Entry"
+0
+2 "Queue"
+0
+3 "MultiServer"
+0
+4 "Splitter"
+0
+7 "Portal"
+0
+11 "Dispatcher"
+0
+12 "DropOff"
+0
+13 "PickUp"
+0
+16 "Section"
+0
+17 "TrLoopOld"
+0
+20 "Pipe"
+0
+0
+0 "_paint_properties" 1 21
+0 "BottomLeftX"
+0
+1 "BottomLeftY"
+0
+2 "Width"
+0
+3 "Height"
+0
+4 "BackgroundColor"
+0
+5 "BorderColor"
+0
+6 "TextColor"
+0
+7 "GradientTL"
+0
+8 "GradientTR"
+0
+9 "GradientBL"
+0
+10 "GradientBR"
+0
+11 "BorderStyle"
+0
+12 "BorderThickness"
+0
+13 "TextRotation"
+0
+14 "TextWidth"
+0
+15 "ImageXOffset"
+0
+16 "ImageYOffset"
+0
+17 "ImageUseWidth"
+0
+18 "ImageUseHeight"
+0
+19 "ImageWidth"
+0
+20 "ImageHeight"
+0
+0
+0 "_plot_modes" 1 10
+0 "no change"
+0
+1 "no plot"
+0
+2 "line"
+0
+3 "stepped"
+0
+4 "horizontal bar"
+0
+5 "vertical bar"
+0
+6 "area"
+0
+7 "labelled bar"
+0
+8 "centred label"
+0
+9 "point"
+0
+0
+0 "_section_types" 1 8
+0 "-"
+0
+1 "Single"
+0
+2 "Double (No Overtake)"
+0
+3 "Double (Overtake)"
+0
+4 "Double (Any Overtake)"
+0
+5 "Double (Other Road On Closure)"
+0
+6 "Triple (Shared Track)"
+0
+7 "Triple (Any Overtake)"
+0
+0
+0 "_stop_reasons" 1 8
+0 "Loaded/No Previous Run"
+0
+1 "User Stopped Run"
+0
+2 "Model Stopped Run"
+0
+3 "Platform Required"
+0
+4 "Error In Model/Engine"
+0
+5 "Broadcast Option"
+0
+6 "UI/Portal Click Option"
+0
+7 "Restart Dispatcher"
+0
+0
+0 "_system_colors" 1 22
+0 "3D Face"
+0
+1 "3D Highlight"
+0
+2 "3D Light"
+0
+3 "3D Shadow"
+0
+4 "Active Border"
+0
+5 "Inactive Border"
+0
+6 "Active Titlebar Left"
+0
+7 "Inactive Titlebar Left"
+0
+8 "Active Title Text"
+0
+9 "Inactive Title Text"
+0
+10 "Workspace"
+0
+11 "Desktop"
+0
+12 "Button Text"
+0
+13 "Inactive Text (Grayed)"
+0
+14 "Highlight (Selected)"
+0
+15 "Highlight Text"
+0
+16 "Menu Color"
+0
+17 "Menu Text"
+0
+18 "Scrollbar Color"
+0
+19 "Window"
+0
+20 "Window Border"
+0
+21 "Window Text"
+0
+0
+0 "_tableview_properties" 1 39
+0 "BottomLeftX"
+0
+1 "BottomLeftY"
+0
+2 "Width"
+0
+3 "Height"
+0
+4 "BackgroundColor"
+0
+5 "BorderColor"
+0
+6 "TextColor"
+0
+7 "GradientTL"
+0
+8 "GradientTR"
+0
+9 "GradientBL"
+0
+10 "GradientBR"
+0
+11 "BorderStyle"
+0
+1000 "CellBackground1"
+0
+1001 "CellBackground2"
+0
+1002 "CellText"
+0
+1003 "CellBorder"
+0
+1004 "ColumnBackground"
+0
+1005 "ColumnText"
+0
+1006 "ColumnSecondText"
+0
+1007 "ColumnDividerLines"
+0
+1008 "RowBackground1"
+0
+1009 "RowBackground2"
+0
+1010 "RowText"
+0
+1011 "RowDividerLines"
+0
+1012 "FilterBackground"
+0
+1013 "FilterText"
+0
+1014 "TopLine"
+0
+1015 "DataAreaBackgrond"
+0
+1016 "HoverCellBackground"
+0
+1017 "HoverCellText"
+0
+1018 "HoverRowBackground"
+0
+1019 "HoverRowText"
+0
+1020 "HoverColumnBackground"
+0
+1021 "HoverColumnText"
+0
+1022 "MarkedBackground"
+0
+1023 "MarkedText"
+0
+1024 "TitleText"
+0
+1025 "TitleBackgroundL"
+0
+1026 "TitleBackgroundR"
+0
+0
+0 "_value_formats" 1 74
+0 "Time HH:MM SS"
+0
+1 "Value"
+0
+2 "Money $x.xx"
+0
+3 "Rate/Sec"
+0
+4 "Rate/Min"
+0
+5 "Rate/Hour"
+0
+6 "Rate/Day"
+0
+7 "Rate/Week"
+0
+8 "Rate/Month"
+0
+9 "Rate/Year"
+0
+10 "Calendar HH:MM SS"
+0
+11 "Label"
+0
+12 "Money $x"
+0
+13 "Calendar HHMM"
+0
+14 "Value with Commas"
+0
+15 "Time Of Day HHMM"
+0
+16 "Time Of Day 12hr"
+0
+17 "Hexadecimal"
+0
+18 "Time HH:MM:SS"
+0
+19 "Calendar HH:MM:SS"
+0
+20 "Time Minutes"
+0
+21 "Time Hours"
+0
+22 "Time Days"
+0
+23 "Time Weeks"
+0
+24 "Fixed xxxx.x"
+0
+25 "Fixed xxxx.xx"
+0
+26 "Fixed x,xxx.x"
+0
+27 "Fixed x,xxx.xx"
+0
+28 "Calendar Date Only"
+0
+29 "Calendar Day Of Week"
+0
+30 "Week, Day (from 1)"
+0
+31 "Fixed 000xxx"
+0
+32 "US Calendar HH:MM:SS"
+0
+33 "Long DDD:MM:SS[E|W]"
+0
+34 "Long [-]DDD:MM:SS.SS"
+0
+35 "Lat   DD:MM:SS[N|S]"
+0
+36 "Lat  [-] DD:MM:SS.SS"
+0
+37 "Time Of Day HH:MM"
+0
+38 "Calendar YYYY-MM-DD"
+0
+39 "Text"
+1
+"Free Text Entry"
+40 "Money Rx.xx"
+0
+41 "Money Rx"
+0
+42 "Money €x.xx"
+0
+43 "Money €x"
+0
+44 "Time HH:MM (no seconds)"
+0
+45 "Calendar HH:MM:SS.SSS"
+0
+46 "Calendar YYYY-MM-DD HH:MM:SS"
+0
+47 "Day Of Week; Time HHMM"
+0
+48 "Day # (1..); Time HHMM"
+0
+49 "Percentage x.xx%"
+0
+50 "Percentage (optional fraction)"
+0
+51 "Calendar YYYYMMDD"
+0
+52 "Scientific x.xxxxxxe+yyy"
+0
+53 "Calendar Day Mon DD HH:MM:SS YYYY"
+0
+54 "Percentage x.xxx%"
+0
+55 "Parts Per Million (ppm)"
+0
+56 "Percentage x.xx"
+0
+57 "Parts Per Million (no ppm)"
+0
+58 "Percentage x.xxxxxx%"
+0
+59 "Value with Commas No Decimal"
+0
+60 "Calendar dd Mon      (no year)"
+0
+61 "Calendar dd Mon HHMM (no year)"
+0
+62 "Time xxhr yymin"
+0
+63 "OS Date Time"
+0
+64 "OS Date"
+0
+65 "OS Time"
+0
+66 "OS Currency"
+0
+67 "OS Value"
+0
+68 "OS Percent"
+0
+69 "RGB colour value"
+0
+70 "Value No Decimal"
+0
+71 "Fixed xxxx.xxx"
+0
+72 "Fixed x,xxx.xxx"
+0
+73 "Percentage x.x%"
+0
+0
+0 "_view_types" 1 6
+1 "Table"
+0
+2 "ColumnOverlay"
+0
+3 "Gantt"
+0
+4 "TrainGraph"
+0
+5 "LogDriven"
+0
+6 "Grid"
+0
+0
+0 "test_ll" 1 2
+1 "First"
+0
+2 "Second"
+0
+0
+1 "test_ll" 2 Sockets 0
+0 80
+Broadcast 29
+"_PreInit Start" 10000 ""
+"_PreInit End" 10001 ""
+"_Run Start" 10002 ""
+"_Run Pause" 10003 ""
+"_Run Continue" 10004 ""
+"_Run End" 10005 ""
+"_Panel Opened" 10006 ""
+"_Panel Closed" 10007 ""
+"_System Close" 10008 ""
+"_Portal Moved" 10009 ""
+"_Portal Clicked" 10010 ""
+"_Model Loaded" 10011 ""
+"_Video Stopped" 10012 ""
+"_Page Printed" 10013 ""
+"_Dataset Loaded" 10014 ""
+"_Link Clicked" 10015 ""
+"_Dataset Saved" 10016 ""
+"_Portal Hover" 10017 ""
+"_Real Time Tick" 10018 ""
+"_Menu Command" 10019 ""
+"_Popup Opened" 10020 ""
+"_Popup Closed" 10021 ""
+"_Value Change" 10022 ""
+"_Pipe Event" 10023 ""
+"_Panel Drag" 10024 ""
+"_Track Clicked" 10025 ""
+"_Key" 10026 ""
+"_Panel Resized" 10027 ""
+"Process" 1 ""
+
+Class 1
+ 0 "item" 8 1 1 "_ITEM00" "_PERS1P" "_ITEM00"
+1 255 0
+1 1 1 1 0 0 15 7 0 7 7 7 7
+End
+SubLabelList 0
+MultiLabelLists 0
+DefScrnSize 1016 672
+Screen 0
+ ""
+ScrnSize 1016 672 0 0 0 0 1 7 1 2 65616 0 "" 0 255 ""
+Paint
+PButton 72 480 192 544 1 4 7 0 0 7 7 7 7
+0 0
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 1 72 480 192 544 0 4 7 0 0 7 7 7 7
+"State 1" 1 "" "" "" 12 0 
+
+"" End
+Parameter
+0
+Table
+3
+1 "Formats" "Formats" "" 1 9 0 388 0 0 0 1
+0 "" 0 "" 11 6 2 3 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  
+0
+1 "formats" 3 "" 807 611 1659 911 0 0 1 100 0 1 ""
+1 "seconds" "" 10 0 1 4 255 255 0 0 "seconds" 0 0 20 "minutes" "" 10 0 1 4 255 255 0 0 "minutes" 0 0 21 "hours" "" 10 0 1 4 255 255 0 0 "hours" 0 0 22 "days" "" 10 0 1 4 255 255 0 0 "days" 0 0 23 "weeks" "" 10 0 1 4 255 255 0 0 "weeks" 0 0 0 "hh_mm ss" "" 10 0 1 4 255 255 0 0 "hh_mm ss" 0 0 10 "D Mmm YY HH:MM SS" "" 15 0 1 4 255 255 0 0 "D Mmm YY HH:MM SS" 0 0 11 "test_ll"
+"Label" "" 9 0 0 4 255 255 0 0 "Label" 0 0 39 "Text" "" 22 0 0 4 255 255 0 0 "Text" 0 0 34	2040	122400	2937600	20563200	12840	315705600	2	0	
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+
+000e
+467265652074657874203A2D2900
+1 "formats_copy" "formats_copy" "" 1 9 0 388 0 0 0 1
+0 "" 0 "" 11 6 2 3 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  
+0
+1 "formats_copy" 4 "" 655 630 1543 930 0 0 1 100 0 1 ""
+1 "seconds" "" 10 0 1 4 255 255 0 0 "seconds" 0 0 20 "minutes" "" 10 0 1 4 255 255 0 0 "minutes" 0 0 21 "hours" "" 10 0 1 4 255 255 0 0 "hours" 0 0 22 "days" "" 10 0 1 4 255 255 0 0 "days" 0 0 23 "weeks" "" 10 0 1 4 255 255 0 0 "weeks" 0 0 0 "hh_mm ss" "" 10 0 1 4 255 255 0 0 "hh_mm ss" 0 0 10 "D Mmm YY HH:MM SS" "" 15 0 1 4 255 255 0 0 "D Mmm YY HH:MM SS" 0 0 11 "test_ll"
+"Label" "" 9 0 0 4 255 255 0 0 "Label" 0 0 39 "Text" "" 22 0 0 4 255 255 0 0 "Text" 0 0 0	0	0	0	0	0	0	0	0	
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+
+0001
+00
+1 "Input_1" "Input_1" "" 1 3 0 388 0 0 0 1
+0 "" 0 "" 11 6 2 3 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  
+0
+1 "Input_1" 1 "" 388 280 988 580 0 0 1 100 0 1 ""
+11 "test_ll"
+"Test" "" 10 0 0 4 255 255 0 0 "From" 0 0 1 "2" "" 10 0 1 4 255 255 0 0 "To" 0 0 1 "33" "" 10 0 1 4 255 255 0 0 "Time" 0 0 1	2	33.3	
+0
+0
+0
+Routines 0
+ Entry "Process" 72 600  "_BCSENT" "_ENTBLKD" "_ENTDONE"
+1 0 "Process"  Queue "Queue 1" 240 600 240 600
+392 616 0 10 5 0 1
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0
+ Portal "Portal" 120 512 152 512
+100 100
+0
+ "_PORIDLE" "_PORBUSY"
+8198 0 0 ""   0
+Export "Portal" 1 End
+Screen 1
+ ""
+ScrnSize 1252 693 0 0 600 500 1 7 1 2 65616 8 "" 0 255 ""
+Paint
+B 16 262 871 592 0 1 255 0 0 9 11 1 22
+1 "Rectangle" 1 2
+2 0
+B 1026 541 1130 589 0 1 255 0 0 7 7 7 7
+0 1
+2 0
+L 1138 541 1206 634 0 1 255 0 0 7 7 7 7
+0 1
+ 2 0 1138 541 1206 634 0 6
+T 1114 509 1168 529 0 0 255 0 0 7 7 7 7
+0 1
+"asdasd" 1114 509 0
+
+O 946 445 1002 485 0 1 27 0 0 27 27 27 27
+0 1
+PButton 1018 445 1157 493 0 4 7 0 0 7 7 7 7
+0 1
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 1 896 694 928 774 0 4 7 0 0 7 7 7 7
+"State 1" 1 "Button" "" "" 12 0 
+
+"" PButton 1014 16 1214 80 0 4 7 0 0 7 7 7 7
+0 3
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 1 896 16 1096 80 0 4 7 0 0 7 7 7 7
+"State 1" 1 "Bottom Right" "" "" 12 0 
+
+"" PButton 16 20 216 84 0 4 7 0 0 7 7 7 7
+0 2
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 1 896 16 1096 80 0 4 7 0 0 7 7 7 7
+"State 1" 1 "Bottom Left" "" "" 12 0 
+
+"" PButton 16 613 216 677 0 4 7 0 0 7 7 7 7
+0 0
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 1 896 16 1096 80 0 4 7 0 0 7 7 7 7
+"State 1" 1 "Top Left" "" "" 12 0 
+
+"" PButton 1026 613 1226 677 0 4 7 0 0 7 7 7 7
+0 1
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 1 896 16 1096 80 0 4 7 0 0 7 7 7 7
+"State 1" 1 "Top Right" "" "" 12 0 
+
+"" End
+Parameter
+2
+"rightmargin" "" 0 380 1 0 0
+0
+0 "topmargin" "" 0 100 1 0 0
+0
+0 Table
+1
+1 "test" "test" "" 2 10 0 388 0 0 0 1
+0 "" 0 "" 11 6 2 3 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  
+0
+0 "" 250 43 850 343 0 0 1 100 0 1 ""
+1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 1 "" "" 10 0 1 4 255 255 0 0 "" 0 0 0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Routines 0
+ Entry "_Panel Opened" 264 637  "_BCSENT" "_ENTBLKD" "_ENTDONE"
+1 0 "_Panel Opened"  Portal "Portal 1" -245 -219 -213 -219
+100 100
+0
+ "_PORIDLE" "_PORBUSY"
+8198 0 0 ""   0
+ Portal "Portal 2" 336 637 368 637
+100 100
+0
+ "_PORIDLE" "_PORBUSY"
+4 0 0 ""   0
+ PEntry "Portal" 32 645  "_PENIDLE"
+ PExit "Portal" 128 645  "_PEXIDLE"
+End
+Screen 2
+ ""
+ScrnSize 1016 672 0 0 0 0 1 7 1 2 65616 0 "" 0 255 ""
+Paint
+End
+Parameter
+1
+"portal" "" 0 0 1 0 0
+0
+0 Routines 0
+ Entry "_Panel Resized" 32 624  "_BCSENT" "_ENTBLKD" "_ENTDONE"
+1 0 "_Panel Resized"  Entry "_Run Start" 32 568  "_BCSENT" "_ENTBLKD" "_ENTDONE"
+1 0 "_Run Start"  Exit "Exit 1" 200 584 0 0 2 7 ""
+""  "_EXTIDLE"
+ PEntry "Portal 2" 32 528  "_PENIDLE"
+ PExit "Portal 2" 152 512  "_PEXIDLE"
+ Transform "Change 1" 112 584  "_CHGRO2"
+ 0 0 0 0 1 0 "" ""
+
+0000
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 0
+0 0 1
+0 0 1
+0 0 1
+""
+0 0
+0 0 1
+0 0 1
+0 0 1
+""
+0 0
+0 0 1
+0 0 1
+0 0 1
+""
+0 0
+0 0 1
+0 0 1
+0 0 1
+""
+0 0
+4 61
+0 0 1
+0 0 1
+""
+
+End
+Screen 3
+ ""
+ScrnSize 1016 672 0 0 0 0 1 7 1 2 65616 0 "" 0 255 ""
+Paint
+O 16 592 88 640 0 2 255 0 0 7 7 7 7
+0 0
+End
+Parameter
+0
+Routines 0
+ PEntry "Portal 1" 32 624  "_PENIDLE"
+ PExit "Portal 1" 128 624  "_PEXIDLE"
+ Transform "Change 1" 48 600  "_TRAIDLE"
+ 0 0 0 0 1 0 "" ""
+
+0000
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 0
+0 0 1
+0 0 1
+0 0 1
+""
+0 0
+0 0 1
+0 0 1
+0 0 1
+""
+0 0
+0 0 1
+0 0 1
+0 0 1
+""
+0 0
+0 0 1
+0 0 1
+0 0 1
+""
+0 0
+4 61
+0 0 1
+0 0 1
+""
+
+End
+
+SysLev "B8863E2E28336855D6F066A7DF1C96772759DFF1076CECF3C143CB093ABB3B1413A515493791"
+Paths 1
+0 2
+"_height" "" 32 0 1 "_width" "" 0 0 1 0
+0
+3
+0 1
+2
+  Entry 0
+  Queue 0
+1 1
+2
+  Entry 0
+  Portal 1
+2 3
+3
+  Entry 0
+  Transform 0
+  Exit 0
+2
+  Entry 1
+  Transform 0
+2
+  PEntry 0
+  Transform 0
+
+ScreenDet 0
+PaintDet
+0 0 0 "" 1 0 1 1 1  1 -1 -1
+0 0 
+End
+ Portal "Portal" 1  End
+TTableStat 288 464 588 624 1 5 15 7 1 7 7 7 7
+0
+27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 
+131202 0 0 "Input_1" 0 0 0 2 303 0 "" 0 0 "" "" "" "" 0
+
+TTableStat 24 352 856 432 1 5 15 7 1 7 7 7 7
+0
+27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 
+131202 0 0 "Formats" 0 0 0 6 303 0 "" 0 0 "" "" "" "" 0
+
+TTableStat 24 256 856 344 1 5 15 7 1 7 7 7 7
+0
+27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 
+131202 0 0 "formats_copy" 0 0 0 0 303 0 "" 0 0 "" "" "" "" 0
+
+End
+ScreenDet 1
+PaintDet
+0 0 0 "" 0 0 0 
+1 0 0 "" 0 0 0 
+3 0 0 "" 0 0 0 
+4 0 0 "" 0 0 0 
+5 0 0 "" 0 0 0 
+6 0 0 "" 0 0 0 
+7 0 0 "" 0 0 0 
+8 0 0 "" 0 0 0 
+9 0 0 "" 0 0 0 
+End
+ViewPorts 1
+1002 301 1146 429 0 0 1 7 1 "" 1 1 3 
+ Portal "Portal 1" 3  End
+ Portal "Portal 2" 2  End
+TTableStat 16 93 871 251 0 5 15 7 1 7 7 7 7
+2
+27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 
+131202 0 1 "test" 0 0 0 0 303 0 "" 0 0 "" "" "" "" 0
+
+TableStat 1 "test" 0 0 0 0
+0 1 1
+0 0 1
+0 0 1
+""
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+883 18 1013 58 0 5 15 0 0 7 7 7 7
+3
+ 8 1 -18 0 0 0
+0 0 0 "" End
+ScreenDet 2
+PaintDet
+End
+ Transform "Change 1" 0 0 1 14 "" 1 0
+324 137 1668 977 75
+0
+"This responds to resize events and updates the 'map' area."
+0
+75
+0
+""
+0
+1
+1
+0 0
+11 "portal"
+0 0 1
+0 0 1
+""
+""
+1
+0 0
+10 1 "_Model_Objects"
+0 0 1
+0 0 1
+""
+1
+1
+0 0
+11 "panelw"
+0 0 1
+0 0 1
+""
+""
+1
+12 20
+11 "portal"
+0 0 1
+0 0 1
+""
+1
+1
+0 0
+11 "panelh"
+0 0 1
+0 0 1
+""
+""
+1
+12 21
+11 "portal"
+0 0 1
+0 0 1
+""
+244
+1
+0 0
+11 "mapx"
+0 0 1
+0 0 1
+""
+""
+2
+0 0
+10 1 "_Paint_Objects"
+0 0 1
+0 0 1
+""
+0 0
+10 0 "_paint_properties"
+0 0 1
+0 0 1
+""
+244
+1
+0 0
+11 "mapy"
+0 0 1
+0 0 1
+""
+""
+2
+0 0
+10 1 "_Paint_Objects"
+0 0 1
+0 0 1
+""
+0 0
+10 1 "_paint_properties"
+0 0 1
+0 0 1
+""
+242
+0
+""
+3
+0 0
+10 1 "_Paint_Objects"
+0 0 1
+0 0 1
+""
+0 0
+10 2 "_paint_properties"
+0 0 1
+0 0 1
+""
+17 0
+13 ExB ExB ExAR 0 0
+11 "panelw"
+0 0 1
+0 0 1
+""
+ 8 ExAR 0 0
+11 "mapx"
+0 0 1
+0 0 1
+""
+ 8 ExAR 0 0
+6 "rightmargin"
+0 0 1
+0 0 1
+""
+0 0 1
+0 0 1
+""
+242
+0
+""
+3
+0 0
+10 1 "_Paint_Objects"
+0 0 1
+0 0 1
+""
+0 0
+10 3 "_paint_properties"
+0 0 1
+0 0 1
+""
+17 0
+13 ExB ExB ExAR 0 0
+11 "panelh"
+0 0 1
+0 0 1
+""
+ 8 ExAR 0 0
+11 "mapy"
+0 0 1
+0 0 1
+""
+ 8 ExAR 0 0
+6 "topmargin"
+0 0 1
+0 0 1
+""
+0 0 1
+0 0 1
+""
+299
+1
+0 0
+11 "tabx"
+0 0 1
+0 0 1
+""
+""
+4
+2 0
+0 0 1
+0 0 1
+0 0 1
+"test"
+0 0
+10 1 "_Model_Objects"
+0 0 1
+0 0 1
+""
+0 0
+10 0 "_tableview_properties"
+0 0 1
+0 0 1
+""
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+299
+1
+0 0
+11 "taby"
+0 0 1
+0 0 1
+""
+""
+4
+2 0
+0 0 1
+0 0 1
+0 0 1
+"test"
+0 0
+10 1 "_Model_Objects"
+0 0 1
+0 0 1
+""
+0 0
+10 1 "_tableview_properties"
+0 0 1
+0 0 1
+""
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+300
+0
+""
+5
+2 0
+0 0 1
+0 0 1
+0 0 1
+"test"
+0 0
+11 "portal"
+0 0 1
+0 0 1
+""
+0 0
+10 2 "_tableview_properties"
+0 0 1
+0 0 1
+""
+17 0
+13 ExB ExB ExAR 0 0
+11 "panelw"
+0 0 1
+0 0 1
+""
+ 8 ExAR 0 0
+11 "tabx"
+0 0 1
+0 0 1
+""
+ 8 ExAR 0 0
+6 "rightmargin"
+0 0 1
+0 0 1
+""
+0 0 1
+0 0 1
+""
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+300
+0
+""
+5
+2 0
+0 0 1
+0 0 1
+0 0 1
+"test"
+0 0
+11 "portal"
+0 0 1
+0 0 1
+""
+0 0
+10 3 "_tableview_properties"
+0 0 1
+0 0 1
+""
+17 0
+13 ExB ExB ExAR 0 0
+11 "mapy"
+0 0 1
+0 0 1
+""
+ 8 ExAR 0 0
+11 "taby"
+0 0 1
+0 0 1
+""
+ 8 ExC 10
+0 0 1
+0 0 1
+""
+0 0
+0 1 1
+0 0 1
+0 0 1
+""
+137
+0
+""
+0
+10
+"mapx" "" 0 0 1 0 0
+0
+0 "mapy" "" 0 0 1 0 0
+0
+0 "panelh" "" 0 0 1 0 0
+0
+0 "panelw" "" 0 0 1 0 0
+0
+0 "port" "" 0 0 1 0 0
+0
+0 "portal" "" 0 0 11 "_Model_Objects"
+0 0
+0
+0 "tabx" "" 0 0 1 0 0
+0
+0 "taby" "" 0 0 1 0 0
+0
+0 "viewh" "" 0 0 1 0 0
+0
+0 "vieww" "" 0 0 1 0 0
+0
+0 0
+0
+
+End
+ScreenDet 3
+PaintDet
+0 0 0 "" 0 0 0 
+End
+ Transform "Change 1" 0 0 0
+0
+
+End
+End
