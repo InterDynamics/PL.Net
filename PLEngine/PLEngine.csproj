@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Planimate.Engine</RootNamespace>
-    <AssemblyName>pl5engine</AssemblyName>
+    <AssemblyName>PLEngine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -51,7 +51,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\pl5engine.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\PLEngine.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -73,17 +73,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="pl5engine.cs">
+    <Compile Include="PLEngine.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="pl5engine.Designer.cs">
-      <DependentUpon>pl5engine.cs</DependentUpon>
+    <Compile Include="PLEngine.Designer.cs">
+      <DependentUpon>PLEngine.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="pl5engine.resx">
-      <DependentUpon>pl5engine.cs</DependentUpon>
+    <EmbeddedResource Include="PLEngine.resx">
+      <DependentUpon>PLEngine.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

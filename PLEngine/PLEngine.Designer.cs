@@ -1,14 +1,14 @@
 ﻿/* Copyright 2009 Craig Chandler
  * 
  * 
- * This file is part of pl5engine.
+ * This file is part of PL.Net.
  * 
- * pl5engine is free software: you can redistribute it and/or modify
+ * PL.Net is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  * 
- * Foobar is distributed in the hope that it will be useful,
+ * PL.Net is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
@@ -19,7 +19,7 @@
 
 namespace Planimate.Engine
 {
-  partial class PLLoader
+  partial class PLEngine
   {
         /// <summary>Required designer variable.</summary>
         private System.ComponentModel.IContainer components = null;
@@ -49,7 +49,7 @@ namespace Planimate.Engine
           // 
           this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
           this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-          this.Name = "pl5engine";
+          this.Name = "PLEngine";
           this.Size = new System.Drawing.Size(121, 115);
           this.ResumeLayout(false);
 

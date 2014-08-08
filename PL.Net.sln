@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", "WindowsFormsApplication1\WindowsFormsApplication1.csproj", "{6F3E695F-A476-4387-A83E-145597EFDDF5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D9A8225-58D7-4F5C-9251-2D1734553752} = {0D9A8225-58D7-4F5C-9251-2D1734553752}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLEngine", "pl5engine\PLEngine.csproj", "{0D9A8225-58D7-4F5C-9251-2D1734553752}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLEngine", "PLEngine\PLEngine.csproj", "{0D9A8225-58D7-4F5C-9251-2D1734553752}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

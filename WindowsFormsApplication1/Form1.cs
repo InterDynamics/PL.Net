@@ -36,12 +36,11 @@ namespace WindowsFormsApplication1
     public Form1()
     {
       InitializeComponent();
-      PLLoader1.InitPLLoader();
-      PLLoader1.CreatePL("demo.mdl /debugdll");
-      dataGridView1.DataSource = PLLoader1.GetEngine().GetDataTable("Input_1", true);
-      dataGridView2.DataSource = PLLoader1.GetEngine().GetDataTable("Formats", true);
+      plEngine1.InitPLEngine("demo.mdl");
+      dataGridView1.DataSource = plEngine1.GetDataTable("Input_1", true);
+      dataGridView2.DataSource = plEngine1.GetDataTable("Formats", true);
       DataTable dt = (DataTable)dataGridView2.DataSource;
-      PLLoader1.GetEngine().SetDataTable(ref dt, PLLoader1.GetEngine().FindDataObjectName("formats_copy"));
+      plEngine1.SetDataTable(ref dt, plEngine1.FindDataObjectName("formats_copy"));
     }
 
     public ePLRESULT broadcast_callback_function(IntPtr broadcast, int no_params, string[] tuple_names, double[] tuple_values)
@@ -52,7 +51,7 @@ namespace WindowsFormsApplication1
 
     private void button3_Click(object sender, EventArgs e)
     {
-      IntPtr broadcast = PLLoader1.GetEngine().FindBroadcastName("Process");
+      IntPtr broadcast = plEngine1.FindBroadcastName("Process");
       if (broadcast == IntPtr.Zero)
       {
         MessageBox.Show("Broadcast Not Found");
@@ -60,19 +59,19 @@ namespace WindowsFormsApplication1
       }
       PLEngine.tPL_BroadcastCallback callback;
       callback = new PLEngine.tPL_BroadcastCallback(broadcast_callback_function);
-      ePLRESULT reg_res = PLLoader1.GetEngine().RegisterBroadcastCallback(broadcast, callback);
-      ePLRESULT brd_res = PLLoader1.GetEngine().SendBroadcast(broadcast, 1, new string[] { "_height" }, new double[] { Convert.ToDouble(numericUpDown1.Value) });
+      ePLRESULT reg_res = plEngine1.RegisterBroadcastCallback(broadcast, callback);
+      ePLRESULT brd_res = plEngine1.SendBroadcast(broadcast, 1, new string[] { "_height" }, new double[] { Convert.ToDouble(numericUpDown1.Value) });
     }
 
     private void button1_Click(object sender, EventArgs e)
     {
-      dataGridView2.DataSource = PLLoader1.GetEngine().GetDataTable("Formats", true);
+      dataGridView2.DataSource = plEngine1.GetDataTable("Formats", true);
     }
 
     private void button2_Click(object sender, EventArgs e)
     {
       DataTable dt = (DataTable)dataGridView2.DataSource;
-      PLLoader1.GetEngine().SetDataTable(ref dt, PLLoader1.GetEngine().FindDataObjectName("formats_copy"));
+      plEngine1.SetDataTable(ref dt, plEngine1.FindDataObjectName("formats_copy"));
     }
   }
 }

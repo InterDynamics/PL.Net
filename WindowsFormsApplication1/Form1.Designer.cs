@@ -56,13 +56,13 @@ namespace WindowsFormsApplication1
       this.button3 = new System.Windows.Forms.Button();
       this.button2 = new System.Windows.Forms.Button();
       this.button1 = new System.Windows.Forms.Button();
-      this.PLLoader1 = new Planimate.Engine.PLLoader();
       this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.plEngine1 = new Planimate.Engine.PLEngine();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
       this.splitContainer1.Panel2.SuspendLayout();
@@ -92,7 +92,7 @@ namespace WindowsFormsApplication1
       // 
       // splitContainer1.Panel2
       // 
-      this.splitContainer1.Panel2.Controls.Add(this.PLLoader1);
+      this.splitContainer1.Panel2.Controls.Add(this.plEngine1);
       this.splitContainer1.Size = new System.Drawing.Size(862, 493);
       this.splitContainer1.SplitterDistance = 287;
       this.splitContainer1.TabIndex = 1;
@@ -194,16 +194,6 @@ namespace WindowsFormsApplication1
       this.button1.UseVisualStyleBackColor = true;
       this.button1.Click += new System.EventHandler(this.button1_Click);
       // 
-      // PLLoader1
-      // 
-      this.PLLoader1.dll_pathname = "planimate.dll";
-      this.PLLoader1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.PLLoader1.loader_dll_pathname = "pl5loader.dll";
-      this.PLLoader1.Location = new System.Drawing.Point(0, 0);
-      this.PLLoader1.Name = "PLLoader1";
-      this.PLLoader1.Size = new System.Drawing.Size(571, 493);
-      this.PLLoader1.TabIndex = 0;
-      // 
       // dataGridViewTextBoxColumn1
       // 
       this.dataGridViewTextBoxColumn1.DataPropertyName = "Tag";
@@ -240,6 +230,15 @@ namespace WindowsFormsApplication1
       this.dataGridViewTextBoxColumn6.HeaderText = "Tag";
       this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
       // 
+      // plEngine1
+      // 
+      this.plEngine1.dll_pathname = "planimate.dll";
+      this.plEngine1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.plEngine1.Location = new System.Drawing.Point(0, 0);
+      this.plEngine1.Name = "plEngine1";
+      this.plEngine1.Size = new System.Drawing.Size(571, 493);
+      this.plEngine1.TabIndex = 0;
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,7 +268,6 @@ namespace WindowsFormsApplication1
 
         #endregion
 
-        private Planimate.Engine.PLLoader PLLoader1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -285,6 +283,7 @@ namespace WindowsFormsApplication1
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private Planimate.Engine.PLEngine plEngine1;
 
     }
 }

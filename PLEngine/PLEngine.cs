@@ -37,7 +37,9 @@ using System.Collections; // DllImport
 namespace Planimate.Engine
 {
   #region PL.Net enums
-    /// <summary>Planimate® system attributes the DLL can read (some can be set)</summary>
+    /// <summary>
+    /// Planimate® system attributes the DLL can read (some can be set)
+    /// </summary>
     public enum ePLSysInfo
     {
       /// <summary>This is the current simulation time as indicated by the system clock</summary>
@@ -68,7 +70,9 @@ namespace Planimate.Engine
       MD_PAUSED         // engine started and model is paused
     };
 
-    /// <summary>Planimate® data object types</summary>
+    /// <summary>
+    /// Planimate® data object types
+    /// </summary>
     public enum eDOTypes
     {
       /// <summary>Label List</summary>
@@ -81,7 +85,9 @@ namespace Planimate.Engine
       PLDO_TABLE
     };
 
-    /// <summary>Planimate® engine return results</summary>
+    /// <summary>
+    /// Planimate® engine return results
+    /// </summary>
     public enum ePLRESULT
     {
       /// <summary>Not found</summary>
@@ -100,7 +106,9 @@ namespace Planimate.Engine
       PLR_NOSPACE
     };
 
-    /// <summary>Planimate® value formats</summary>
+    /// <summary>
+    /// Planimate® value formats
+    /// </summary>
     public enum eTFUnit
     {
       /// <summary>time W D HH:MM SS</summary>
@@ -284,251 +292,197 @@ namespace Planimate.Engine
    };
 
   /// <summary>
-  /// Function enum for Planimate5 DLL loader class and instance user
-  /// the GETPLPROC() macro in loadpl.cpp makes use of these
+  /// Function enum for PL_GetProc() which you can use to retrieve function
+  /// pointers instead of LoadLibrary
   /// </summary>
   public enum ePLProcs
- { 
-  ePL_SetInstance,
-  ePL_Init,
-  ePL_Term,
-  ePL_AppVersion,
-  ePL_LoadModel,
-  ePL_Run,
-  ePL_GetSystemInfo,
-  ePL_SetSystemInfo,
-  ePL_DataObjectCount,
-  ePL_GetDataObject,
-  ePL_FindDataObjectName,
-  ePL_FindDataObject,
-  ePL_DataObjectType,
-  ePL_DataObjectName,
-  ePL_ListFromDataObject,
-  ePL_GetNamedLabelList,
-  ePL_LabelCount,
-  ePL_GetLabelName,
-  ePL_GetLabelIndex,
-  ePL_FindLabelName,
-  ePL_LookUpLabel,
-  ePL_LookUpLValue,
-  ePL_LookUpDValue,
-  ePL_FindLabelAutoAdd,
-  ePL_Rows,
-  ePL_Columns,
-  ePL_ColumnName,
-  ePL_GetColumnFormat,
-  ePL_SetColumnFormat,
-  ePL_GetColumnLabels,
-  ePL_FindColumn,
-  ePL_TableResize,
-  ePL_GetCell,
-  ePL_SetCell,
-  ePL_GetCellText,
-  ePL_SetCellText,
-  ePL_GetColumn,
-  ePL_SetColumn,
-  ePL_InsertRow,
-  ePL_DeleteRow,
-  ePL_InsertColumn,
-  ePL_DeleteColumn,
-  ePL_BroadcastCount,
-  ePL_GetBroadcast,
-  ePL_GetBroadcastName,
-  ePL_SendBroadcast,
-  ePL_SendBroadcastTuple,
-  ePL_RegisterBroadcastCallback,
-  ePL_FormatModeCount,
-  ePL_FormatName,
-  ePL_StringToValue,
-  ePL_ValueToString,
-  ePL_GetWindow,
-  ePL_Process,
-  ePL_SuspendThread,
-  ePL_ResumeThread,
-  ePL_RegisterPauseCallback,
+ {
+   ePL_SetInstance,
+   ePL_Init,
+   ePL_Term,
+   ePL_AppVersion,
+   ePL_LoadModel,
+   ePL_Run,
+   ePL_GetSystemInfo,
+   ePL_SetSystemInfo,
+   ePL_DataObjectCount,
+   ePL_GetDataObject,
+   ePL_FindDataObjectName,
+   ePL_FindDataObject,
+   ePL_DataObjectType,
+   ePL_DataObjectName,
+   ePL_ListFromDataObject,
+   ePL_GetNamedLabelList,
+   ePL_LabelCount,
+   ePL_GetLabelName,
+   ePL_GetLabelIndex,
+   ePL_FindLabelName,
+   ePL_LookUpLabel,
+   ePL_LookUpLValue,
+   ePL_LookUpDValue,
+   ePL_FindLabelAutoAdd,
+   ePL_Rows,
+   ePL_Columns,
+   ePL_ColumnName,
+   ePL_GetColumnFormat,
+   ePL_SetColumnFormat,
+   ePL_GetColumnLabels,
+   ePL_FindColumn,
+   ePL_TableResize,
+   ePL_GetCell,
+   ePL_SetCell,
+   ePL_GetCellText,
+   ePL_GetColumn,
+   ePL_SetColumn,
+   ePL_InsertRow,
+   ePL_DeleteRow,
+   ePL_InsertColumn,
+   ePL_DeleteColumn,
+   ePL_BroadcastCount,
+   ePL_GetBroadcast,
+   ePL_GetBroadcastName,
+   ePL_SendBroadcast,
+   ePL_SendBroadcastTuple,
+   ePL_RegisterBroadcastCallback,
+   ePL_FormatModeCount,
+   ePL_FormatName,
+   ePL_StringToValue,
+   ePL_ValueToString,
+   ePL_GetWindow,
+   ePL_Process,
+   ePL_SuspendThread,
+   ePL_ResumeThread,
+   ePL_RegisterPauseCallback,
+   ePL_SetCellText,
+   ePL_GetOwnerWindow,
 
-  ePL_PROCCOUNT
+   ePL_PROCCOUNT
  };
-  #endregion
-  
-  /// <summary>Implements a UserControl that contains a Planimate® engine loader</summary>
-  public partial class PLLoader : System.Windows.Forms.UserControl
+
+  /// <summary>
+  /// Run commands for use within the PL_Run() call
+  /// </summary>
+  public enum ePLRunCMD
   {
-    #region kernel32 import
-      [DllImport("kernel32.dll")]
-      private static extern IntPtr LoadLibrary(string dllToLoad);
+    /// <summary>
+    /// End simulation and close down (PL_Run() returns)
+    /// </summary>
+    PLRUNCMD_Close = -1,
+    /// <summary>
+    /// Stop the run engine
+    /// </summary>
+    PLRUNCMD_Stop = 0,
+    /// <summary>
+    /// Start engine/run (or continue) the model. Pauses if no events
+    /// </summary>
+    PLRUNCMD_Run = 1,
+    /// <summary>
+    /// Pause the model
+    /// </summary>
+    PLRUNCMD_Pause = 2,
+    /// <summary>
+    /// Start engine and pause (no-op if already running)
+    /// </summary>
+    PLRUNCMD_StartPause = 3
+  };
 
-      [DllImport("kernel32.dll")]
-      private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
+  /// <summary>
+  /// Pause callback enables a user provided function to be called
+  /// every time Planimate becomes paused. This function is called in PL's
+  /// thread context so do as little as possible and message to your main
+  /// thread as required.
+  ///                                    
+  /// Reasons the run engine becomes paused are listed in the ePLPauseReason enum
+  /// </summary>
+  public enum ePLPauseReason
+  {
+    /// <summary>
+    /// User pressed ESC, mouse button, may resume
+    /// </summary>
+    SIMUL_UserPause = 0,
+    /// <summary>
+    /// Nominated end time reached, user may extend
+    /// </summary>
+    SIMUL_EndTimeReached,
+    /// <summary>
+    /// FEC empty, user may trigger new activity
+    /// </summary>
+    SIMUL_NoMoreEvents,
+    /// <summary>
+    /// Error has occured and was reported, must End()
+    /// </summary>
+    SIMUL_SimulateError,
+    /// <summary>
+    /// Model has set finished state (eg:Exit), must End()
+    /// </summary>
+    SIMUL_Finished,
+    /// <summary>
+    /// Advance to time reached and pause after advance set
+    /// </summary>
+    SIMUL_AdvanceTimeReached,
+    /// <summary>
+    /// Out of memory during run
+    /// </summary>
+    SIMUL_RunMemoryError,
+    /// <summary>
+    /// Undefined reason.
+    /// </summary>
+    SIMUL_Undefined
+  };
+  #endregion
 
-      [DllImport("kernel32.dll")]
-      private static extern bool FreeLibrary(IntPtr hModule);
-    #endregion
-
-    #region PLLoader function delegations
-      [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-      private delegate IntPtr tPLL_Init([MarshalAs(UnmanagedType.LPStr)] string dll_name,
-                                [MarshalAs(UnmanagedType.LPStr)] string cmdline,
-                                IntPtr inplace_window);
-
-      [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-      private delegate IntPtr tPLL_Term();
-
-      [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-      private delegate IntPtr tPLL_State();
-
-      [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-      private delegate IntPtr tPLL_OwnerWindow();
-
-      [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-      private delegate IntPtr tPLL_WaitRunning(IntPtr handle, int timeout);
-
-      [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-      private delegate IntPtr tPLL_SuspendThread();
-
-      [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-      private delegate IntPtr tPLL_ResumeThread();
-
-      [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-      private delegate IntPtr tPLL_GetProc(IntPtr handle, ePLProcs function);
-    #endregion
-
-    /// <summary>Override the OnResize handler to force a repaint message to be sent through to Planimate®</summary>
-    protected override void OnResize(EventArgs e)
-    {
-      base.OnResize(e);
-      this.Invalidate(true);
-    }
-
-    /// <summary>Path to Planimate® Loader DLL</summary>
-    [
-      Category("PLEngine"),
-      Description("Compiled Planimate Loader DLL path/filename"),
-      Editor(typeof(FileNameEditor), typeof(UITypeEditor))
-    ]
-    public String loader_dll_pathname
-    {
-      get;
-      set;
-    }
-
-    /// <summary>Path to Planimate® engine DLL</summary>
-    [
-      Category("PLEngine"),
-      Description("Compiled Planimate DLL path/filename"),
-      Editor(typeof(FileNameEditor), typeof(UITypeEditor))
-    ]
-    public String dll_pathname
-    {
-      get;
-      set;
-    }
-
-    private IntPtr loader_dll_handle = IntPtr.Zero;
-    private IntPtr engine_handle = IntPtr.Zero;
-    private PLEngine engine = null;
-
-    /// <summary>Engine constructor</summary>
-    public PLLoader()
-    {
-      InitializeComponent();
-    }
-
-    private IntPtr LoaderDLLHandle()
-    {
-      if (loader_dll_handle == IntPtr.Zero)
-        loader_dll_handle = LoadLibrary(loader_dll_pathname);
-
-      return loader_dll_handle;
-    }
-
-    /// <summary>Initialise the Planimate® loader engine.</summary>
-    public ePLRESULT InitPLLoader()
-    {
-      if (LoaderDLLHandle() == IntPtr.Zero)
-        return ePLRESULT.PLR_NOTFOUND;
-      return 0;
-    }
-
-    public void WaitRunning(IntPtr handle, int timeout)
-    {
-      if (LoaderDLLHandle() == IntPtr.Zero)
-        return;
-
-      IntPtr pAddressOfFunctionToCall = GetProcAddress(LoaderDLLHandle(), "PLL_WaitRunning");
-      //oh dear, error handling here
-      if (pAddressOfFunctionToCall == IntPtr.Zero)
-        return;
-
-      tPLL_WaitRunning ltPLL_WaitRunning = (tPLL_WaitRunning)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPLL_WaitRunning));
-      ltPLL_WaitRunning(handle, timeout);
-    }
-
-    /// <summary>Creates a new Planimate® engine.</summary>
-    /// <param name='cmdline'>can be a Planimate® commandline option or just ""</param>
-    /// Planimate® will place a child window for its display.If NULL PL will create a new window</param>
-    public ePLRESULT CreatePL(string cmdline)
-    {
-      if (LoaderDLLHandle() == IntPtr.Zero)
-        return ePLRESULT.PLR_NOTFOUND;
-
-      IntPtr pAddressOfFunctionToCall = GetProcAddress(LoaderDLLHandle(), "PLL_Init");
-      //oh dear, error handling here
-      if (pAddressOfFunctionToCall == IntPtr.Zero)
-        return ePLRESULT.PLR_NOTFOUND;
-
-      tPLL_Init ltPLL_Init = (tPLL_Init)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPLL_Init));
-      engine_handle = ltPLL_Init(dll_pathname, cmdline, this.Handle);
-
-      if (engine_handle == IntPtr.Zero)
-        return ePLRESULT.PLR_NOTFOUND;
-
-      WaitRunning(engine_handle, 60000);
-
-      engine = new PLEngine(this, engine_handle);
-
-      return 0;
-    }
-
-    public PLEngine GetEngine()
-    {
-      return engine;
-    }
-
-    public IntPtr GetProc(IntPtr handle, ePLProcs function)
-    {
-      if (LoaderDLLHandle() == IntPtr.Zero)
-        return IntPtr.Zero;
-
-      IntPtr pAddressOfFunctionToCall = GetProcAddress(LoaderDLLHandle(), "PLL_GetProc");
-      //oh dear, error handling here
-      if (pAddressOfFunctionToCall == IntPtr.Zero)
-        return IntPtr.Zero;
-
-      tPLL_GetProc ltPLL_GetProc = (tPLL_GetProc)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPLL_GetProc));
-      return ltPLL_GetProc(handle, function);
-    }
-  }
-
-public partial class PLEngine
+  public partial class PLEngine : System.Windows.Forms.UserControl
 {
-  #region pl5engine function delegations
+  #region kernel32 import
+  [DllImport("kernel32.dll")]
+  private static extern IntPtr LoadLibrary(string dllToLoad);
 
+  [DllImport("kernel32.dll")]
+  private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
+
+  [DllImport("kernel32.dll")]
+  private static extern bool FreeLibrary(IntPtr hModule);
+  #endregion
+
+  #region PLLoader function delegations
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  private delegate int tPL_InitThread(IntPtr dll_handle,
+                                      [MarshalAs(UnmanagedType.LPStr)] string cmdline,
+                                      IntPtr inplace_window);
+
+  // PL_WaitThreadRunning() must be called after PL_InitThread()
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  private delegate int tPL_WaitThreadRunning();
+
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  private delegate IntPtr tPL_TermThread();
+
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  private delegate IntPtr tPL_GetProc(ePLProcs function);
+
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  private delegate void tPL_SuspendThread();
+
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  private delegate void tPL_ResumeThread();
+  #endregion
+
+  #region PLEngine function delegations
+  // Can be called anytime
   [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
   private delegate IntPtr tPL_AppVersion();
 
+  //////////////////////////////////////////////////////////////////////////////
+  //
+  // Thread Notes:
+  //
+  // When running PL in its own thread, the following must be enclosed
+  // in PL_SuspendThread() / PL_ResumeThread() or data corruption
+  // can be expected.
+  // 
   [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-  private delegate void tPL_SetInstance(IntPtr handle);
-
-  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-  private delegate ePLRESULT tPL_Init([MarshalAs(UnmanagedType.LPStr)] string cmdline,
-                              IntPtr inplace_window);
-
-  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-  private delegate void tPL_Term(IntPtr handle);
-
-  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-  private delegate ePLRESULT tPL_LoadModel([MarshalAs(UnmanagedType.LPStr)] string cmdline);
+  private delegate ePLRESULT tPL_LoadModel([MarshalAs(UnmanagedType.LPStr)] string modelname,
+                                           [MarshalAs(UnmanagedType.LPStr)] string loadfile);
 
   [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
   private delegate double tPL_GetSystemInfo(ePLSysInfo sysinfo_id);
@@ -654,11 +608,25 @@ public partial class PLEngine
   private delegate ePLRESULT tPL_RegisterBroadcastCallback(IntPtr broadcast, tPL_BroadcastCallback function);
   #endregion
 
+  [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+  public delegate ePLRESULT tPL_PauseCallback(double the_time, ePLPauseReason stop_reason,
+                                              IntPtr userdata);
+
+  [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+  private delegate ePLRESULT tPL_RegisterPauseCallback(tPL_PauseCallback function, IntPtr userdata);
+
   [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
   private delegate ePLRESULT tPL_StringToValue([MarshalAs(UnmanagedType.LPStr)] string str,
                                                IntPtr val,   // double*
                                                eTFUnit format);
   #endregion
+
+  /// <summary>Override the OnResize handler to force a repaint message to be sent through to Planimate®</summary>
+  protected override void OnResize(EventArgs e)
+  {
+    base.OnResize(e);
+    this.Invalidate(true);
+  }
 
   /// <summary>Path to Planimate® engine DLL</summary>
   [
@@ -672,32 +640,101 @@ public partial class PLEngine
     set;
   }
 
-  private IntPtr dll_handle = IntPtr.Zero;
-  private IntPtr engine_handle = IntPtr.Zero;
-
-  /// <summary>
-  /// Owning loader class
-  /// </summary>
-  private PLLoader loader = null;
+  private IntPtr dll_handle                    = IntPtr.Zero;
+  private tPL_GetProc ltPL_GetProc             = null;
+  private tPL_SuspendThread ltPL_SuspendThread = null;
+  private tPL_ResumeThread ltPL_ResumeThread   = null;
 
   /// <summary>Engine constructor</summary>
   public PLEngine()
   {
-
+    InitializeComponent();
   }
 
-  public PLEngine(PLLoader newLoader, IntPtr newEngine_handle)
+  private IntPtr DLLHandle()
   {
-    loader = newLoader;
-    engine_handle = newEngine_handle;
+    if (dll_handle == IntPtr.Zero)
+      dll_handle = LoadLibrary(dll_pathname);
+
+    return dll_handle;
+  }
+
+  /// <summary>
+  /// Initialise the Planimate® engine.
+  /// </summary>
+  public ePLRESULT InitPLEngine(string cmdline)
+  {
+    if (DLLHandle() == IntPtr.Zero)
+      return ePLRESULT.PLR_NOTFOUND;
+
+    IntPtr pAddressOfFunctionToCall = GetProcAddress(DLLHandle(), "PL_InitThread");
+    //oh dear, error handling here
+    if (pAddressOfFunctionToCall == IntPtr.Zero)
+      return ePLRESULT.PLR_NOTFOUND;
+
+    tPL_InitThread ltPL_InitThread = (tPL_InitThread)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_InitThread));
+    ltPL_InitThread(DLLHandle(), cmdline, this.Handle);
+
+    pAddressOfFunctionToCall = GetProcAddress(DLLHandle(), "PL_WaitThreadRunning");
+    //oh dear, error handling here
+    if (pAddressOfFunctionToCall == IntPtr.Zero)
+      return ePLRESULT.PLR_NOTFOUND;
+
+    tPL_WaitThreadRunning ltPL_WaitThreadRunning = (tPL_WaitThreadRunning)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_WaitThreadRunning));
+    ltPL_WaitThreadRunning();
+
+    pAddressOfFunctionToCall = GetProcAddress(DLLHandle(), "PL_GetProc");
+    if (pAddressOfFunctionToCall != IntPtr.Zero)
+      ltPL_GetProc = (tPL_GetProc)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetProc));
+
+    pAddressOfFunctionToCall = GetProcAddress(DLLHandle(), "PL_SuspendThread");
+    if (pAddressOfFunctionToCall != IntPtr.Zero)
+      ltPL_SuspendThread = (tPL_SuspendThread)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SuspendThread));
+
+    pAddressOfFunctionToCall = GetProcAddress(DLLHandle(), "PL_ResumeThread");
+    if (pAddressOfFunctionToCall != IntPtr.Zero)
+      ltPL_ResumeThread = (tPL_ResumeThread)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_ResumeThread));
+
+    if (ltPL_GetProc == null || ltPL_SuspendThread == null || ltPL_ResumeThread == null)
+    {
+      // Couldn't bind all the thread functions so we'll terminate
+      pAddressOfFunctionToCall = GetProcAddress(DLLHandle(), "PL_TermThread");
+      if (pAddressOfFunctionToCall == IntPtr.Zero)
+      {
+        tPL_TermThread ltPL_TermThread = (tPL_TermThread)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_TermThread));
+        ltPL_TermThread();
+      }
+      ltPL_GetProc       = null;
+      ltPL_SuspendThread = null;
+      ltPL_ResumeThread  = null;
+      return ePLRESULT.PLR_NOTFOUND;
+    }
+    else
+      return ePLRESULT.PLR_OK;
   }
 
   private IntPtr GetFunction(ePLProcs function)
   {
-    if (engine_handle == IntPtr.Zero)
+    if (ltPL_GetProc != null)
+      return ltPL_GetProc(function);
+    else
       return IntPtr.Zero;
+  }
 
-    return loader.GetProc(engine_handle, function);
+  private void SuspendThread()
+  {
+    if (ltPL_SuspendThread != null)
+      ltPL_SuspendThread();
+
+    return;
+  }
+
+  private void ResumeThread()
+  {
+    if (ltPL_ResumeThread != null)
+      ltPL_ResumeThread();
+
+    return;
   }
 
   /// <summary>Returns the Planimate® version powering the engine.</summary>
@@ -722,7 +759,10 @@ public partial class PLEngine
       return 0;
 
     tPL_GetSystemInfo ltPL_GetSystemInfo = (tPL_GetSystemInfo)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetSystemInfo));
-    return ltPL_GetSystemInfo(sysinfo_id);
+    SuspendThread();
+    double res = ltPL_GetSystemInfo(sysinfo_id);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Sets writable Planimate® System info. Times are in seconds with 0 = the run start date</summary>
@@ -736,7 +776,10 @@ public partial class PLEngine
       return ePLRESULT.PLR_NOTFOUND;
 
     tPL_SetSystemInfo ltPL_SetSystemInfo = (tPL_SetSystemInfo)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetSystemInfo));
-    return ltPL_SetSystemInfo(sysinfo_id, value);
+    SuspendThread();
+    ePLRESULT res = ltPL_SetSystemInfo(sysinfo_id, value);
+    ResumeThread();
+    return res;
   }
 
   // Data Object Functions
@@ -751,7 +794,10 @@ public partial class PLEngine
       return IntPtr.Zero;
 
     tPL_FindDataObjectName ltPL_FindDataObjectName = (tPL_FindDataObjectName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_FindDataObjectName));
-    return ltPL_FindDataObjectName(DO_name);
+    SuspendThread();
+    IntPtr res = ltPL_FindDataObjectName(DO_name);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns the data object type</summary>
@@ -764,7 +810,10 @@ public partial class PLEngine
       return (eDOTypes)(-1);
 
     tPL_DataObjectType ltPL_DataObjectType = (tPL_DataObjectType)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_DataObjectType));
-    return ltPL_DataObjectType(data_object);
+    SuspendThread();
+    eDOTypes res = ltPL_DataObjectType(data_object);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns the number of rows in a table data object</summary>
@@ -777,7 +826,10 @@ public partial class PLEngine
       return 0;
 
     tPL_Rows ltPL_Rows = (tPL_Rows)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_Rows));
-    return ltPL_Rows(data_object);
+    SuspendThread();
+    int res = ltPL_Rows(data_object);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns the number of columns in a table data object</summary>
@@ -790,7 +842,10 @@ public partial class PLEngine
       return 0;
 
     tPL_Columns ltPL_Columns = (tPL_Columns)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_Columns));
-    return ltPL_Columns(data_object);
+    SuspendThread();
+    int res = ltPL_Columns(data_object);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns the column name of the specified column</summary>
@@ -804,7 +859,10 @@ public partial class PLEngine
       return "";
 
     tPL_ColumnName ltPL_ColumnName = (tPL_ColumnName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_ColumnName));
-    return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_ColumnName(data_object, column));
+    SuspendThread();
+    string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_ColumnName(data_object, column));
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns Planimate® value format of the specified column</summary>
@@ -818,7 +876,10 @@ public partial class PLEngine
       return (eTFUnit)(-1);
 
     tPL_GetColumnFormat ltPL_GetColumnFormat = (tPL_GetColumnFormat)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetColumnFormat));
-    return ltPL_GetColumnFormat(data_object, column);
+    SuspendThread();
+    eTFUnit res = ltPL_GetColumnFormat(data_object, column);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns Planimate® label list that the specified column is formatted to.</summary>
@@ -832,7 +893,10 @@ public partial class PLEngine
       return IntPtr.Zero;
 
     tPL_GetColumnLabels ltPL_GetColumnLabels = (tPL_GetColumnLabels)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetColumnLabels));
-    return ltPL_GetColumnLabels(data_object, column);
+    SuspendThread();
+    IntPtr res = ltPL_GetColumnLabels(data_object, column);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Finds the column index based on the string name of the column</summary>
@@ -846,7 +910,10 @@ public partial class PLEngine
       return 0;
 
     tPL_FindColumn ltPL_FindColumn = (tPL_FindColumn)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_FindColumn));
-    return ltPL_FindColumn(data_object, col_name);
+    SuspendThread();
+    int res = ltPL_FindColumn(data_object, col_name);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Gets the value from a cell</summary>
@@ -861,7 +928,10 @@ public partial class PLEngine
       return 0;
 
     tPL_GetCell ltPL_GetCell = (tPL_GetCell)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetCell));
-    return ltPL_GetCell(data_object, row, col);
+    SuspendThread();
+    double res = ltPL_GetCell(data_object, row, col);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Sets the value of a cell</summary>
@@ -877,7 +947,10 @@ public partial class PLEngine
       return 0;
 
     tPL_SetCell ltPL_SetCell = (tPL_SetCell)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetCell));
-    return ltPL_SetCell(data_object, row, col, data);
+    SuspendThread();
+    ePLRESULT res = ltPL_SetCell(data_object, row, col, data);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Sets the value of a Free Text cell</summary>
@@ -893,7 +966,10 @@ public partial class PLEngine
       return 0;
 
     tPL_SetCellText ltPL_SetCellText = (tPL_SetCellText)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetCellText));
-    return ltPL_SetCellText(data_object, row, col, data);
+    SuspendThread();
+    ePLRESULT res = ltPL_SetCellText(data_object, row, col, data);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Gets the text from a Free Text cell</summary>
@@ -908,7 +984,10 @@ public partial class PLEngine
       return "";
 
     tPL_GetCellText ltPL_GetCellText = (tPL_GetCellText)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetCellText));
-    return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_GetCellText(data_object, row, col));
+    SuspendThread();
+    string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_GetCellText(data_object, row, col));
+    ResumeThread();
+    return res;
   }
 
   // Label list functions
@@ -922,7 +1001,10 @@ public partial class PLEngine
       return IntPtr.Zero;
 
     tPL_GetNamedLabelList ltPL_GetNamedLabelList = (tPL_GetNamedLabelList)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetNamedLabelList));
-    return ltPL_GetNamedLabelList(list_name);
+    SuspendThread();
+    IntPtr res = ltPL_GetNamedLabelList(list_name);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns the label string based on a long(Int32) label index</summary>
@@ -936,7 +1018,10 @@ public partial class PLEngine
       return "";
 
     tPL_LookUpLValue ltPL_LookUpLValue = (tPL_LookUpLValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_LookUpLValue));
-    return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_LookUpLValue(data_object, index));
+    SuspendThread();
+    string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_LookUpLValue(data_object, index));
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns the label string based on a double label index</summary>
@@ -950,7 +1035,10 @@ public partial class PLEngine
       return "";
 
     tPL_LookUpDValue ltPL_LookUpDValue = (tPL_LookUpDValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_LookUpDValue));
-    return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_LookUpDValue(data_object, index));
+    SuspendThread();
+    string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_LookUpDValue(data_object, index));
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Returns the label index based on a label string</summary>
@@ -964,7 +1052,10 @@ public partial class PLEngine
       return -1;
 
     tPL_LookUpLabel ltPL_LookUpLabel = (tPL_LookUpLabel)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_LookUpLabel));
-    return ltPL_LookUpLabel(data_object, label);
+    SuspendThread();
+    Int32 res = ltPL_LookUpLabel(data_object, label);
+    ResumeThread();
+    return res;
   }
 
   // Entire Column
@@ -981,7 +1072,10 @@ public partial class PLEngine
       return ePLRESULT.PLR_NOTFOUND;
 
     tPL_GetColumn ltPL_GetColumn = (tPL_GetColumn)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetColumn));
-    return ltPL_GetColumn(data_object, column, rows, into);
+    SuspendThread();
+    ePLRESULT res = ltPL_GetColumn(data_object, column, rows, into);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Sets an array to a column</summary>
@@ -997,7 +1091,10 @@ public partial class PLEngine
       return ePLRESULT.PLR_NOTFOUND;
 
     tPL_SetColumn ltPL_SetColumn = (tPL_SetColumn)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetColumn));
-    return ltPL_SetColumn(data_object, column, rows, to);
+    SuspendThread();
+    ePLRESULT res = ltPL_SetColumn(data_object, column, rows, to);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Updates a DataTable object with data from a Planimate® data object
@@ -1406,28 +1503,34 @@ public partial class PLEngine
   public IntPtr FindBroadcastName(string BC_name)
   {
     IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetBroadcastName);
-    //oh dear, error handling here
     if (pAddressOfFunctionToCall == IntPtr.Zero)
       return IntPtr.Zero;
 
     tPL_GetBroadcastName ltPL_GetBroadcastName = (tPL_GetBroadcastName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetBroadcastName));
-    return ltPL_GetBroadcastName(BC_name);
+    SuspendThread();
+    IntPtr res = ltPL_GetBroadcastName(BC_name);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Sends a broadcast into the engine based on broadcast object</summary>
   /// <param name='broadcast'>Pointer to broadcast object</param>
   public ePLRESULT SendBroadcast(IntPtr broadcast)
   {
-    if (broadcast == IntPtr.Zero)
-      return ePLRESULT.PLR_NOTFOUND;
-
-    IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcast);
-    //oh dear, error handling here
-    if (pAddressOfFunctionToCall == IntPtr.Zero)
-      return ePLRESULT.PLR_NOTFOUND;
-
-    tPL_SendBroadcast ltPL_SendBroadcast = (tPL_SendBroadcast)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcast));
-    return ltPL_SendBroadcast(broadcast);
+    ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
+    if (broadcast != IntPtr.Zero)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcast);
+      //oh dear, error handling here
+      if (pAddressOfFunctionToCall != IntPtr.Zero)
+      {
+        tPL_SendBroadcast ltPL_SendBroadcast = (tPL_SendBroadcast)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcast));
+        SuspendThread();
+        res = ltPL_SendBroadcast(broadcast);
+        ResumeThread();
+      }
+    }
+    return res;
   }
 
   /// <summary>Sends a broadcast into the engine based on broadcast name</summary>
@@ -1448,33 +1551,129 @@ public partial class PLEngine
   /// <param name='tuple_values'>Array of tuple values (length = no_params)</param>
   public ePLRESULT SendBroadcast(IntPtr broadcast, int no_params, string[] tuple_names, double[] tuple_values)
   {
-    if (broadcast == IntPtr.Zero)
+    ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
+    if (broadcast != IntPtr.Zero)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcastTuple);
+      if (pAddressOfFunctionToCall != IntPtr.Zero)
+      {
+        tPL_SendBroadcastTuple ltPL_SendBroadcastTuple = (tPL_SendBroadcastTuple)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcastTuple));
+        SuspendThread();
+        res = ltPL_SendBroadcastTuple(broadcast, no_params, tuple_names, tuple_values);
+        ResumeThread();
+      }
+    }
+    return res;
+  }
+
+  /// <summary>Sends a broadcast into the engine based on broadcast name and include tuple data for the item</summary>
+  /// <param name='BC_name'>Name of broadcast (string)</param>
+  /// <param name='no_params'>Number of tuple parameters to include</param>
+  /// <param name='tuple_names'>Array of tuple names (length = no_params)</param>
+  /// <param name='tuple_values'>Array of tuple values (length = no_params)</param>
+  public ePLRESULT SendBroadcast(string BC_name, int no_params, string[] tuple_names, double[] tuple_values)
+  {
+    IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetBroadcastName);
+    if (pAddressOfFunctionToCall == IntPtr.Zero)
       return ePLRESULT.PLR_NOTFOUND;
 
-    IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcastTuple);
-    //oh dear, error handling here
+    tPL_GetBroadcastName ltPL_GetBroadcastName = (tPL_GetBroadcastName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetBroadcastName));
+
+    pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcastTuple);
     if (pAddressOfFunctionToCall == IntPtr.Zero)
       return ePLRESULT.PLR_NOTFOUND;
 
     tPL_SendBroadcastTuple ltPL_SendBroadcastTuple = (tPL_SendBroadcastTuple)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcastTuple));
-    return ltPL_SendBroadcastTuple(broadcast, no_params, tuple_names, tuple_values);
+
+    ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
+    SuspendThread();
+    IntPtr broadcast = ltPL_GetBroadcastName(BC_name);
+    if (broadcast != IntPtr.Zero)
+      res = ltPL_SendBroadcastTuple(broadcast, no_params, tuple_names, tuple_values);
+
+    ResumeThread();
+    return res;
   }
 
-  /// <summary>Sends a broadcast into the engine based on broadcast object and include tuple data for the item</summary>
+  /// <summary>
+  /// Broadcast callback  enables a user provided function to be called
+  /// every time Planimate sends a defined broadcast.
+  /// Thread Notes:
+  ///
+  /// The callback will be called in the context of PL's thread.
+  /// The PLBroadcast handle is unique per broadcast per thread.
+  /// The userdata will be returned and is useful for passing a pointer
+  /// to the class/instance.
+  ///
+  /// Data *must* be processed/copied before returning from this function.
+  /// All pointers are invalid after the callback returns.
+  /// </summary>
   /// <param name='broadcast'>Pointer to broadcast object</param>
   /// <param name='callback_func'>Function to register as callback</param>
   public ePLRESULT RegisterBroadcastCallback(IntPtr broadcast, tPL_BroadcastCallback callback_func)
   {
+    ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
     IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RegisterBroadcastCallback);
-    //oh dear, error handling here
+    if (pAddressOfFunctionToCall != IntPtr.Zero)
+    {
+      SuspendThread();
+      tPL_RegisterBroadcastCallback ltPL_RegisterBroadcastCallback = (tPL_RegisterBroadcastCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterBroadcastCallback));
+      res = ltPL_RegisterBroadcastCallback(broadcast, callback_func);
+      ResumeThread();
+    }
+    return res;
+  }
+
+  /// <summary>
+  /// Register broadcast callback using broadcast name.
+  /// </summary>
+  /// <param name='BC_name'>Pointer to broadcast object</param>
+  /// <param name='callback_func'>Function to register as callback</param>
+  public ePLRESULT RegisterBroadcastCallback(string BC_name, tPL_BroadcastCallback callback_func)
+  {
+    IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetBroadcastName);
+    if (pAddressOfFunctionToCall == IntPtr.Zero)
+      return ePLRESULT.PLR_NOTFOUND;
+
+    tPL_GetBroadcastName ltPL_GetBroadcastName = (tPL_GetBroadcastName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetBroadcastName));
+
+    pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RegisterBroadcastCallback);
     if (pAddressOfFunctionToCall == IntPtr.Zero)
       return ePLRESULT.PLR_NOTFOUND;
 
     tPL_RegisterBroadcastCallback ltPL_RegisterBroadcastCallback = (tPL_RegisterBroadcastCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterBroadcastCallback));
-    return ltPL_RegisterBroadcastCallback(broadcast, callback_func);
-  }
 
+    ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
+    SuspendThread();
+    IntPtr broadcast = ltPL_GetBroadcastName(BC_name);
+    if (broadcast != IntPtr.Zero)
+      res = ltPL_RegisterBroadcastCallback(broadcast, callback_func);
+
+    ResumeThread();
+    return res;
+  }
   #endregion
+
+  /// <summary>Pause callback enables a user provided function to be called
+  /// every time Planimate becomes paused. This function is called in PL's
+  /// thread context so do as little as possible and message to your main
+  /// thread as required.
+  /// </summary>
+  /// <param name='callback_func'>Function to register as callback</param>
+  /// <param name='userdata'>User data</param>
+  public ePLRESULT RegisterPauseCallback(tPL_PauseCallback callback_func, IntPtr userdata)
+  {
+    ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
+    IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RegisterPauseCallback);
+    if (pAddressOfFunctionToCall != IntPtr.Zero)
+    {
+      tPL_RegisterPauseCallback ltPL_RegisterPauseCallback = (tPL_RegisterPauseCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterPauseCallback));
+      SuspendThread();
+      res = ltPL_RegisterPauseCallback(callback_func, userdata);
+      ResumeThread();
+    }
+    return res;
+  }
 
   /// <summary>Converts a string to a Planimate® value based on the specified Planimate® format</summary>
   /// <param name='str'>String to convert</param>
@@ -1488,8 +1687,10 @@ public partial class PLEngine
       return ePLRESULT.PLR_NOTFOUND;
 
     tPL_StringToValue ltPL_StringToValue = (tPL_StringToValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_StringToValue));
-
-    return ltPL_StringToValue(str, val, format);
+    SuspendThread();
+    ePLRESULT res = ltPL_StringToValue(str, val, format);
+    ResumeThread();
+    return res;
   }
 
   /// <summary>Converts a Planimate® timestamp (seconds) into a DateTime structure.</summary>
