@@ -175,6 +175,7 @@ enum ePLProcs
   ePL_RegisterPauseCallback,
   ePL_SetCellText, 
   ePL_GetOwnerWindow,
+  ePL_WaitModelStarted,
 
   ePL_PROCCOUNT
  };
@@ -262,6 +263,13 @@ typedef PLDLLFN PLRESULT tPL_Process();
 // General purpose calls
 //
 
+// PL_WaitModelStarted()
+// Useful after a PL_Run()
+// returns when the Planimate thread is in a run or paused state
+// will process calling thread events while waiting
+// timeout in milliseconds
+
+typedef PLDLLFN PLRESULT tPL_WaitModelStarted(int timeout);
 
 // PL_Run() engine control
 // - only call after PL_Init() has completed 
