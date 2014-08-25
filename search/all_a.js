@@ -12,5 +12,6 @@ var searchData=
   ['simul_5frunmemoryerror',['SIMUL_RunMemoryError',['../namespace_planimate_1_1_engine.html#a33edcfc28998e88e8806e59f48f50b37a8cf876a6a74ff3b0396841755112a494',1,'Planimate::Engine']]],
   ['simul_5fsimulateerror',['SIMUL_SimulateError',['../namespace_planimate_1_1_engine.html#a33edcfc28998e88e8806e59f48f50b37aa70f17e676af14891e2c30968f26e6cb',1,'Planimate::Engine']]],
   ['simul_5fundefined',['SIMUL_Undefined',['../namespace_planimate_1_1_engine.html#a33edcfc28998e88e8806e59f48f50b37a5ef266aaf7d794d4b94aab4938f2825b',1,'Planimate::Engine']]],
-  ['simul_5fuserpause',['SIMUL_UserPause',['../namespace_planimate_1_1_engine.html#a33edcfc28998e88e8806e59f48f50b37a3367e2155fa26e02d2ad889e796442dc',1,'Planimate::Engine']]]
+  ['simul_5fuserpause',['SIMUL_UserPause',['../namespace_planimate_1_1_engine.html#a33edcfc28998e88e8806e59f48f50b37a3367e2155fa26e02d2ad889e796442dc',1,'Planimate::Engine']]],
+  ['suspendthread',['SuspendThread',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a2a37b3a399b64bc0c72391f61b0262c9',1,'Planimate::Engine::PLEngine']]]
 ];

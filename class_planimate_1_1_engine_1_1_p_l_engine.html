@@ -136,6 +136,15 @@ delegate <a class="el" href="namespace_planimate_1_1_engine.html#aa2e191486a8cf1
 <tr class="memitem:a12df46bca41a47021fc21b9b472120fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_planimate_1_1_engine.html#aa2e191486a8cf1ab938cbf6185e415ae">ePLRESULT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_planimate_1_1_engine_1_1_p_l_engine.html#a12df46bca41a47021fc21b9b472120fc">InitPLEngine</a> (string cmdline)</td></tr>
 <tr class="memdesc:a12df46bca41a47021fc21b9b472120fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the Planimate® engine.  <a href="#a12df46bca41a47021fc21b9b472120fc">More...</a><br /></td></tr>
 <tr class="separator:a12df46bca41a47021fc21b9b472120fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e355a0b0a4356e3f306d8d0b0404546"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_planimate_1_1_engine.html#aa2e191486a8cf1ab938cbf6185e415ae">ePLRESULT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_planimate_1_1_engine_1_1_p_l_engine.html#a7e355a0b0a4356e3f306d8d0b0404546">RunCommand</a> (<a class="el" href="namespace_planimate_1_1_engine.html#a81b51fd09f04c3bebc5a8d5f0ae1df93">ePLRunCMD</a> cmd)</td></tr>
+<tr class="memdesc:a7e355a0b0a4356e3f306d8d0b0404546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a run command to the Planimate® engine.  <a href="#a7e355a0b0a4356e3f306d8d0b0404546">More...</a><br /></td></tr>
+<tr class="separator:a7e355a0b0a4356e3f306d8d0b0404546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a37b3a399b64bc0c72391f61b0262c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_planimate_1_1_engine_1_1_p_l_engine.html#a2a37b3a399b64bc0c72391f61b0262c9">SuspendThread</a> ()</td></tr>
+<tr class="memdesc:a2a37b3a399b64bc0c72391f61b0262c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend the engine thread.  <a href="#a2a37b3a399b64bc0c72391f61b0262c9">More...</a><br /></td></tr>
+<tr class="separator:a2a37b3a399b64bc0c72391f61b0262c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a182d1cc1e9f17e7583414c90521fcfd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_planimate_1_1_engine_1_1_p_l_engine.html#a182d1cc1e9f17e7583414c90521fcfd2">ResumeThread</a> ()</td></tr>
+<tr class="memdesc:a182d1cc1e9f17e7583414c90521fcfd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume the engine thread.  <a href="#a182d1cc1e9f17e7583414c90521fcfd2">More...</a><br /></td></tr>
+<tr class="separator:a182d1cc1e9f17e7583414c90521fcfd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a378620cd11594cf4668d3e854c99c8e6"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_planimate_1_1_engine_1_1_p_l_engine.html#a378620cd11594cf4668d3e854c99c8e6">PlanimateVersion</a> ()</td></tr>
 <tr class="memdesc:a378620cd11594cf4668d3e854c99c8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Planimate® version powering the engine. <a href="#a378620cd11594cf4668d3e854c99c8e6">More...</a><br /></td></tr>
 <tr class="separator:a378620cd11594cf4668d3e854c99c8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1380,6 +1389,31 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a182d1cc1e9f17e7583414c90521fcfd2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Planimate.Engine.PLEngine.ResumeThread </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Resume the engine thread. </p>
+
+</div>
+</div>
 <a class="anchor" id="ac8d7e6304987ebcdfc336ebadc6be7fe"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1406,6 +1440,38 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data_object</td><td>Pointer to Planimate® data object</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a7e355a0b0a4356e3f306d8d0b0404546"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_planimate_1_1_engine.html#aa2e191486a8cf1ab938cbf6185e415ae">ePLRESULT</a> Planimate.Engine.PLEngine.RunCommand </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_planimate_1_1_engine.html#a81b51fd09f04c3bebc5a8d5f0ae1df93">ePLRunCMD</a>&#160;</td>
+          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send a run command to the Planimate® engine. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>Run command from ePLRunCMD.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1844,6 +1910,31 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a2a37b3a399b64bc0c72391f61b0262c9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Planimate.Engine.PLEngine.SuspendThread </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Suspend the engine thread. </p>
 
 </div>
 </div>
