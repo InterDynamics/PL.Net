@@ -32,11 +32,13 @@ namespace WindowsFormsApplication1
 {
   public partial class Form1 : Form
   {
+    private Planimate.Engine.PLEngineCore plEngine1;
 
     public Form1()
     {
       InitializeComponent();
-      plEngine1.InitPLEngine("demo.mdl");
+      plEngineForm.InitPLEngine("demo.mdl");
+      plEngine1 = plEngineForm.plengine;
       dataGridView1.DataSource = plEngine1.GetDataTable("Input_1", true);
       dataGridView2.DataSource = plEngine1.GetDataTable("Formats", true);
       DataTable dt = (DataTable)dataGridView2.DataSource;
@@ -57,8 +59,8 @@ namespace WindowsFormsApplication1
         MessageBox.Show("Broadcast Not Found");
         return;
       }
-      PLEngine.tPL_BroadcastCallback callback;
-      callback = new PLEngine.tPL_BroadcastCallback(broadcast_callback_function);
+      PLEngineCore.tPL_BroadcastCallback callback;
+      callback = new PLEngineCore.tPL_BroadcastCallback(broadcast_callback_function);
       ePLRESULT reg_res = plEngine1.RegisterBroadcastCallback(broadcast, callback);
       ePLRESULT brd_res = plEngine1.SendBroadcast(broadcast, 1, new string[] { "_height" }, new double[] { Convert.ToDouble(numericUpDown1.Value) });
     }

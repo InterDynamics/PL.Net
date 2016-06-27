@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", "WindowsFormsApplication1\WindowsFormsApplication1.csproj", "{6F3E695F-A476-4387-A83E-145597EFDDF5}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLEngine", "PLEngine\PLEngine.csproj", "{0D9A8225-58D7-4F5C-9251-2D1734553752}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284} = {8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLEngineCore", "PLEngineCore\PLEngineCore.csproj", "{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +51,18 @@ Global
 		{0D9A8225-58D7-4F5C-9251-2D1734553752}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0D9A8225-58D7-4F5C-9251-2D1734553752}.Release|Win32.ActiveCfg = Release|Any CPU
 		{0D9A8225-58D7-4F5C-9251-2D1734553752}.Release|x64.ActiveCfg = Release|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Release|Win32.ActiveCfg = Release|Any CPU
+		{8EC296EA-7AE3-4DA3-9C90-DD56FD8EF284}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

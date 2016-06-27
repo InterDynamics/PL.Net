@@ -62,7 +62,7 @@ namespace WindowsFormsApplication1
       this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.plEngine1 = new Planimate.Engine.PLEngine();
+      this.plEngineForm = new Planimate.Engine.PLEngine();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
       this.splitContainer1.Panel2.SuspendLayout();
@@ -92,7 +92,7 @@ namespace WindowsFormsApplication1
       // 
       // splitContainer1.Panel2
       // 
-      this.splitContainer1.Panel2.Controls.Add(this.plEngine1);
+      this.splitContainer1.Panel2.Controls.Add(this.plEngineForm);
       this.splitContainer1.Size = new System.Drawing.Size(862, 493);
       this.splitContainer1.SplitterDistance = 287;
       this.splitContainer1.TabIndex = 1;
@@ -230,14 +230,14 @@ namespace WindowsFormsApplication1
       this.dataGridViewTextBoxColumn6.HeaderText = "Tag";
       this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
       // 
-      // plEngine1
+      // plEngineForm
       // 
-      this.plEngine1.dll_pathname = "planimate.dll";
-      this.plEngine1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.plEngine1.Location = new System.Drawing.Point(0, 0);
-      this.plEngine1.Name = "plEngine1";
-      this.plEngine1.Size = new System.Drawing.Size(571, 493);
-      this.plEngine1.TabIndex = 0;
+      this.plEngineForm.dll_pathname = "planimate.dll";
+      this.plEngineForm.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.plEngineForm.Location = new System.Drawing.Point(0, 0);
+      this.plEngineForm.Name = "plEngineForm";
+      this.plEngineForm.Size = new System.Drawing.Size(571, 493);
+      this.plEngineForm.TabIndex = 0;
       // 
       // Form1
       // 
@@ -283,8 +283,7 @@ namespace WindowsFormsApplication1
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private Planimate.Engine.PLEngine plEngine1;
-
+        private Planimate.Engine.PLEngine plEngineForm;
     }
 }
 
