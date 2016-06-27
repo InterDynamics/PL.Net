@@ -1,7 +1,7 @@
 ;PlanimateModel
-V 699
-SavedUsing "Planimate(r) Win V8.0.6"
-SavedDate "Sat Jun 25 10:51:10 2016"
+V 737
+SavedUsing "Planimate(r) V8.58.0 (5840-737) 32bit"
+SavedDate "Mon Jun 27 20:43:17 2016"
 SavedBy "Riccardo Macri, InterDynamics Pty. Ltd."
 End
 IFFontTable 11
@@ -10,33 +10,32 @@ IFFontTable 11
 -19 0 0 0 400 0 0 0 0 0 0 0 48 0 "Arial" ; (2)
 -13 0 0 0 400 0 0 0 0 0 0 0 49 0 "Courier New" ; (1)
 -12 0 0 0 400 0 0 0 0 0 0 0 49 0 "Courier New" ; (1)
--15 0 0 0 900 0 0 0 0 0 0 0 48 0 "Arial" ; (2)
--15 0 0 0 900 0 0 0 0 0 0 0 48 16515072 "Arial" ; (1)
--15 0 0 0 400 0 0 0 0 0 0 0 48 32896 "Arial" ; (5)
--15 0 0 0 400 0 0 0 0 0 0 0 48 32768 "Arial" ; (1)
--15 0 0 0 400 0 0 0 0 0 0 0 48 8388608 "Arial" ; (1)
--15 0 0 0 400 1 0 0 0 0 0 0 48 32768 "Arial" ; (1)
+-18 0 0 0 900 0 0 0 0 0 0 0 48 0 "Arial" ; (2)
+-18 0 0 0 900 0 0 0 0 0 0 0 48 16515072 "Arial" ; (1)
+-18 0 0 0 400 0 0 0 0 0 0 0 48 32896 "Arial" ; (5)
+-18 0 0 0 400 0 0 0 0 0 0 0 48 32768 "Arial" ; (1)
+-18 0 0 0 400 0 0 0 0 0 0 0 48 8388608 "Arial" ; (1)
+-18 0 0 0 400 1 0 0 0 0 0 0 48 32768 "Arial" ; (1)
 0 0 1 0 4 2 ; iFlow fonts
 0 0 1 0 0 0 0 2 1 3 0 0 0 0 0 0 5 6 5 7 7 7 7 8 9 7 10 ; PL fonts
 Colors 48 FF99FFFF FF8282FF FF6699FF FF71C6FF FF1DE29D FFCAFFE4 FFF1CEA3 FFF7F3EF FFCCCCCC FFFFE097 FFCCCC00 FFCC9933 FFCCCCFF FF9999CC FFCC99CC FF66FFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF 
 IDInfo "" "" "" ""
-ExSet 1 0 0 "" "" "" "" "" "" "" "0.0.0.0" "1.0" "" "" "" "" "" "" "" 01 00
-Set 0 3 0x01020000 0x08000000 0x00000000 512 44 5000 5000
+ExSet 1 0 0 "" "" "" "" "" "" "" "0.0.0.0" "1.0" "" "" "" "" "" "" "" 01 00 Set 0 3 0x01020000 0x08000000 0x00000000 512 44 5000 5000
 Stream 0 1 End
 Clk 0 0 0 0 3 0 -1 1 -1 0 0 1009843200 1293926400 0  1 15 0 255
-LabelLists 27
-"_alignment" 16385 5
+LabelLists 32
+"_alignment" 16513 5
 0 "Left" 0
 1 "Right" 0
 2 "Center" 0
 4 "VerticalCenter" 0
 8 "Below" 0
 0 
-"_boolean" 1 2
+"_boolean" 129 2
 0 "False" 0
 1 "True" 0
 0 
-"_border_styles" 1 10
+"_border_styles" 129 14
 0 "None" 0
 1 "Single" 0
 2 "Double" 0
@@ -47,6 +46,10 @@ LabelLists 27
 7 "Rounded" 0
 8 "Rounded Edge" 0
 9 "Rounded Double" 0
+10 "Single No Bottom" 0
+11 "Single No Top" 0
+12 "Single Sides Only" 0
+13 "Single Bottom Left" 0
 0 
 "_colors" 1 17
 0 "Black" 0
@@ -67,7 +70,7 @@ LabelLists 27
 15 "White" 0
 255 "None" 0
 0 
-"_column_properties" 1 29
+"_column_properties" 129 29
 0 "Width" 0
 1 "ClearValue" 0
 2 "ContentAlignment" 0
@@ -98,7 +101,7 @@ LabelLists 27
 28 "DontShowClearValue" 0
 29 "UserData" 0
 0 
-"_dataset_errors" 1 16
+"_dataset_errors" 129 16
 0 "None" 0
 1 "Bad Data Reference" 0
 2 "Repeated Data Object" 0
@@ -116,9 +119,18 @@ LabelLists 27
 14 "Blob not found" 0
 15 "Blob size mismatch" 0
 0 
+"_dllerrors" 129 7
+0 "PLDLL_OK" 0
+1 "PLDLL_ERROR" 0
+2 "PLDLL_BADFUNCTION" 0
+3 "PLDLL_BADPARAMS" 0
+4 "PLDLL_MEMORY" 0
+5 "PLDLL_BADROUTINECONFIG" 0
+6 "PLDLL_BADPARAMCONFIG" 0
+0 
 "_external_files" 1 0
 0 
-"_fileoptions" 16385 19
+"_fileoptions" 16513 21
 1 "Formatted" 0
 2 "RowLabels" 0
 4 "ColLabels" 0
@@ -138,8 +150,24 @@ LabelLists 27
 65536 "FreeTextAsText" 0
 131072 "PrecisionAsDisplayed" 0
 262144 "SecondColLabels" 0
+524288 "ContinueOnError" 0
+1048576 "Insert" 0
 0 
-"_keycodes" 1 12
+"_import_errors" 129 12
+0 "None" 0
+1 "Undefined" 0
+2 "TMP File Error" 0
+3 "Disk Full" 0
+4 "No Data" 0
+5 "Incomplete" 0
+6 "Bad Format" 0
+7 "Label Error" 0
+8 "File Error" 0
+10 "Logged Errors" 0
+11 "Label Ignored" 0
+12 "User Cancelled" 0
+0 
+"_keycodes" 129 12
 15104 "F1" 0
 15360 "F2" 0
 15616 "F3" 0
@@ -153,7 +181,7 @@ LabelLists 27
 17664 "F11" 0
 17920 "F12" 0
 0 
-"_labellist_properties" 1 14
+"_labellist_properties" 129 14
 0 "SortByName" 0
 1 "LabelRegions" 0
 2 "CyclicSelection" 0
@@ -169,7 +197,7 @@ LabelLists 27
 12 "InterpretEmptyInputAsLabelIndex0" 0
 13 "DataSet2LoadsLabelsByIndexNotLabel" 0
 0 
-"_line_styles" 1 9
+"_line_styles" 129 9
 0 "Solid" 0
 1 "Long Dashed" 0
 2 "Medium Dotted" 0
@@ -180,12 +208,12 @@ LabelLists 27
 7 "Dense Dotted" 0
 8 "Sparse Dotted" 0
 0 
-"_link_types" 1 3
+"_link_types" 129 3
 1 "SpatialLink" 0
 2 "Track" 0
 3 "Pipe" 0
 0 
-"_object_types" 1 11
+"_object_types" 129 11
 1 "Entry" 0
 2 "Queue" 0
 3 "MultiServer" 0
@@ -198,7 +226,7 @@ LabelLists 27
 16 "Link" 0
 17 "Pipe" 0
 0 
-"_paint_properties" 1 38
+"_paint_properties" 129 38
 0 "BottomLeftX" 0
 1 "BottomLeftY" 0
 2 "Width" 0
@@ -238,7 +266,7 @@ LabelLists 27
 36 "TextShadow" 0
 37 "BorderRadius" 0
 0 
-"_panel_properties" 1 9
+"_panel_properties" 129 10
 0 "HideObjectNames" 0
 1 "HideViews" 0
 2 "HidePaint" 0
@@ -248,8 +276,9 @@ LabelLists 27
 6 "HideSpatialLinks" 0
 7 "HidePipes" 0
 8 "HideBendPoints" 0
+9 "AutoFitWindow" 0
 0 
-"_paneldrag_commands" 1 10
+"_paneldrag_commands" 129 10
 0 "Click" 0
 1 "BeginDrag" 0
 2 "Drag" 0
@@ -261,12 +290,12 @@ LabelLists 27
 8 "Zoom" 0
 9 "EndZoom" 0
 0 
-"_pipe_bc_flags" 16385 3
+"_pipe_bc_flags" 16513 3
 1 "TargetAtUpperLimit" 0
 2 "SourceAtLowerLimit" 0
 4 "LoadLimitAtZero" 0
 0 
-"_plot_modes" 1 14
+"_plot_modes" 129 15
 0 "No Change" 0
 1 "No Plot" 0
 2 "Line" 0
@@ -282,12 +311,13 @@ LabelLists 27
 11 "Area Stepped" 0
 12 "Point Rectangle" 0
 13 "Point Line" 0
+14 "Point Quadrilateral" 0
 0 
-"_print_orientation" 1 2
+"_print_orientation" 129 2
 1 "Portrait" 0
 2 "Landscape" 0
 0 
-"_print_papersize" 1 6
+"_print_papersize" 129 6
 1 "Letter 8.5x11 in" 0
 5 "Legal  8.5x14 in" 0
 8 "A3 297x420 mm" 0
@@ -295,7 +325,7 @@ LabelLists 27
 11 "A5 148x210 mm" 0
 66 "A2 420x594 mm" 0
 0 
-"_section_types" 1 11
+"_section_types" 129 11
 0 "-" 0
 1 "Single" 0
 2 "Double (No Overtake)" 0
@@ -308,7 +338,7 @@ LabelLists 27
 9 "Five Tracks" 0
 10 "Six Tracks" 0
 0 
-"_stop_reasons" 1 9
+"_stop_reasons" 129 9
 0 "Loaded/No Previous Run" 0
 1 "User Stopped Run" 0
 2 "Model Stopped Run" 0
@@ -319,7 +349,7 @@ LabelLists 27
 7 "Restart Dispatcher" 0
 8 "User Breakpoint Stop" 0
 0 
-"_system_colors" 1 22
+"_system_colors" 129 22
 0 "3D Face" 0
 1 "3D Highlight" 0
 2 "3D Light" 0
@@ -343,7 +373,7 @@ LabelLists 27
 20 "Window Border" 0
 21 "Window Text" 0
 0 
-"_tableview_properties" 1 155
+"_tableview_properties" 129 163
 0 "BottomLeftX" 0
 1 "BottomLeftY" 0
 2 "Width" 0
@@ -370,6 +400,9 @@ LabelLists 27
 23 "MaxYValue" 0
 24 "MinYValueRHS" 0
 25 "MaxYValueRHS" 0
+26 "HideTimeScrollBar" 0
+27 "NoScrollWidth" 0
+28 "NoScrollHeight" 0
 200 "ShowXScale" 0
 201 "XScaleInterval" 0
 202 "XScaleColor" 0
@@ -419,59 +452,64 @@ LabelLists 27
 246 "YTickColor" 0
 247 "YTickLength" 0
 248 "YTickWidth" 0
-249 "ShowYScaleRHS" 0
-250 "YScaleIntervalRHS" 0
-251 "YScaleColorRHS" 0
-252 "YScaleFontRHS" 0
-253 "YScaleCharsRHS" 0
-254 "YScaleFmtOverrideRHS" 0
-255 "ShowYTitleRHS" 0
-256 "YTitleRHS" 0
-257 "YTitleColorRHS" 0
-258 "YTitleFontRHS" 0
-259 "ShowYMajorGridRHS" 0
-260 "YMajorGridIntervalRHS" 0
-261 "YMajorGridColorRHS" 0
-262 "YMajorGridWidthRHS" 0
-263 "YMajorGridStyleRHS" 0
-264 "ShowYMinorGridRHS" 0
-265 "YMinorGridIntervalRHS" 0
-266 "YMinorGridColorRHS" 0
-267 "YMinorGridWidthRHS" 0
-268 "YMinorGridStyleRHS" 0
-269 "ShowYTicksRHS" 0
-270 "YTickIntervalRHS" 0
-271 "YTickColorRHS" 0
-272 "YTickLengthRHS" 0
-273 "YTickWidthRHS" 0
-274 "GraphBorderColor" 0
-275 "XLineColor" 0
-276 "XLineWidth" 0
-277 "YLineColor" 0
-278 "YLineWidth" 0
-279 "YLineColorRHS" 0
-280 "YLineWidthRHS" 0
-281 "GraphTLColor" 0
-282 "GraphTRColor" 0
-283 "GraphBLColor" 0
-284 "GraphBRColor" 0
-285 "GanttTimeLabels" 0
-286 "DataTextFont" 0
-287 "XAxisAuto" 0
-288 "XIncludeZero" 0
-289 "AllowNegativeX" 0
-290 "MinUserX" 0
-291 "MaxUserX" 0
-292 "UseXAxisMargin" 0
-293 "XMarginPercent" 0
-294 "YAxisAuto" 0
-295 "YIncludeZero" 0
-296 "MinUserY" 0
-297 "MaxUserY" 0
-298 "MinUserYRHS" 0
-299 "MaxUserYRHS" 0
-300 "UseYAxisMargin" 0
-301 "YMarginPercent" 0
+249 "ShowYZeroLine" 0
+250 "YZeroLineColor" 0
+251 "YZeroLineWidth" 0
+252 "YZeroLineStyle" 0
+253 "ShowYScaleRHS" 0
+254 "YScaleIntervalRHS" 0
+255 "YScaleColorRHS" 0
+256 "YScaleFontRHS" 0
+257 "YScaleCharsRHS" 0
+258 "YScaleFmtOverrideRHS" 0
+259 "ShowYTitleRHS" 0
+260 "YTitleRHS" 0
+261 "YTitleColorRHS" 0
+262 "YTitleFontRHS" 0
+263 "ShowYMajorGridRHS" 0
+264 "YMajorGridIntervalRHS" 0
+265 "YMajorGridColorRHS" 0
+266 "YMajorGridWidthRHS" 0
+267 "YMajorGridStyleRHS" 0
+268 "ShowYMinorGridRHS" 0
+269 "YMinorGridIntervalRHS" 0
+270 "YMinorGridColorRHS" 0
+271 "YMinorGridWidthRHS" 0
+272 "YMinorGridStyleRHS" 0
+273 "ShowYTicksRHS" 0
+274 "YTickIntervalRHS" 0
+275 "YTickColorRHS" 0
+276 "YTickLengthRHS" 0
+277 "YTickWidthRHS" 0
+278 "GraphBorderColor" 0
+279 "XLineColor" 0
+280 "XLineWidth" 0
+281 "YLineColor" 0
+282 "YLineWidth" 0
+283 "YLineColorRHS" 0
+284 "YLineWidthRHS" 0
+285 "GraphTLColor" 0
+286 "GraphTRColor" 0
+287 "GraphBLColor" 0
+288 "GraphBRColor" 0
+289 "GanttTimeLabels" 0
+290 "DataTextFont" 0
+291 "XAxisAuto" 0
+292 "XIncludeZero" 0
+293 "AllowNegativeX" 0
+294 "MinUserX" 0
+295 "MaxUserX" 0
+296 "UseXAxisMargin" 0
+297 "XMarginPercent" 0
+298 "YAxisAuto" 0
+299 "YAxisAutoRHS" 0
+300 "YIncludeZero" 0
+301 "MinUserY" 0
+302 "MaxUserY" 0
+303 "MinUserYRHS" 0
+304 "MaxUserYRHS" 0
+305 "UseYAxisMargin" 0
+306 "YMarginPercent" 0
 1000 "CellBackground1" 0
 1001 "CellBackground2" 0
 1002 "CellText" 0
@@ -500,7 +538,11 @@ LabelLists 27
 1025 "TitleBackgroundL" 0
 1026 "TitleBackgroundR" 0
 0 
-"_value_formats" 1 87
+"_test_results" 129 2
+1 "TestSuccess" 0
+2 "TestFailure" 0
+0 
+"_value_formats" 129 90
 0 "Time [#w #d] hh:mm ss.ss" 0
 1 "Value" 0
 2 "Currency $x.xx" 0
@@ -580,8 +622,8 @@ LabelLists 27
 75 "Time [#d] hh:mm" 0
 76 "Time [#d] 0h:mm (hour always 2 digits)" 0
 77 "Time D# hh:mm (Day from 1)" 0
-78 "Date W# D# (Week/Day from 1)" 0
-79 "Date D# (Day From 1)" 0
+78 "Time W# D# (Week/Day from 1)" 0
+79 "Time D# (Day From 1)" 0
 80 "Calendar YYYYMMDDhhmmss" 0
 81 "Time #w #d hh:mm:ss.ss Minimal" 0
 82 "Calendar D Mmm Y hh:mm" 0
@@ -589,14 +631,44 @@ LabelLists 27
 84 "Time hhh:mm" 0
 85 "Calendar YYYY-MM-DD-hh:mm:ss" 0
 86 "Colour value AARRGGBB" 0
+87 "ScaledKilo #,###" 0
+88 "ScaledKilo #,###.#" 0
+89 "ScaledKilo #,###.##" 0
 0 
-"_view_types" 1 6
+"_view_types" 129 8
 1 "Table" 0
 2 "ColumnOverlay" 0
 3 "Gantt" 0
 4 "TrainGraph" 0
 5 "LogDriven" 0
 6 "Grid" 0
+7 "Cell" 0
+8 "PortalAtt" 0
+0 
+"Locations" 1 18
+1 "Adelaide" 0
+2 "Brisbane" 0
+3 "Carlton" 0
+4 "Collingwood" 0
+5 "Essendon" 0
+6 "Fremantle" 0
+7 "Geelong" 0
+8 "Gold Coast" 0
+9 "Greater Western" 0
+10 "Hawthorn" 0
+11 "Melbourne" 0
+12 "North Melbourne" 0
+13 "Port Adelaide" 0
+14 "Richmond" 0
+15 "St Kilda" 0
+16 "Sydney" 0
+17 "West Coast" 0
+18 "Western Bulldogs" 0
+0 
+"NewList" 1 3
+100 "One" 0
+200 "TWo" 0
+300 "Three" 0
 0 
 "test_ll" 1 2
 1 "First" 0
@@ -604,7 +676,7 @@ LabelLists 27
 1 "test_ll" 2 
 Sockets 0
 0 80
-Broadcast 38
+Broadcast 42
 "_PreInit_Start" 10000 ""
 "_PreInit_End" 10001 ""
 "_Run_Start" 10002 ""
@@ -643,6 +715,10 @@ Broadcast 38
 "_TrainTailExitSrv" 10034 ""
 "_Pipe_Clicked" 10035 ""
 "_ObjectChange" 10036 ""
+"_Test_Start" 10037 ""
+"_Test_Finish" 10038 ""
+"_Panel_Layout" 10039 ""
+"Button" 2 ""
 
 Class 1
  0 "item" 8 1 1 "_ITEM00" "_PERS1P" "_ITEM00" 1 255 0 1 1 1 1 0 0 15 7 0 255 7 7 7 7 6 End
@@ -651,7 +727,7 @@ MultiLabelLists 0
 DefScrnSize 1016 672
 Panel 0 ScrnSize 1016 672 0 0 0 0 1 7 1 2 65616 0 "" 0 255 ""
 Paint
-Pu 72 480 192 544 1 4 7 0 0 255 7 7 7 7 6 0 0 0  0 0 1 1  0 1
+Pu 72 448 192 512 1 4 7 0 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 0 1 0 0 0 0  0 0 1 1  0 1
 72 480 192 544 0 4 7 0 0 255 7 7 7 7 6 "State 1" 1 "" "" "" 12 0 
 "" 
 End
@@ -685,8 +761,7 @@ ZX
 0
 0
 1
-0E 467265652074657874203A2D2900
-1 "formats_copy" "formats_copy" "" 1 9 0 388 0 0 0 1 0 "" 0 "" 11 6 2 3 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  1 "formats_copy" 4 "" 655 630 1543 930 0 0 1 100 0 1 ""
+0E 467265652074657874203A2D2900 1 "formats_copy" "formats_copy" "" 1 9 0 388 0 0 0 1 0 "" 0 "" 11 6 2 3 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  1 "formats_copy" 4 "" 655 630 1543 930 0 0 1 100 0 1 ""
 1 "seconds" "" "" 10 0 1 4 255 255 0 0 "seconds" 0 0 0
 20 "minutes" "" "" 10 0 1 4 255 255 0 0 "minutes" 0 0 0
 21 "hours" "" "" 10 0 1 4 255 255 0 0 "hours" 0 0 0
@@ -715,8 +790,7 @@ ZX
 0
 0
 1
-01 00
-1 "Input_1" "Input_1" "" 1 3 0 388 0 0 0 1 0 "" 0 "" 11 6 2 3 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  1 "Input_1" 1 "" 388 280 988 580 0 0 1 100 0 1 ""
+01 00 1 "Input_1" "Input_1" "" 1 3 0 388 0 0 0 1 0 "" 0 "" 11 6 2 3 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  1 "Input_1" 1 "" 388 280 988 580 0 0 1 100 0 1 ""
 11 "test_ll" "Test" "" "" 10 0 0 4 255 255 0 0 "From" 0 0 0
 1 "2" "" "" 10 0 1 4 255 255 0 0 "To" 0 0 0
 1 "33" "" "" 10 0 1 4 255 255 0 0 "Time" 0 0 0
@@ -726,32 +800,37 @@ H66666666666A0404X
 0
 0
 0
-Ent "Process" 72 600 0 1 0 "Process" DI 
-Que "Queue 1" 240 600 240 600 0 392 616 0 10 5 0 1  0 0 1 1  0 
-Por "Portal" 120 512 152 512 0 100 100 0 8198 0 "" Ex "Portal" 1 DI 
-Paths 0 1
+Ent "Process" 32 616 0 1 0 "Process" DI 
+Ent "Entry 1" 32 560 0 4 0 "" DI 
+Que "Queue 1" 240 616 240 616 0 392 632 0 10 5 0 1  0 0 1 1  0 
+Exi "Exit 1" 216 560 0 0 0 2 7 "" "" DI 
+Por "Portal" 120 472 152 472 0 100 100 0 8198 0 "" Ex "Portal" 1 DI 
+Por "PLCLR" 40 216 72 216 0 100 100 0 8198 0 "" DI 
+Dis "BC Item" 192 560 192 560 0 0 10 5 0 4  0 0 1 1   0 0 1 1  "Process" "" 
+Paths 0 2
 2 Ent 0 Que 0 
+3 Ent 1 Dis 0 Exi 0 
 End
-Panel 1 ScrnSize 1252 693 0 0 600 500 1 7 1 2 65616 8 "" 0 255 ""
+Panel 1 ScrnSize 1714 947 0 0 600 500 1 7 1 2 65616 8 "" 0 255 ""
 Paint
-Pb 16 262 871 592 0 1 255 0 0 255 9 11 1 22 6 1 "Rectangle" 1 2 0 2 0
-Pb 1026 541 1130 589 0 1 255 0 0 255 7 7 7 7 6 0 1 0 2 0
-Pl 1138 541 1206 634 0 1 255 0 0 255 7 7 7 7 6 0 1 0  2 0 1138 541 1206 634 0 6
-Pt 1114 509 1168 529 0 0 255 0 0 255 7 7 7 7 6 0 1 0 "asdasd" 1114 509 0
-Po 946 445 1002 485 0 1 27 0 27 255 27 27 27 27 6 0 1 0 
-Pu 1018 445 1157 493 0 4 7 0 0 255 7 7 7 7 6 0 1 0  0 0 1 1  0 1
+Pb 16 262 1333 846 0 1 255 0 0 255 9 11 1 22 6 1 "Rectangle" 1 2 0 0 0 0 0 0 0 1 0 0 0 0 2 0
+Pb 1488 795 1592 843 0 1 255 0 0 255 7 7 7 7 6 0 1 0 0 0 0 0 0 0 1 0 0 0 0 2 0
+Pl 1600 795 1668 888 0 1 255 0 0 255 7 7 7 7 6 0 1 0 0 0 0 0 0 0 1 0 0 0 0  2 0 1600 795 1668 888 0 6
+Pt 1576 763 1630 783 0 0 255 0 0 255 7 7 7 7 6 0 1 0 0 0 0 0 0 0 1 0 0 0 0 "asdasd" 1576 763 0
+Po 1408 699 1464 739 0 1 27 0 27 255 27 27 27 27 6 0 1 0 0 0 0 0 0 0 1 0 0 0 0 
+Pu 1480 699 1619 747 0 4 7 0 0 255 7 7 7 7 6 0 1 0 0 0 0 0 0 0 1 0 0 0 0  0 0 1 1  0 1
 896 694 928 774 0 4 7 0 0 255 7 7 7 7 6 "State 1" 1 "Button" "" "" 12 0 
 "" 
-Pu 1014 16 1214 80 0 4 7 0 0 255 7 7 7 7 6 0 3 0  0 0 1 1  0 1
+Pu 1476 16 1676 80 0 4 7 0 0 255 7 7 7 7 6 0 3 0 0 0 0 0 0 0 1 0 0 0 0  0 0 1 1  0 1
 896 16 1096 80 0 4 7 0 0 255 7 7 7 7 6 "State 1" 1 "Bottom Right" "" "" 12 0 
 "" 
-Pu 16 20 216 84 0 4 7 0 0 255 7 7 7 7 6 0 2 0  0 0 1 1  0 1
+Pu 16 20 216 84 0 4 7 0 0 255 7 7 7 7 6 0 2 0 0 0 0 0 0 0 1 0 0 0 0  0 0 1 1  0 1
 896 16 1096 80 0 4 7 0 0 255 7 7 7 7 6 "State 1" 1 "Bottom Left" "" "" 12 0 
 "" 
-Pu 16 613 216 677 0 4 7 0 0 255 7 7 7 7 6 0 0 0  0 0 1 1  0 1
+Pu 16 867 216 931 0 4 7 0 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 0 1 0 0 0 0  0 0 1 1  0 1
 896 16 1096 80 0 4 7 0 0 255 7 7 7 7 6 "State 1" 1 "Top Left" "" "" 12 0 
 "" 
-Pu 1026 613 1226 677 0 4 7 0 0 255 7 7 7 7 6 0 1 0  0 0 1 1  0 1
+Pu 1488 867 1688 931 0 4 7 0 0 255 7 7 7 7 6 0 1 0 0 0 0 0 0 0 1 0 0 0 0  0 0 1 1  0 1
 896 16 1096 80 0 4 7 0 0 255 7 7 7 7 6 "State 1" 1 "Top Right" "" "" 12 0 
 "" 
 End
@@ -790,17 +869,17 @@ Z2X
 0
 0
 0
-Ent "_Panel Opened" 264 637 0 1 0 "_Panel_Opened" DI 
-Por "Portal 1" -245 -219 -213 -219 0 100 100 0 8198 0 "" DI 
-Por "Portal 2" 336 637 368 637 0 100 100 0 4 0 "" DI 
-PEn "Portal" 32 645 0 
-PEx "Portal" 128 645 0 
+Ent "_Panel Opened" 264 891 0 1 0 "_Panel_Opened" DI 
+Por "Portal 1" -245 35 -213 35 0 100 100 0 8198 0 "" DI 
+Por "Portal 2" 336 891 368 891 0 100 100 0 4 0 "" DI 
+PEn "Portal" 32 899 0 
+PEx "Portal" 128 899 0 
 Paths 0 1
 2 Ent 0 Por 1 
 End
 Panel 2 ScrnSize 1016 672 0 0 0 0 1 7 1 2 65616 0 "" 0 255 ""
 Paint
-Po 16 592 88 640 0 2 255 0 0 255 7 7 7 7 6 0 0 0 
+Po 16 592 88 640 0 2 255 0 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 0 1 0 0 0 0 
 End
 PEn "Portal 1" 32 624 0 
 PEx "Portal 1" 128 624 0 
@@ -820,21 +899,143 @@ Paths 0 3
 2 Ent 1 Cha 0 
 2 PEn 0 Cha 0 
 End
+Panel 4 ScrnSize 1250 740 0 0 0 0 1 7 1 2 65616 0 "" 0 255 ""
+Paint
+Pw 640 532 952 684 0 1 255 0 0 255 7 7 7 7 6 1 "Window" 2 0 0 0 0 0 0 0 0 1 0 0 0 0 
+End
+Atts 12
+"CallParam1" "" 0 123 1 0 0 
+"CallParam2" "" 0 0 1 0 0 
+"Class_Name" "" 0 0 39 13 575046546573742E4D61696E57696E646F7700 0 0 
+"DLL_Name" "" 0 0 39 0C 575046546573742E646C6C00 0 0 
+"handle" "" 0 0 1 0 0 
+"PropertyName" "" 0 0 39 0D 5465737450726F706572747900 0 0 
+"PropertyValue" "" 0 222 1 0 0 
+"Result" "" 0 0 1 0 0 
+"TestText" "" 0 0 39 03 686900 0 0 
+"toggleBool" "" 0 0 1 0 0 
+"TxtPropertyName" "" 0 0 39 0D 5465787450726F706572747900 0 0 
+"TxtPropertyValue" "" 0 222 39 01 00 0 0 
+Table 2
+1 "ArrayTest" "ArrayTest" "" 4 2 0 388 0 0 0 1 0 "" 0 "" 11 22 1 1 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  0 "" 236 201 836 501 0 0 1 100 0 1 ""
+1 "" "" "" 10 0 1 4 255 255 0 0 "" 0 0 0
+39 "" "" "" 10 0 0 4 255 255 0 0 "" 4096 0 0
+Z2HFF3H4X
+Z4X
+0
+0
+4
+06 746573743100 06 746578743200 04 666F6F00 03 616100 1 "DialogData" "DialogData" "" 1 4 0 388 0 0 0 1 0 "" 0 "" 11 22 2 1 0 0 8  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  -1 0 0  0 "" 683 451 1283 751 0 0 1 100 0 1 ""
+1 "radioButton" "" "" 10 0 1 4 255 255 0 0 "radioButton" 0 0 0
+1 "checkBox" "" "" 10 0 1 4 255 255 0 0 "checkBox" 0 0 0
+39 "location" "" "" 13 0 0 4 255 255 0 0 "location" 0 0 0
+39 "product" "" "" 10 0 0 4 255 255 0 0 "product" 0 0 0
+HFF3X
+HFF3X
+ZX
+ZX
+0
+0
+0
+1
+0E 506F7274204164656C6169646500 0
+1
+05 5375627300 Ent "Entry 1" 64 580 0 4 0 "" DI 
+Ent "Entry 2" 64 540 0 4 0 "" DI 
+Ent "Entry 3" 64 28 0 4 0 "" DI 
+Ent "Entry 4" 64 116 0 4 0 "" DI 
+Ent "Entry 5" 64 500 0 4 0 "" DI 
+Ent "Entry 6" 64 156 0 4 0 "" DI 
+Ent "Entry 7" 64 412 0 4 0 "" DI 
+Ent "Entry 8" 296 580 0 4 0 "" DI 
+Ent "Entry 9" 64 372 0 4 0 "" DI 
+Ent "Entry 10" 656 484 0 4 0 "" DI 
+Ent "Entry 11" 656 436 0 4 0 "" DI 
+Ent "Entry 12" 656 388 0 4 0 "" DI 
+Ent "Entry 13" 64 332 0 4 0 "" DI 
+Ent "Entry 14" 64 452 0 4 0 "" DI 
+Ent "Entry 15" 64 292 0 4 0 "" DI 
+Ent "Entry 16" 64 252 0 4 0 "" DI 
+Ent "Entry 17" 64 212 0 4 0 "" DI 
+Ent "Button" 656 308 0 1 0 "Button" DI 
+Que "Queue 1" 824 308 824 308 0 984 320 0 10 5 0 1  0 0 1 1  0 
+Exi "Exit 1" 232 580 0 0 0 2 7 "" "" DI 
+Exi "Exit 2" 232 540 0 0 0 2 7 "" "" DI 
+Exi "Exit 3" 232 28 0 0 0 2 7 "" "" DI 
+Exi "Exit 4" 232 116 0 0 0 2 7 "" "" DI 
+Exi "Exit 5" 232 500 0 0 0 2 7 "" "" DI 
+Exi "Exit 6" 232 164 0 0 0 2 7 "" "" DI 
+Exi "Exit 7" 232 412 0 0 0 2 7 "" "" DI 
+Exi "Exit 8" 464 580 0 0 0 2 7 "" "" DI 
+Exi "Exit 9" 232 372 0 0 0 2 7 "" "" DI 
+Exi "Exit 10" 824 484 0 0 0 2 7 "" "" DI 
+Exi "Exit 11" 824 436 0 0 0 2 7 "" "" DI 
+Exi "Exit 12" 824 388 0 0 0 2 7 "" "" DI 
+Exi "Exit 13" 232 332 0 0 0 2 7 "" "" DI 
+Exi "Exit 14" 232 452 0 0 0 2 7 "" "" DI 
+Exi "Exit 15" 232 292 0 0 0 2 7 "" "" DI 
+Exi "Exit 16" 232 252 0 0 0 2 7 "" "" DI 
+Exi "Exit 17" 232 212 0 0 0 2 7 "" "" DI 
+Por "somewhere else" 936 484 968 484 0 100 100 0 8198 0 "" DI 
+PEn "PLCLR" 32 692 0 
+PEx "PLCLR" 128 692 0 
+Cha "New" 144 580 0 
+Cha "SetOwner" 144 540 0 
+Cha "SetProperty" 144 116 0 
+Cha "NumberTest" 144 500 0 
+Cha "GetProperty" 144 156 0 
+Cha "StringTest" 144 412 0 
+Cha "Delete" 376 580 0 
+Cha "NumArrayTest" 144 372 0 
+Cha "SetOwnerPaint" 736 484 0 
+Cha "call Show" 736 436 0 
+Cha "Call Hide" 736 388 0 
+Cha "TextArrayTest" 144 332 0 
+Cha "BooleanTest" 144 452 0 
+Cha "TestLabelList" 144 292 0 
+Cha "LabelListRef" 144 252 0 
+Cha "2D Table" 144 212 0 
+Cha "Dialog2" 144 28 0 
+Paths 0 18
+3 Ent 0 Cha 0 Exi 0 
+3 Ent 1 Cha 1 Exi 1 
+3 Ent 2 Cha 16 Exi 2 
+3 Ent 3 Cha 2 Exi 3 
+3 Ent 4 Cha 3 Exi 4 
+3 Ent 5 Cha 4 Exi 5 
+3 Ent 6 Cha 5 Exi 6 
+3 Ent 7 Cha 6 Exi 7 
+3 Ent 8 Cha 7 Exi 8 
+3 Ent 9 Cha 8 Exi 9 
+3 Ent 10 Cha 9 Exi 10 
+3 Ent 11 Cha 10 Exi 11 
+3 Ent 12 Cha 11 Exi 12 
+3 Ent 13 Cha 12 Exi 13 
+3 Ent 14 Cha 13 Exi 14 
+3 Ent 15 Cha 14 Exi 15 
+3 Ent 16 Cha 15 Exi 16 
+2 Ent 17 Que 0 
+End
+Panel 5 ScrnSize 1016 672 0 0 0 0 1 7 1 2 65616 0 "" 0 255 ""
+PEn "somewhere else" 32 624 0 
+PEx "somewhere else" 128 624 0 
+End
 
-SysLev "3E9D25A8FCE3B70B9A5A9C717163172894816BD10EE29B36303420688E5662CDEC019A0BEDD6"
+SysLev "42207EF20A5C7A8EEB1574001B52F61BE8B76F308732ABBE7C3EA12298B77C92B7F1071D5844"
 ClassDet 1
-0 2
-"_height" "" 32 0 1 "_width" "" 0 0 1 0 0 
+0 3
+"_height" "" 64 123 1 "_width" "" 64 321 1 "TupleTest" "" 64 100 1 0 0 
 PanelDet 0
 PaintDet
 0 0 "" 1 0 1 1  1 -1 -1
 0 0 
 End
 Por 0 1 
+Por 1 4 
 Views 3
-TableView 288 464 588 624 1 5 15 7 1 255 7 7 7 7 6 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 0 "Input_1" 0 0 0 2 319 0 "" 0 0 "" "" "" "" "" 0
-TableView 24 352 856 432 1 5 15 7 1 255 7 7 7 7 6 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 0 "Formats" 0 0 0 6 319 0 "" 0 0 "" "" "" "" "" 0
-TableView 24 256 856 344 1 5 15 7 1 255 7 7 7 7 6 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 0 "formats_copy" 0 0 0 0 319 0 "" 0 0 "" "" "" "" "" 0
+TableView 288 464 588 624 1 5 15 7 1 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 0 "Input_1" 0 0 0 2 319 0 "" 0 0 "" "" "" "" "" "" 0
+TableView 24 352 856 432 1 5 15 7 1 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 0 "Formats" 0 0 0 6 319 0 "" 0 0 "" "" "" "" "" "" 0
+TableView 24 256 856 344 1 5 15 7 1 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 0 "formats_copy" 0 0 0 0 319 0 "" 0 0 "" "" "" "" "" "" 0
 End
 PanelDet 1
 PaintDet
@@ -850,12 +1051,12 @@ PaintDet
 9 0 "" 0 0 0 
 End
 ViewPorts 1
-1002 301 1146 429 0 0 1 7 1 "" 1 2 
+1464 555 1608 683 0 0 1 7 1 0 0 0 0 0 0 0 1 0 0 0 "" 1 2 
 Por 0 2 
 Por 1 3 
 Views 2
-TableView 16 93 871 251 0 5 15 7 1 255 7 7 7 7 6 2 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 1 "test" 0 0 0 0 303 0 "" 0 0 "" "" "" "" "" 0
-CellView 1 "test" 0 0  0 0 1 1   0 0 1 1  883 18 1013 58 0 5 15 0 0 255 7 7 7 7 6 3 8 1 -18 0 0 0 0 0 0 "" 
+TableView 16 93 1333 251 0 5 15 7 1 255 7 7 7 7 6 2 0 0 0 0 0 0 0 1 0 0 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 1 "test" 0 0 0 0 319 0 "" 0 0 "" "" "" "" "" "" 0
+CellView 1 "test" 0 0  0 0 1 1   0 0 1 1  1345 18 1475 58 0 5 15 0 0 255 7 7 7 7 6 3 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
 End
 PanelDet 2
 PaintDet
@@ -893,6 +1094,101 @@ Cha 0 0 0 1 14 "" 1 0 324 137 1668 977
 0 
 0 
 End
+PanelDet 4
+PaintDet
+0 0 "" 0 0 0 
+End
+Por 0 5 
+Cha 0 0 0 1 1 "" 1 0 -9 -9 1527 855 
+1 1  0 6 "handle"  "" 1  17 13 ExDF "plclr" "New" 2 ExAR  0 6 "DLL_Name"  ExAR  0 6 "Class_Name"   
+0 0 
+0 
+Cha 1 0 0 1 1 "" 1 0 -8 -8 1528 856 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "SetOwner" 1 ExAR  0 6 "handle"   
+0 0 
+0 
+Cha 2 0 0 1 2 "" 1 0 -8 -8 1220 683 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Set" 3 ExAR  0 6 "handle"  ExAR  0 6 "PropertyName"  ExAR  0 6 "PropertyValue"   
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Set" 3 ExAR  0 6 "handle"  ExAR  0 6 "TxtPropertyName"  ExAR  0 6 "TxtPropertyValue"   
+0 0 
+0 
+Cha 3 0 0 1 1 "" 1 0 -8 -8 1220 683 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 4 ExAR  0 6 "handle"  ExS "NumberTest" ExAR  0 6 "CallParam1"  ExAR  0 6 "CallParam2"   
+0 0 
+0 
+Cha 4 0 0 1 2 "" 1 0 -9 -9 1527 855 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Get" 3 ExAR  0 6 "handle"  ExAR  0 6 "PropertyName"  ExAR  0 6 "PropertyValue"   
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Get" 3 ExAR  0 6 "handle"  ExAR  0 6 "TxtPropertyName"  ExAR  0 6 "TxtPropertyValue"   
+0 0 
+0 
+Cha 5 0 0 1 1 "" 1 0 -8 -8 1220 683 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 3 ExAR  0 6 "handle"  ExS "StringTest" ExAR  0 6 "TestText"   
+0 0 
+0 
+Cha 6 0 0 1 1 "" 1 0 -8 -8 1528 856 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Delete" 1 ExAR  0 6 "handle"   
+0 0 
+0 
+Cha 7 0 0 1 1 "" 1 0 -8 -8 1220 683 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 3 ExAR  0 6 "handle"  ExS "ArrayTest" ExAR  4 0 0 0 1 0 1 1 0 0 1 "ArrayTest"   
+0 0 
+0 
+Cha 8 0 0 1 2 "" 1 0 -9 -9 1527 855 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "SetOwner" 2 ExAR  0 6 "handle"  ExAR  0 10 2 "_Paint_Objects"   
+137 0 "" 0 
+0 0 
+0 
+Cha 9 0 0 1 1 "" 1 0 -9 -9 1527 855 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 2 ExAR  0 6 "handle"  ExS "Show"  
+0 0 
+0 
+Cha 10 0 0 1 1 "" 1 0 -9 -9 1527 855 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 2 ExAR  0 6 "handle"  ExS "Hide"  
+0 0 
+0 
+Cha 11 0 0 1 1 "" 1 0 69 167 1297 858 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 3 ExAR  0 6 "handle"  ExS "TextArrayTest" ExAR  4 0 0 0 1 0 2 1 0 0 1 "ArrayTest"   
+0 0 
+0 
+Cha 12 0 0 1 1 "" 1 0 -8 -8 1528 856 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 3 ExAR  0 6 "handle"  ExS "BooleanTest" ExAR  0 6 "toggleBool"   
+0 0 
+0 
+Cha 13 0 0 1 1 "" 1 0 -9 -9 1527 855 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 3 ExAR  0 6 "handle"  ExS "LabelListTest" ExAR  0 12 0 "_colors"   
+0 0 
+0 
+Cha 14 0 0 1 2 "" 1 0 -9 -9 1527 855 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 3 ExAR  0 6 "handle"  ExS "LabelListRefTest" ExAR  0 12 0 "NewList"   
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 3 ExAR  0 6 "handle"  ExS "LabelListTest" ExAR  0 12 0 "NewList"   
+0 0 
+0 
+Cha 15 0 0 1 1 "" 1 0 -8 -8 1220 683 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Call" 3 ExAR  0 6 "handle"  ExS "TableTest" ExAR  2 0 0 0 1 0 0 1 0 0 1 "ArrayTest"   
+0 0 
+0 
+Cha 16 0 0 1 1 "" 1 0 -9 -9 1527 855 
+1 1  0 6 "Result"  "" 1  17 13 ExDF "plclr" "Dialog" 7 ExAR  0 6 "DLL_Name"  ExAR  0 6 "Class_Name"  ExAR  1 0 0 1 1 9 "radioButton" 0 0 1 "DialogData"  ExAR  1 0 0 1 1 9 "checkBox" 0 0 1 "DialogData"  ExAR  1 0 0 1 1 9 "location" 0 0 1 "DialogData"  ExAR  1 0 0 1 1 9 "product" 0 0 1 "DialogData"  ExAR  0 12 0 "Locations"   
+0 0 
+0 
+Views 14
+AttView Por 4 "handle" 64 676 194 716 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "DLL_Name" 64 628 194 668 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "Class_Name" 208 628 338 668 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "Result" 208 676 338 716 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "CallParam1" 280 492 410 532 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "CallParam2" 416 492 546 532 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "TestText" 280 396 410 436 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "PropertyValue" 280 100 410 140 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+TableView 280 268 580 388 0 1 15 7 1 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 4 "ArrayTest" 0 0 3 0 319 0 "" 0 0 "" "" "" "" "" "" 0
+AttView Por 4 "PropertyName" 280 156 410 196 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "TxtPropertyName" 416 156 546 196 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "TxtPropertyValue" 416 100 546 140 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+AttView Por 4 "toggleBool" 280 444 410 484 0 1 15 8 0 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 8 1 -18 0 0 0 0 0 0 "" 
+TableView 280 4 808 84 0 1 15 7 1 255 7 7 7 7 6 0 0 0 0 0 0 0 0 1 0 0 0 27 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 4325506 0 4 "DialogData" 0 0 0 0 319 0 "" 0 0 "" "" "" "" "" "" 0
+End
+PanelDet 5
+End
 ModelButtons 0 
 End
-;CRC=294F223F COUNT=00005823
+;CRC=7D6124F7 COUNT=000084BB

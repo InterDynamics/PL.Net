@@ -54,12 +54,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PLEngine">
-      <HintPath>..\PLEngine\bin\Debug\PLEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="PLEngineCore">
-      <HintPath>..\PLEngineCore\bin\Debug\PLEngineCore.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -123,6 +117,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PLEngineCore\PLEngineCore.csproj">
+      <Project>{8ec296ea-7ae3-4da3-9c90-dd56fd8ef284}</Project>
+      <Name>PLEngineCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PLEngine\PLEngine.csproj">
+      <Project>{0d9a8225-58d7-4f5c-9251-2d1734553752}</Project>
+      <Name>PLEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

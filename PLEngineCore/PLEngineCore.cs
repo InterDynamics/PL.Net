@@ -602,9 +602,13 @@ namespace Planimate.Engine
 
     /// <summary>Planimate® broadcast callback function definition</summary>
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate ePLRESULT tPL_BroadcastCallback(IntPtr broadcast, int no_params,
-                                                    [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeParamIndex = 1)] string[] tuple_names,
-                                                    [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] double[] tuple_values);
+    public delegate ePLRESULT tPL_BroadcastCallback(IntPtr broadcast,
+                                                    int no_params,
+                                                    [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr,
+                                                               SizeParamIndex = 1)] string[] tuple_names,
+                                                    [MarshalAs(UnmanagedType.LPArray,
+                                                               SizeParamIndex = 1)] double[] tuple_values,
+                                                    IntPtr user_data);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_RegisterBroadcastCallback(IntPtr broadcast, tPL_BroadcastCallback function);
