@@ -35,10 +35,15 @@ namespace Planimate.Engine
     /// <summary>Used to initiate or stop a fast advancement.
     /// Set the attribute to the time you wish to advance to</summary>
     PLSI_ADVANCETOTIME,
+    /// <summary>Events pending on FEC</summary>
     PLSI_CURRENTPENDING,
+    /// <summary>Engine initialisation state</summary>
     PLSI_ENGINESTATE,
+    /// <summary>Model file version number we save</summary>
     PLSI_CURRENTFILEVERSION,
+    /// <summary>Oldest model version we accept</summary>
     PLSI_OLDESTFILEVERSION,
+    /// <summary>Loaded model version</summary>
     PLSI_LOADEDFILEVERSION,
     /// <summary>Returns the version of the engine (not the core Planimate® version)</summary>
     PLSI_DLLVERSION,
@@ -51,11 +56,16 @@ namespace Planimate.Engine
   /// </summary>
   public enum ePLMode
   {
-    MD_OBJECT = 0,    // editing objects or user mode with engine stopped
-    MD_FLOWEDIT,      // flow or interaction edit mode (flow editor has submode)
-    MD_PAINT,         // editing paint object layer
-    MD_SIMULATE,      // engine started and model is running
-    MD_PAUSED         // engine started and model is paused
+    /// <summary>Editing objects or user mode with engine stopped</summary>
+    MD_OBJECT = 0,    
+    /// <summary>Editing flows</summary>
+    MD_FLOWEDIT,
+    /// <summary>Editing paint</summary>
+    MD_PAINT, 
+    /// <summary>Simulation running</summary>
+    MD_SIMULATE,
+    /// <summary>Model in run mode, Simulation paused</summary>
+    MD_PAUSED
   };
 
   /// <summary>
@@ -427,9 +437,13 @@ namespace Planimate.Engine
   /// <summary>This exception is thrown if a proc fails to bind during init or use.
   /// This would suggest an older version of PL than the enum's here. A newer
   /// version of PL is Ok.</summary>
-
   public class PLBindFailure : System.Exception {}
 
+  /// <summary>
+  /// This implements communication with Planimate using callbacks and works
+  /// both with Planimate being a called DLL or Planimate being the caller to
+  /// dotNET.
+  /// </summary>
   public class PLEngineCore
   {
     #region kernel32 import
@@ -614,6 +628,7 @@ namespace Planimate.Engine
     private delegate ePLRESULT tPL_RegisterBroadcastCallback(IntPtr broadcast, tPL_BroadcastCallback function);
     #endregion
 
+    /// <summary>Planimate has paused callback function</summary>
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate ePLRESULT tPL_PauseCallback(double the_time, ePLPauseReason stop_reason,
                                                 IntPtr userdata);
@@ -698,6 +713,11 @@ namespace Planimate.Engine
       return ePLRESULT.PLR_OK;
     }
 
+    /// <summary>
+    /// Initialise this for use with an existing Planimate which is calling
+    /// C# using the PLCLR bridge DLL. PLCLR attempts to call
+    /// the instantiated class which should call this if the engine is required.
+    /// </summary>
     public void InitPLEngine(IntPtr[] pl_proctable)
     {
       if (pl_proctable.Length < (int)ePLProcs.ePL_PROCCOUNT)
@@ -708,7 +728,12 @@ namespace Planimate.Engine
       // no need for suspend when PL calls C# DLL, we are in PL's thread
       suspendLevel = 1;
     }
-    
+
+    /// <summary>
+    /// Clean up gracefully. This is only required if Planimate is being
+    /// embedded and the caller wants to gracefully shut it down without
+    /// closing themselves.
+    /// </summary>
     public void TermPLEngine()
     {
       if (ltPL_TermThread != null)
@@ -719,7 +744,12 @@ namespace Planimate.Engine
           ltPL_TermThread = null;
         }
     }
-      
+
+    /// <summary>
+    /// Return a callback function pointer based on enum. Guaranteed to
+    /// return a non null pointer or throw exception if something is really
+    /// wrong with the callback table.
+    /// </summary>
     private IntPtr GetFunction(ePLProcs function)
     {    
       if (ProcTable[(int)function] == IntPtr.Zero)
@@ -731,6 +761,11 @@ namespace Planimate.Engine
       return ProcTable[(int)function];
     }
 
+    /// <summary>
+    /// Return a callback delegate for function based on enum. Unfortuantely
+    /// you cant template a case to a delegate so caller still has to typecast
+    /// the returned object to the actual delegate type.
+    /// </summary>
     private Delegate GetFunction<T>(ePLProcs f)
     {
       return Marshal.GetDelegateForFunctionPointer(GetFunction(f), typeof(T));
@@ -740,8 +775,6 @@ namespace Planimate.Engine
     /// Send a run command to the Planimate® engine.
     /// </summary>
     /// <param name='cmd'>Run command from ePLRunCMD.</param>
-
-    
     public ePLRESULT RunCommand(ePLRunCMD cmd)
     {
       return ((tPL_Run)(GetFunction<tPL_Run>(ePLProcs.ePL_Run)))(cmd);
