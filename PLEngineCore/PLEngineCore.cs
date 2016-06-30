@@ -26,7 +26,7 @@ namespace Planimate.Engine
 {
   #region PL.Net enums
   /// <summary>
-  /// Planimate® system attributes the DLL can read (some can be set)
+  /// Planimate® system attributes for GetSystemInfo()
   /// </summary>
   public enum ePLSysInfo
   {
@@ -54,7 +54,7 @@ namespace Planimate.Engine
   /// <summary>
   /// Major mode for Planimate® engine
   /// </summary>
-  public enum ePLMode
+  enum ePLMode
   {
     /// <summary>Editing objects or user mode with engine stopped</summary>
     MD_OBJECT = 0,    
@@ -69,7 +69,7 @@ namespace Planimate.Engine
   };
 
   /// <summary>
-  /// Planimate® data object types
+  /// Planimate® Data Object types
   /// </summary>
   public enum eDOTypes
   {
@@ -84,7 +84,7 @@ namespace Planimate.Engine
   };
 
   /// <summary>
-  /// Planimate® engine return results
+  /// Planimate® engine return results, returned by many calls
   /// </summary>
   public enum ePLRESULT
   {
@@ -105,7 +105,7 @@ namespace Planimate.Engine
   };
 
   /// <summary>
-  /// Planimate® value formats
+  /// Planimate® value formats, eg: for convertStringToPLValue
   /// </summary>
   public enum eTFUnit
   {
@@ -275,6 +275,7 @@ namespace Planimate.Engine
   /// Thread proc status for Planimate DLL loader class
   /// This is different to the PL Run Engine State 
   /// NOTE:The PL Engine is only valid when thread is in PLT_Running state
+  /// NOTE:Obsolete as now InitThread is used and this is managed in PL
   /// </summary>
   enum ePLThreadState
   {
@@ -290,10 +291,10 @@ namespace Planimate.Engine
   };
 
   /// <summary>
-  /// Function enum for PL_GetProc() which you can use to retrieve function
-  /// pointers instead of LoadLibrary
+  /// Function enum for PL_GetProc(). We wrap all functions so no need to
+  /// expose this.
   /// </summary>
-  public enum ePLProcs
+  enum ePLProcs
   {
     ePL_SetInstance,
     ePL_Init,
@@ -358,7 +359,8 @@ namespace Planimate.Engine
   };
   
   /// <summary>
-  /// Run commands for use within the PL_Run() call
+  /// Run commands for use within the PL_Run() call. Not for use when Planimate
+  /// calls dotNET DLL.
   /// </summary>
   public enum ePLRunCMD
   {
@@ -1722,6 +1724,6 @@ namespace Planimate.Engine
         return 0;
     }
   }
-    
-  class PLDataObject { }
+
+ // class PLDataObject { }
 }

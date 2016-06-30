@@ -29,6 +29,11 @@ using System.Windows.Forms.Design;
 
 namespace Planimate.Engine
 {
+  /// <summary>
+  /// This wraps PLEngineCore into a Windows Form control, adding dll anme
+  /// property and resize handling. For use with Windows Forms when
+  /// Planimate is the DLL.
+  /// </summary>
   public partial class PLEngine : System.Windows.Forms.UserControl
   {
     /// <summary>Path to Planimate® engine DLL</summary>
