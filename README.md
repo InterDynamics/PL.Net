@@ -1,12 +1,10 @@
 PL.Net
 ======
 
-This is a .Net wrapper for the new Planimate® DLL interface which enables Planimate® to be embedded and controlled in .Net projects. Code is written in c# and VS2013 projects are provided.
+These classes enable Planimate� (by InterDynamics Pty. Ltd.) to be integrated into dotNET projects. Code is written in c# and VS2013 projects are provided.
 API documentation for the wrapper is available [here](http://interdynamics.github.io/PL.Net/)
 
+Note that Planimate itself is not included within this repository. Users must hold a Level 4 license of Planimate® to obtain Planimate DLLs for use with this library. Please contact [InterDynamics](http://www.interdynamics.com/contact-us/) for more infomation.
 
-The Planimate engine itself is not included within this repository. Users must hold a Level 4 license of Planimate® to be able to compile dll engines for use within this .Net wrapper. Please contact [InterDynamics](http://www.interdynamics.com/contact-us/) for more infomation.
+A Windows Forms demo application (WindowsFormsApplication1) is included. A test model is located in the Test subdirectory. Please place Planiamte.DLL into this directory then you can run the compiled EXE.
 
-
-The demo application included (WindowsFormsApplication1) assumes you have a Planimate® engine available and have the engine in the binary target directories for the project. (WindowsFormsApplication1/bin/[Release|Debug]
-The project also assumes the engine is named planimate.dll
