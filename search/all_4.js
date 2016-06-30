@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['getcell',['GetCell',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a599e46c20e64f66e7b8ad7e406e593c0',1,'Planimate::Engine::PLEngine']]],
-  ['getcelltext',['GetCellText',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a054479d3e90c58149579b89e066e2a6d',1,'Planimate::Engine::PLEngine']]],
-  ['getcolumn',['GetColumn',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a711da6ff4af8b399c85eb7ed453adefe',1,'Planimate::Engine::PLEngine']]],
-  ['getcolumnformat',['GetColumnFormat',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a6bc0e733011ba7d2ebf300e8e42508d7',1,'Planimate::Engine::PLEngine']]],
-  ['getcolumnlabellist',['GetColumnLabelList',['../class_planimate_1_1_engine_1_1_p_l_engine.html#ac588951dd51cd8b2e3fe5a2ad9dbcf57',1,'Planimate::Engine::PLEngine']]],
-  ['getdatatable',['GetDataTable',['../class_planimate_1_1_engine_1_1_p_l_engine.html#af47dcf44467535b67a0a22fd8cf27778',1,'Planimate.Engine.PLEngine.GetDataTable(IntPtr data_object, Boolean formatted)'],['../class_planimate_1_1_engine_1_1_p_l_engine.html#a98b112f3b84b72116dd287bdf2063701',1,'Planimate.Engine.PLEngine.GetDataTable(string DO_name, Boolean formatted)']]],
-  ['getnamedlabellist',['GetNamedLabelList',['../class_planimate_1_1_engine_1_1_p_l_engine.html#aebdc3428d3f9160f6aea583707cdc0c0',1,'Planimate::Engine::PLEngine']]],
-  ['getsysteminfo',['GetSystemInfo',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a799d0a99fdf9f507e0817f851db816d2',1,'Planimate::Engine::PLEngine']]]
+  ['getcell',['GetCell',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#aeb51062262ca3bd8b693515e8c1c9665',1,'Planimate::Engine::PLEngineCore']]],
+  ['getcelltext',['GetCellText',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a3f8b1c12dad9c306301f5ff62f13c39c',1,'Planimate::Engine::PLEngineCore']]],
+  ['getcolumn',['GetColumn',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a26644f3414941bb69f8cad810cee2d6c',1,'Planimate::Engine::PLEngineCore']]],
+  ['getcolumnformat',['GetColumnFormat',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a54e9fd859699c4dd05db1eb12140d834',1,'Planimate::Engine::PLEngineCore']]],
+  ['getcolumnlabellist',['GetColumnLabelList',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#ac0c032295e52dbf138baf058a84a3100',1,'Planimate::Engine::PLEngineCore']]],
+  ['getdatatable',['GetDataTable',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#af20550aa677567bb9253519c704aaa92',1,'Planimate.Engine.PLEngineCore.GetDataTable(IntPtr data_object, Boolean formatted)'],['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#ae42b9fc761b4ed22f4e01efe30bba7f0',1,'Planimate.Engine.PLEngineCore.GetDataTable(string DO_name, Boolean formatted)']]],
+  ['getnamedlabellist',['GetNamedLabelList',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a6650b3041c90876660c44946638e29ec',1,'Planimate::Engine::PLEngineCore']]],
+  ['getsysteminfo',['GetSystemInfo',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a9d013857012762f2cdcc27b546b43e9f',1,'Planimate::Engine::PLEngineCore']]]
 ];

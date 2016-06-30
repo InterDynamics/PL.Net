@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['updatedatatable',['UpdateDataTable',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a38bc5341193ef30dca3e78d37611d31d',1,'Planimate.Engine.PLEngine.UpdateDataTable(ref DataTable pl_table, IntPtr data_object, Boolean formatted)'],['../class_planimate_1_1_engine_1_1_p_l_engine.html#aeaeedf0500b9907b0867c9a2e0f0db31',1,'Planimate.Engine.PLEngine.UpdateDataTable(ref DataTable rTable, string DO_name, Boolean formatted)']]]
+  ['updatedatatable',['UpdateDataTable',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#afe43ea9297b20fefa5c6d2e04b20c7c0',1,'Planimate.Engine.PLEngineCore.UpdateDataTable(ref DataTable pl_table, IntPtr data_object, Boolean formatted)'],['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a6356a609f22432f63c0a2e9d263a645e',1,'Planimate.Engine.PLEngineCore.UpdateDataTable(ref DataTable rTable, string DO_name, Boolean formatted)']]]
 ];

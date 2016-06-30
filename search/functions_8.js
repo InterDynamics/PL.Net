@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['registerbroadcastcallback',['RegisterBroadcastCallback',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a372c2885682f1574cae0a9ab2c24d57a',1,'Planimate.Engine.PLEngine.RegisterBroadcastCallback(IntPtr broadcast, tPL_BroadcastCallback callback_func)'],['../class_planimate_1_1_engine_1_1_p_l_engine.html#a77d17907346814ef6185935992248dac',1,'Planimate.Engine.PLEngine.RegisterBroadcastCallback(string BC_name, tPL_BroadcastCallback callback_func)']]],
-  ['registerpausecallback',['RegisterPauseCallback',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a554dc28c184c1ec1be0880728f2eb87c',1,'Planimate::Engine::PLEngine']]],
-  ['resumethread',['ResumeThread',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a182d1cc1e9f17e7583414c90521fcfd2',1,'Planimate::Engine::PLEngine']]],
-  ['rows',['Rows',['../class_planimate_1_1_engine_1_1_p_l_engine.html#ac8d7e6304987ebcdfc336ebadc6be7fe',1,'Planimate::Engine::PLEngine']]],
-  ['runcommand',['RunCommand',['../class_planimate_1_1_engine_1_1_p_l_engine.html#a7e355a0b0a4356e3f306d8d0b0404546',1,'Planimate::Engine::PLEngine']]]
+  ['registerbroadcastcallback',['RegisterBroadcastCallback',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#abafd73b0eb6652b6795db34ea588bf47',1,'Planimate.Engine.PLEngineCore.RegisterBroadcastCallback(IntPtr broadcast, tPL_BroadcastCallback callback_func)'],['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a8a68b1ab61d26804d8720767ee4f30b6',1,'Planimate.Engine.PLEngineCore.RegisterBroadcastCallback(string BC_name, tPL_BroadcastCallback callback_func)']]],
+  ['registerpausecallback',['RegisterPauseCallback',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a8566bebd405c17039db2e8d2cf5cdd8c',1,'Planimate::Engine::PLEngineCore']]],
+  ['resumethread',['ResumeThread',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a5209554723e6c29c813ce1aaea555f81',1,'Planimate::Engine::PLEngineCore']]],
+  ['rows',['Rows',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#acb63bbec57c27f54bb6f2ffea0f55850',1,'Planimate::Engine::PLEngineCore']]],
+  ['runcommand',['RunCommand',['../class_planimate_1_1_engine_1_1_p_l_engine_core.html#a2c0ac5469022c5edc7b68637f78d49ea',1,'Planimate::Engine::PLEngineCore']]]
 ];
