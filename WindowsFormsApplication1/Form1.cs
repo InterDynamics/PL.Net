@@ -45,10 +45,10 @@ namespace WindowsFormsApplication1
       else
         {
           plEngine1 = plEngineForm.plengine;
-          dataGridView1.DataSource = plEngine1.GetDataTable("Input_1", true);
-          dataGridView2.DataSource = plEngine1.GetDataTable("Formats", true);
+          dataGridView1.DataSource = plEngine1.GetDataTable("Input_1", true,true);
+          dataGridView2.DataSource = plEngine1.GetDataTable("Formats", true,true);
           DataTable dt = (DataTable)dataGridView2.DataSource;
-          plEngine1.SetDataTable(ref dt, plEngine1.FindDataObjectName("formats_copy"));
+          plEngine1.SetFromDataTable(dt, plEngine1.FindDataObjectName("formats_copy"));
         }
     }
 
@@ -96,13 +96,13 @@ namespace WindowsFormsApplication1
 
     private void button1_Click(object sender, EventArgs e)
     {
-      dataGridView2.DataSource = plEngine1.GetDataTable("Formats", true);
+      dataGridView2.DataSource = plEngine1.GetDataTable("Formats", true,true);
     }
 
     private void button2_Click(object sender, EventArgs e)
     {
       DataTable dt = (DataTable)dataGridView2.DataSource;
-      plEngine1.SetDataTable(ref dt, plEngine1.FindDataObjectName("formats_copy"));
+      plEngine1.SetFromDataTable(dt, plEngine1.FindDataObjectName("formats_copy"));
     }
   }
 }

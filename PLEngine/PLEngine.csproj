@@ -79,6 +79,7 @@
     <Compile Include="PLEngine.Designer.cs">
       <DependentUpon>PLEngine.cs</DependentUpon>
     </Compile>
+    <Compile Include="PLEngineCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,12 +98,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PLEngineCore\PLEngineCore.csproj">
-      <Project>{8ec296ea-7ae3-4da3-9c90-dd56fd8ef284}</Project>
-      <Name>PLEngineCore</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
