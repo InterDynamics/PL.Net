@@ -9,6 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLEngine", "PLEngine\PLEngine.csproj", "{0D9A8225-58D7-4F5C-9251-2D1734553752}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8A4101D5-CAB3-4C83-89D7-44A5F0BED616} = {8A4101D5-CAB3-4C83-89D7-44A5F0BED616}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLEngineCore", "PLEngineCore\PLEngineCore.csproj", "{8A4101D5-CAB3-4C83-89D7-44A5F0BED616}"
 EndProject

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -121,6 +121,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PLEngineCore\PLEngineCore.csproj">
+      <Project>{8a4101d5-cab3-4c83-89d7-44a5f0bed616}</Project>
+      <Name>PLEngineCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PLEngine\PLEngine.csproj">
       <Project>{0d9a8225-58d7-4f5c-9251-2d1734553752}</Project>
       <Name>PLEngine</Name>
