@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Data;
+using System.Text;
 
 namespace Planimate.Engine
 {
@@ -48,7 +49,9 @@ namespace Planimate.Engine
     /// <summary>Returns the version of the engine (not the core Planimate® version)</summary>
     PLSI_DLLVERSION,
     /// <summary>R/W/E: controls if PL pauses after advance-to-time</summary>
-    PLSI_PAUSEAFTERADVANCE
+    PLSI_PAUSEAFTERADVANCE,
+    /// <summary>Returns offset of date-times to 1-Jan-1970</summary>
+    PLSI_UNIXTIMEOFFSET
   };
 
   /// <summary>
@@ -265,12 +268,70 @@ namespace Planimate.Engine
     UNIT_TIMED0HMM,
     /// <summary>Time D HH:MM  1d 12:34, 7d 23:59 (day from 1d)</summary>
     UNIT_DAY2HHMMCOLON,
+    /// <summary>week and day from 1</summary>
+    UNIT_WEEKDAYNOTIME, 
+    /// <summary>Day from 1</summary>
+    UNIT_DAYFROM1,
+    /// <summary>Calendar yyyymmddhhmmss</summary>
+    UNIT_DATE4TIME,
+    /// <summary>Time minimal HH:MM if both zero</summary>
+    UNIT_TIMEMINIMAL,
+    /// <summary>Calendar D Mmm Y hh:mm</summary>
+    UNIT_ABSTIME2C,
+    /// <summary>Dotted Calendar Time</summary>
+    UNIT_ABSTIMEDOT,
+    /// <summary>Time hhh:mm</summary>
+    UNIT_HOURMIN2,
+    /// <summary>Calendar YYYY-Mmm-Dd-HH:MM:SS</summary>
+    UNIT_DATE5TIME,
+    /// <summary>#AARRGGBB</summary>
+    UNIT_ARGB,
+    /// <summary>Scaled Kilo x,xxx</summary>
+    UNIT_SCALEDKILO_F0,
+    /// <summary>Scaled Kilo x,xxx.x</summary>
+    UNIT_SCALEDKILO_F1,
+    /// <summary>Scaled Kilo x,xxx.xx</summary>
+    UNIT_SCALEDKILO_F2,
+    /// <summary>Calendar US date HH:MM</summary>
+    UNIT_ABSTIME3US,    
+    /// <summary>Calendar YYYY-MM-DD HH:MM</summary>
+    UNIT_DATE2TIMES,
+    /// <summary>Class instance reference</summary>
+    UNIT_INSTANCE,
+    
     /// <summary>this counts unit modes</summary>
     UNIT_MODECOUNT,
     /// <summary>special case - must be 255 and last</summary>
     UNIT_NULL = 255
   };
 
+  /// <summary>
+  /// Planimate® format classifiers
+  /// </summary>
+  public enum eUnitClass
+  {
+    /// <summary>numerical value</summary>
+    TUF_VAL,
+    /// <summary>currency value</summary>
+    TUF_CUR,
+    /// <summary>relative time / time interval</summary>
+    TUF_TIME,
+    /// <summary>relative time with scaled values</summary>
+    TUF_STIME,  // relative time with scaled values
+    /// <summary>time of day (clamped 0..<...86400)</summary>
+    TUF_TOD,    // time-of-day (clamped time)
+    /// <summary>calendar date</summary>
+    TUF_DATE,   // calendar date
+    /// <summary>rate (1 / time)</summary>
+    TUF_RATE,
+    /// <summary>value which is scaled on display/parse</summary>
+    TUF_SVAL,   // value scaled
+    /// <summary>percentage value</summary>
+    TUF_PC,     // percentage
+    /// <summary>other type (text, label, colour etc</summary>
+    TUF_OTH     // other basic type
+  };
+  
   /// <summary>
   /// Thread proc status for Planimate DLL loader class
   /// This is different to the PL Run Engine State 
@@ -357,7 +418,12 @@ namespace Planimate.Engine
     ePL_WaitModelStarted,
     ePL_AddTableChangeCallback,
     ePL_RemoveTableChangeCallback,
-
+    ePL_GetColumnPtr,
+    ePL_UpdateDependencies,
+    ePL_ValueToColor,
+    ePL_GetCellFormatted,
+    ePL_GetFormatClass,
+    
     ePL_PROCCOUNT
   };
   
@@ -474,6 +540,7 @@ namespace Planimate.Engine
     #region kernel32 import
     [DllImport("kernel32.dll")]
     private static extern IntPtr LoadLibrary(string dllToLoad);
+    private const int PLMaxString = 65536;
 
     [DllImport("kernel32.dll")]
     private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
@@ -645,6 +712,9 @@ namespace Planimate.Engine
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate void tPL_RemoveTableChangeCallback(int pl_cb_handle,IntPtr dataobject);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate eUnitClass tPL_GetFormatClass(eTFUnit format);
+
     #endregion
 
     #region Broadcasts
@@ -685,6 +755,25 @@ namespace Planimate.Engine
     private delegate ePLRESULT tPL_StringToValue([MarshalAs(UnmanagedType.LPStr)] string str,
                                                  IntPtr val,   // double*
                                                  eTFUnit format);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate ePLRESULT tPL_ValueToString(double v,
+                                                 int buffer_len,
+                                                 StringBuilder buffer,
+                                                 eTFUnit format);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate ePLRESULT tPL_ValueToColor(double v,
+                                                int buffer_len,
+                                                StringBuilder buffer);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate ePLRESULT tPL_GetCellFormatted(IntPtr table,
+                                                    int    r,
+                                                    int    c,
+                                                    int    buffer_len,
+                                                    StringBuilder buffer);
+    
     #endregion
 
     private tPL_GetProc ltPL_GetProc             = null;
@@ -782,12 +871,12 @@ namespace Planimate.Engine
     public void TermPLEngine()
     {
       if (ltPL_TermThread != null)
-        {
-          ltPL_TermThread();
-          ltPL_SuspendThread = null;
-          ltPL_ResumeThread = null;
-          ltPL_TermThread = null;
-        }
+      {
+        ltPL_TermThread();
+        ltPL_SuspendThread = null;
+        ltPL_ResumeThread = null;
+        ltPL_TermThread = null;
+      }
     }
 
     /// <summary>
@@ -852,11 +941,11 @@ namespace Planimate.Engine
     private void internalResumeThread()
     {
       if (suspendLevel != 0)
-        {
-          suspendLevel--;
-          if (suspendLevel == 0)
-            ltPL_ResumeThread();
-        }
+      {
+        suspendLevel--;
+        if (suspendLevel == 0)
+          ltPL_ResumeThread();
+      }
     }
     #endregion
 
@@ -996,6 +1085,28 @@ namespace Planimate.Engine
       return res;
     }
 
+    /// <summary>Resize table to given rows/columns</summary>
+    /// <param name='data_object'>Pointer to Planimate® data object</param>
+    /// <param name='rows'>Number of rows to resize table to</param>
+    /// <param name='rows'>Number of columns to resize table to (default leaves unchanged)</param>
+    public ePLRESULT TableResize(IntPtr data_object, int rows, int cols = -1)
+    {
+      if (cols == -1)
+        cols = Columns(data_object);
+
+      if (cols > 0)
+      {
+        IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_TableResize);
+        tPL_TableResize ltPL_TableResize = (tPL_TableResize)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_TableResize));
+        internalSuspendThread();
+        ePLRESULT res = ltPL_TableResize(data_object, rows, cols);
+        internalResumeThread();
+        return res;
+      }
+      else
+        return ePLRESULT.PLR_INVALID;
+    }
+      
     /// <summary>Gets the value from a cell</summary>
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
     /// <param name='row'>Cell row index</param>
@@ -1186,11 +1297,11 @@ namespace Planimate.Engine
       // otherwise if it exists with wrong type, replace it
       if (data_table.Columns.Count > i)
         if  (data_table.Columns[i].DataType != the_type)
-          {
-            data_table.Columns.RemoveAt(i);
-            DataColumn new_col =  data_table.Columns.Add(the_name,the_type);
-            new_col.SetOrdinal(i);
-          }
+        {
+          data_table.Columns.RemoveAt(i);
+          DataColumn new_col =  data_table.Columns.Add(the_name,the_type);
+          new_col.SetOrdinal(i);
+        }
         else
           data_table.Columns[i].ColumnName = the_name;
       else
@@ -1229,135 +1340,135 @@ namespace Planimate.Engine
       double[] col = new double[rows];
 
       if (formatted)
+      {
+        for (int i = 0; i < columns; i++)
         {
-          for (int i = 0; i < columns; i++)
-            {
-              eTFUnit col_unit = GetColumnFormat(data_object, i);
-              switch (col_unit)
-                {
-                  case eTFUnit.UNIT_ABSTIME:
-                  case eTFUnit.UNIT_ABSTIME2:
-                  case eTFUnit.UNIT_TIMEOFDAY:
-                  case eTFUnit.UNIT_TIMEAMPM:
-                  case eTFUnit.UNIT_ABSTIME3:
-                  case eTFUnit.UNIT_DATEONLY:
-                  case eTFUnit.UNIT_DAYDATE:
-                  case eTFUnit.UNIT_ABSTIME3U:
-                  case eTFUnit.UNIT_TIMEOFDAY_2:
-                  case eTFUnit.UNIT_DATE2:
-                  case eTFUnit.UNIT_ABSTIMEMS:
-                  case eTFUnit.UNIT_DATE2TIME:
-                  case eTFUnit.UNIT_DATE3:
-                  case eTFUnit.UNIT_ABSTIMEC:
-                  case eTFUnit.UNIT_DATE4:
-                  case eTFUnit.UNIT_DATE5:
-                  case eTFUnit.UNIT_OS_DATETIME:
-                  case eTFUnit.UNIT_OS_DATEONLY:
-                  case eTFUnit.UNIT_OS_TIME:
-                  case eTFUnit.UNIT_DATE3TIME:
-                    res = GetColumn(data_object, i, rows, col);
-                    if (res != ePLRESULT.PLR_OK)
-                      return res;
+          eTFUnit col_unit = GetColumnFormat(data_object, i);
+          switch (col_unit)
+          {
+            case eTFUnit.UNIT_ABSTIME:
+            case eTFUnit.UNIT_ABSTIME2:
+            case eTFUnit.UNIT_TIMEOFDAY:
+            case eTFUnit.UNIT_TIMEAMPM:
+            case eTFUnit.UNIT_ABSTIME3:
+            case eTFUnit.UNIT_DATEONLY:
+            case eTFUnit.UNIT_DAYDATE:
+            case eTFUnit.UNIT_ABSTIME3U:
+            case eTFUnit.UNIT_TIMEOFDAY_2:
+            case eTFUnit.UNIT_DATE2:
+            case eTFUnit.UNIT_ABSTIMEMS:
+            case eTFUnit.UNIT_DATE2TIME:
+            case eTFUnit.UNIT_DATE3:
+            case eTFUnit.UNIT_ABSTIMEC:
+            case eTFUnit.UNIT_DATE4:
+            case eTFUnit.UNIT_DATE5:
+            case eTFUnit.UNIT_OS_DATETIME:
+            case eTFUnit.UNIT_OS_DATEONLY:
+            case eTFUnit.UNIT_OS_TIME:
+            case eTFUnit.UNIT_DATE3TIME:
+              res = GetColumn(data_object, i, rows, col);
+              if (res != ePLRESULT.PLR_OK)
+                return res;
 
-                    PrepareColumn(data_table,i,typeof(DateTime),ColumnName(data_object, i),rows);
+              PrepareColumn(data_table,i,typeof(DateTime),ColumnName(data_object, i),rows);
 
-                    // note: at this point the table has the right number of rows
-                    // (extra rows deleted at start, PrepareColumn has added needed
-                    // rows.
-                    // note: by using .Rows.Count it enables optimisation
+              // note: at this point the table has the right number of rows
+              // (extra rows deleted at start, PrepareColumn has added needed
+              // rows.
+              // note: by using .Rows.Count it enables optimisation
                     
-                    for (int j = 0; j < data_table.Rows.Count; j++)
-                      {
-                        DateTime dt = new DateTime(0);
-                        dt = ConvertFromPLTimestamp(col[j]);
-                        data_table.Rows[j][i] = dt;
-                      }
-                    break;
-                  case eTFUnit.UNIT_TIME:
-                  case eTFUnit.UNIT_TIME2:
-                  case eTFUnit.UNIT_TIME3:
-                  case eTFUnit.UNIT_MINUTES:
-                  case eTFUnit.UNIT_HOURS:
-                  case eTFUnit.UNIT_DAYS:
-                  case eTFUnit.UNIT_WEEKS:
-                  case eTFUnit.UNIT_HOURMIN:
-                  case eTFUnit.UNIT_WEEKDAY1:
-                  case eTFUnit.UNIT_TIMEDHHMM:
-                  case eTFUnit.UNIT_TIMED0HMM:
-                  case eTFUnit.UNIT_DAY2HHMM:
-                  case eTFUnit.UNIT_DAY2HHMMCOLON:
-                    res = GetColumn(data_object, i, rows, col);
-                    if (res != ePLRESULT.PLR_OK)
-                      return res;
+              for (int j = 0; j < data_table.Rows.Count; j++)
+              {
+                DateTime dt = new DateTime(0);
+                dt = ConvertFromPLTimestamp(col[j]);
+                data_table.Rows[j][i] = dt;
+              }
+              break;
+            case eTFUnit.UNIT_TIME:
+            case eTFUnit.UNIT_TIME2:
+            case eTFUnit.UNIT_TIME3:
+            case eTFUnit.UNIT_MINUTES:
+            case eTFUnit.UNIT_HOURS:
+            case eTFUnit.UNIT_DAYS:
+            case eTFUnit.UNIT_WEEKS:
+            case eTFUnit.UNIT_HOURMIN:
+            case eTFUnit.UNIT_WEEKDAY1:
+            case eTFUnit.UNIT_TIMEDHHMM:
+            case eTFUnit.UNIT_TIMED0HMM:
+            case eTFUnit.UNIT_DAY2HHMM:
+            case eTFUnit.UNIT_DAY2HHMMCOLON:
+              res = GetColumn(data_object, i, rows, col);
+              if (res != ePLRESULT.PLR_OK)
+                return res;
 
-                    PrepareColumn(data_table,i,typeof(TimeSpan),ColumnName(data_object, i),rows);
+              PrepareColumn(data_table,i,typeof(TimeSpan),ColumnName(data_object, i),rows);
                     
-                    for (int j = 0; j < data_table.Rows.Count; j++)
-                      {
-                        TimeSpan span = new TimeSpan(0, 0, Convert.ToInt32(col[j].ToString()));
-                        data_table.Rows[j][i] = span;
-                      }
-                    break;
-                  case eTFUnit.UNIT_LABEL:
-                    IntPtr llist = GetColumnLabelList(data_object, i);
-                    if (llist == IntPtr.Zero)
-                      return ePLRESULT.PLR_BADFORMAT;
+              for (int j = 0; j < data_table.Rows.Count; j++)
+              {
+                TimeSpan span = new TimeSpan(0, 0, Convert.ToInt32(col[j].ToString()));
+                data_table.Rows[j][i] = span;
+              }
+              break;
+            case eTFUnit.UNIT_LABEL:
+              IntPtr llist = GetColumnLabelList(data_object, i);
+              if (llist == IntPtr.Zero)
+                return ePLRESULT.PLR_BADFORMAT;
 
-                    res = GetColumn(data_object, i, rows, col);
-                    if (res != ePLRESULT.PLR_OK)
-                      return res;
+              res = GetColumn(data_object, i, rows, col);
+              if (res != ePLRESULT.PLR_OK)
+                return res;
 
-                    if (labels_as_text)
-                      {
-                        PrepareColumn(data_table,i,typeof(string),ColumnName(data_object, i),rows);
-                        for (int j = 0; j < data_table.Rows.Count; j++)
-                          data_table.Rows[j][i] = LookUpLabelDValue(llist,col[j]);
-                      }
-                    else
-                      {
-                        PrepareColumn(data_table,i,typeof(int),ColumnName(data_object, i),rows);
-                        for (int j = 0; j < data_table.Rows.Count; j++)
-                          data_table.Rows[j][i] = col[j];
-                      }                    
-                    break;
-                  case eTFUnit.UNIT_FREETEXT:
-                    res = GetColumn(data_object, i, rows, col);
-                    if (res != ePLRESULT.PLR_OK)
-                      return res;
+              if (labels_as_text)
+              {
+                PrepareColumn(data_table,i,typeof(string),ColumnName(data_object, i),rows);
+                for (int j = 0; j < data_table.Rows.Count; j++)
+                  data_table.Rows[j][i] = LookUpLabelDValue(llist,col[j]);
+              }
+              else
+              {
+                PrepareColumn(data_table,i,typeof(int),ColumnName(data_object, i),rows);
+                for (int j = 0; j < data_table.Rows.Count; j++)
+                  data_table.Rows[j][i] = col[j];
+              }                    
+              break;
+            case eTFUnit.UNIT_FREETEXT:
+              res = GetColumn(data_object, i, rows, col);
+              if (res != ePLRESULT.PLR_OK)
+                return res;
 
-                    PrepareColumn(data_table,i,typeof(string),ColumnName(data_object, i),rows);
+              PrepareColumn(data_table,i,typeof(string),ColumnName(data_object, i),rows);
 
-                    for (int j = 0; j < data_table.Rows.Count; j++)
-                      data_table.Rows[j][i] = GetCellText(data_object, j, i);
-                    break;
-                  default:
-                    res = GetColumn(data_object, i, rows, col);
-                    if (res != ePLRESULT.PLR_OK)
-                      return res;
-
-                    PrepareColumn(data_table,i,typeof(double),ColumnName(data_object, i),rows);
-                    for (int j = 0; j < data_table.Rows.Count; j++)
-                      data_table.Rows[j][i] = col[j];
-                    break;
-
-                };
-
-            }
-        }
-      else  // unformatted (all columns doubles)
-        {
-          for (int i = 0; i < columns; i++)
-            {
+              for (int j = 0; j < data_table.Rows.Count; j++)
+                data_table.Rows[j][i] = GetCellText(data_object, j, i);
+              break;
+            default:
               res = GetColumn(data_object, i, rows, col);
               if (res != ePLRESULT.PLR_OK)
                 return res;
 
               PrepareColumn(data_table,i,typeof(double),ColumnName(data_object, i),rows);
-
               for (int j = 0; j < data_table.Rows.Count; j++)
                 data_table.Rows[j][i] = col[j];
-            }
+              break;
+
+          };
+
         }
+      }
+      else  // unformatted (all columns doubles)
+      {
+        for (int i = 0; i < columns; i++)
+        {
+          res = GetColumn(data_object, i, rows, col);
+          if (res != ePLRESULT.PLR_OK)
+            return res;
+
+          PrepareColumn(data_table,i,typeof(double),ColumnName(data_object, i),rows);
+
+          for (int j = 0; j < data_table.Rows.Count; j++)
+            data_table.Rows[j][i] = col[j];
+        }
+      }
 
       return res;
     }
@@ -1414,14 +1525,18 @@ namespace Planimate.Engine
     {
       if (data_table == null || data_object == IntPtr.Zero)
         return ePLRESULT.PLR_BADINDEX;
+
+      // only resize rows (columns may be option added later)
+      int rc = data_table.Rows.Count;
+      TableResize(data_object,rc);
       
       for (int c = 0; c < data_table.Columns.Count; c++)
         for (int r = 0; r < data_table.Rows.Count; r++)
-          {
-            ePLRESULT res = SetFromDataTable(data_table,data_object,r,c);
-            if (res != ePLRESULT.PLR_OK)
-              return res;
-          }
+        {
+          ePLRESULT res = SetFromDataTable(data_table,data_object,r,c);
+          if (res != ePLRESULT.PLR_OK)
+            return res;
+        }
       return ePLRESULT.PLR_OK;
     }            
 
@@ -1434,28 +1549,28 @@ namespace Planimate.Engine
           SetCell(data_object, r, c, (int)data_table.Rows[r][c]);
         else
           if (data_table.Columns[c].DataType == typeof(string))
+          {
+            eTFUnit col_unit = GetColumnFormat(data_object, c);
+            if (col_unit == eTFUnit.UNIT_LABEL)
             {
-              eTFUnit col_unit = GetColumnFormat(data_object, c);
-              if (col_unit == eTFUnit.UNIT_LABEL)
-                {
-                  IntPtr llist = GetColumnLabelList(data_object, c);
-                  if (llist == IntPtr.Zero)
-                    return ePLRESULT.PLR_BADFORMAT;
+              IntPtr llist = GetColumnLabelList(data_object, c);
+              if (llist == IntPtr.Zero)
+                return ePLRESULT.PLR_BADFORMAT;
                 
-                  SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data_table.Rows[r][c])));
-                }
-              else
-                SetCell(data_object, r, c, (string)data_table.Rows[r][c]);
+              SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data_table.Rows[r][c])));
             }
+            else
+              SetCell(data_object, r, c, (string)data_table.Rows[r][c]);
+          }
           else
             if (data_table.Columns[c].DataType == typeof(DateTime))
               SetCell(data_object, r, c, ConvertToPLTimestamp((DateTime)data_table.Rows[r][c]));
             else
               if (data_table.Columns[c].DataType == typeof(TimeSpan))
-                {
-                  TimeSpan span = (TimeSpan)data_table.Rows[r][c];
-                  SetCell(data_object, r, c, span.TotalSeconds);
-                }
+              {
+                TimeSpan span = (TimeSpan)data_table.Rows[r][c];
+                SetCell(data_object, r, c, span.TotalSeconds);
+              }
               else
                 return ePLRESULT.PLR_BADFORMAT;
       return ePLRESULT.PLR_OK;
@@ -1483,16 +1598,16 @@ namespace Planimate.Engine
     {
       ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
       if (broadcast != IntPtr.Zero)
+      {
+        IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcast);
+        if (pAddressOfFunctionToCall != IntPtr.Zero)
         {
-          IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcast);
-          if (pAddressOfFunctionToCall != IntPtr.Zero)
-            {
-              tPL_SendBroadcast ltPL_SendBroadcast = (tPL_SendBroadcast)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcast));
-              internalSuspendThread();
-              res = ltPL_SendBroadcast(broadcast);
-              internalResumeThread();
-            }
+          tPL_SendBroadcast ltPL_SendBroadcast = (tPL_SendBroadcast)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcast));
+          internalSuspendThread();
+          res = ltPL_SendBroadcast(broadcast);
+          internalResumeThread();
         }
+      }
       return res;
     }
 
@@ -1516,16 +1631,16 @@ namespace Planimate.Engine
     {
       ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
       if (broadcast != IntPtr.Zero)
+      {
+        IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcastTuple);
+        if (pAddressOfFunctionToCall != IntPtr.Zero)
         {
-          IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcastTuple);
-          if (pAddressOfFunctionToCall != IntPtr.Zero)
-            {
-              tPL_SendBroadcastTuple ltPL_SendBroadcastTuple = (tPL_SendBroadcastTuple)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcastTuple));
-              internalSuspendThread();
-              res = ltPL_SendBroadcastTuple(broadcast, no_params, tuple_names, tuple_values);
-              internalResumeThread();
-            }
+          tPL_SendBroadcastTuple ltPL_SendBroadcastTuple = (tPL_SendBroadcastTuple)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcastTuple));
+          internalSuspendThread();
+          res = ltPL_SendBroadcastTuple(broadcast, no_params, tuple_names, tuple_values);
+          internalResumeThread();
         }
+      }
       return res;
     }
 
@@ -1578,12 +1693,12 @@ namespace Planimate.Engine
       ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
       IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RegisterBroadcastCallback);
       if (pAddressOfFunctionToCall != IntPtr.Zero)
-        {
-          internalSuspendThread();
-          tPL_RegisterBroadcastCallback ltPL_RegisterBroadcastCallback = (tPL_RegisterBroadcastCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterBroadcastCallback));
-          res = ltPL_RegisterBroadcastCallback(broadcast, callback_func);
-          internalResumeThread();
-        }
+      {
+        internalSuspendThread();
+        tPL_RegisterBroadcastCallback ltPL_RegisterBroadcastCallback = (tPL_RegisterBroadcastCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterBroadcastCallback));
+        res = ltPL_RegisterBroadcastCallback(broadcast, callback_func);
+        internalResumeThread();
+      }
       return res;
     }
 
@@ -1657,12 +1772,12 @@ namespace Planimate.Engine
       ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
       IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RegisterPauseCallback);
       if (pAddressOfFunctionToCall != IntPtr.Zero)
-        {
-          tPL_RegisterPauseCallback ltPL_RegisterPauseCallback = (tPL_RegisterPauseCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterPauseCallback));
-          internalSuspendThread();
-          res = ltPL_RegisterPauseCallback(callback_func, userdata);
-          internalResumeThread();
-        }
+      {
+        tPL_RegisterPauseCallback ltPL_RegisterPauseCallback = (tPL_RegisterPauseCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterPauseCallback));
+        internalSuspendThread();
+        res = ltPL_RegisterPauseCallback(callback_func, userdata);
+        internalResumeThread();
+      }
       return res;
     }
 
@@ -1680,41 +1795,133 @@ namespace Planimate.Engine
       return res;
     }
 
+    /// <summary>Gets Planimate to process a value to a string based on the
+    /// specified Planimate® format</summary>
+    /// <param name='value'>Value to convert</param>
+    /// <param name='format'>Planimate format to use (Label and Text not supported)</param>
+    /// <param name='result'>Reference to errror result code</param>
+    public string ConvertPLValueToString(double value,
+                                         eTFUnit format,
+                                         out ePLRESULT result)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_ValueToString);
+      tPL_ValueToString ltPL_ValueToString = (tPL_ValueToString)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_ValueToString));
+
+      internalSuspendThread();
+      StringBuilder buffer = new StringBuilder(PLMaxString);
+      result = ltPL_ValueToString(value,PLMaxString,buffer,format);
+      internalResumeThread();
+      
+      if (result == ePLRESULT.PLR_OK)
+        return buffer.ToString();
+      else
+        return null;
+    }
+
+    /// <summary>Gets Planimate to process a value to a string based on the
+    /// specified Planimate® format</summary>
+    /// <param name='value'>Value to convert</param>
+    public string ConvertPLValueToString(double value,
+                                         eTFUnit format)
+    {
+      ePLRESULT result;
+      return ConvertPLValueToString(value,format,out result);
+    }
+    
+    /// <summary>Converts a Planimate colour value or index to an ARGB string.
+    /// It handles both Planimate palette indicies and ARGB formatted colours.
+    /// Returns colour as #aarrggbb</summary>
+    /// <param name='value'>Planimate colour value</param>
+    public string PLValueToColor(double value)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_ValueToColor);
+      tPL_ValueToColor ltPL_ValueToColor = (tPL_ValueToColor)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_ValueToColor));
+      internalSuspendThread();
+
+      StringBuilder buffer = new StringBuilder(10);  // #AARRGGBBnul
+      ePLRESULT res = ltPL_ValueToColor(value,10,buffer);
+      string str = buffer.ToString();
+      internalResumeThread();
+      return str;
+    }
+
+    /// <summary>Retrieve a table cell in its textually formatted form.
+    //  Works for numeric formats, label and text formatted cells.
+    /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
+    /// <param name='row'>Cell row index</param>
+    /// <param name='col'>Cell column index</param>
+    /// <param name='result'>Reference to errror result code</param>
+    public string GetCellFormatted(IntPtr data_object,
+                                   int    row,
+                                   int    col,
+                                   out ePLRESULT result)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetCellFormatted);
+      tPL_GetCellFormatted ltPL_GetCellFormatted = (tPL_GetCellFormatted)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetCellFormatted));
+
+      internalSuspendThread();
+      StringBuilder buffer = new StringBuilder(PLMaxString);
+      result = ltPL_GetCellFormatted(data_object, row, col,PLMaxString,buffer);
+      internalResumeThread();
+
+      if (result == ePLRESULT.PLR_OK)
+        return buffer.ToString();
+      else
+        return null;
+    }
+      
+    /// <summary>Return format class for a formatting unit mode
+    /// <param name='format'>eTFUnit format</param>
+    /// </summary>
+    public eUnitClass GetFormatClass(eTFUnit format)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetFormatClass);
+      tPL_GetFormatClass ltPL_GetFormatClass = (tPL_GetFormatClass)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetFormatClass));
+
+      return ltPL_GetFormatClass(format);
+    }
+    
+    /// <summary>Retrieve a table cell in its textually formatted form.
+    //  Works for numeric formats, label and text formatted cells.
+    /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
+    /// <param name='row'>Cell row index</param>
+    /// <param name='col'>Cell column index</param>
+    public string GetCellFormatted(IntPtr data_object,
+                                   int    row,
+                                   int    col)
+    {
+      ePLRESULT result;
+      return GetCellFormatted(data_object,row,col,out result);
+    }
+    
+    /// <summary>
+    ///  Return offset to apply to Planimate date-times to get unix (1-Jan-1970)
+    /// based times.
+    /// </summary>
+    public double UnixTimeOffset()
+    {
+      // no need to suspend thread for this one
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetSystemInfo);
+      tPL_GetSystemInfo ltPL_GetSystemInfo = (tPL_GetSystemInfo)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetSystemInfo));
+      return ltPL_GetSystemInfo(ePLSysInfo.PLSI_UNIXTIMEOFFSET);
+    }
+    
     /// <summary>Converts a Planimate® timestamp (seconds) into a DateTime structure.</summary>
     /// <param name='timestamp'>Planimate® timestamp (seconds from offset)</param>
     public DateTime ConvertFromPLTimestamp(double timestamp)
     {
-      double[] ref_time = new double[1];
-      IntPtr double_ref = Marshal.AllocHGlobal(Marshal.SizeOf(ref_time[0]));
+      timestamp += UnixTimeOffset();
       DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-
-      ePLRESULT res = ConvertStringToPLValue("1 Jan 1970 00:00 00", double_ref, eTFUnit.UNIT_ABSTIME);
-      if (res == ePLRESULT.PLR_OK)
-        {
-          Marshal.Copy(double_ref, ref_time, 0, 1);
-          return origin.AddSeconds(timestamp - ref_time[0]);
-        }
-      else
-        return origin;
+      return origin.AddSeconds(timestamp);
     }
 
     /// <summary>Converts a DateTime structure into a Planimate® timestamp (seconds).</summary>
     /// <param name='date'>DateTime structure to convert</param>
     public double ConvertToPLTimestamp(DateTime date)
     {
-      double[] ref_time = new double[1];
-      IntPtr double_ref = Marshal.AllocHGlobal(Marshal.SizeOf(ref_time[0]));
       DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-
-      ePLRESULT res = ConvertStringToPLValue("1 Jan 1970 00:00 00", double_ref, eTFUnit.UNIT_ABSTIME);
-      if (res == ePLRESULT.PLR_OK)
-        {
-          Marshal.Copy(double_ref, ref_time, 0, 1);
-          TimeSpan diff = date - origin;
-          return Math.Floor(diff.TotalSeconds + ref_time[0]);
-        }
-      else
-        return 0;
+      TimeSpan diff = date - origin;
+      return diff.TotalSeconds - UnixTimeOffset();
     }
   }
 
