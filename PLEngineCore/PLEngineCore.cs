@@ -416,14 +416,24 @@ namespace Planimate.Engine
     ePL_SetCellText,
     ePL_GetOwnerWindow,
     ePL_WaitModelStarted,
+
+    // v6
     ePL_AddTableChangeCallback,
     ePL_RemoveTableChangeCallback,
+
+    // v7
     ePL_GetColumnPtr,
     ePL_UpdateDependencies,
+
+    // v8
     ePL_ValueToColor,
     ePL_GetCellFormatted,
+
+    // v9
     ePL_GetFormatClass,
-    
+    ePL_ValueToARGB,
+
+    //
     ePL_PROCCOUNT
   };
   
@@ -693,6 +703,9 @@ namespace Planimate.Engine
     private delegate ePLRESULT tPL_SetColumn(IntPtr dataobject, int column, int rows, double[] to);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate ePLRESULT tPL_DeleteRow(IntPtr dataobject, int row,int for_rows);
+    
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr tPL_GetOwnerWindow();
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -781,6 +794,7 @@ namespace Planimate.Engine
     private tPL_ResumeThread ltPL_ResumeThread   = null;
     private tPL_TermThread   ltPL_TermThread     = null;
 
+    private int      ProcCount;
     private IntPtr[] ProcTable;
     private int      suspendLevel = 0;
 
@@ -792,14 +806,21 @@ namespace Planimate.Engine
     /// <summary>
     /// Initialise the Planimate® engine for use when embedding PL in
     /// a dotNET application
+    /// <param name='dll_pathname'>Path to the Planimate DLL</param>
+    /// <param name='cmdline'>Command line arguments to initialise Planimate with</param>
+    /// <param name='windowHandle'>HWND of containing window or IntPtr.Zero.</param>
+    /// <param_name='apiVersion'>API compatibility version, 5..n or 0 for latest only.</param>
     /// </summary>
-    public ePLRESULT InitPLEngine(String dll_pathname,string cmdline,IntPtr window_handle)
+    public ePLRESULT InitPLEngine(String dll_pathname,
+                                  string cmdline,
+                                  IntPtr? windowHandle = null,
+                                  int apiVersion=0)
     {
       IntPtr dll_handle = LoadLibrary(dll_pathname);
 
       if (dll_handle == IntPtr.Zero)
         return ePLRESULT.PLR_NOTFOUND;
-
+      
       IntPtr pAddressOfFunctionToCall;
 
       // these must bind
@@ -837,13 +858,38 @@ namespace Planimate.Engine
       // ProcTable will be filled in as procs are requested
       ProcTable = new IntPtr[(int)ePLProcs.ePL_PROCCOUNT];
       suspendLevel = 0;
-      
-      ltPL_InitThread(dll_handle, cmdline, window_handle);
+
+      ltPL_InitThread(dll_handle, cmdline,  windowHandle ?? IntPtr.Zero);
       ltPL_WaitThreadRunning();
 
       // check PL supports all the procs we expect - will throw exception on fail
       // (PL returns NULL on bad proc as of 8.57.2)
-      GetFunction(ePLProcs.ePL_PROCCOUNT-1);
+      switch (apiVersion)
+      {
+        case 5:
+          ProcCount = (int)ePLProcs.ePL_WaitModelStarted + 1;
+          break;
+        case 6:
+          ProcCount = (int)ePLProcs.ePL_RemoveTableChangeCallback + 1;
+          break;
+        case 7:
+          ProcCount = (int)ePLProcs.ePL_UpdateDependencies + 1;
+          break;
+        case 8:
+          ProcCount = (int)ePLProcs.ePL_GetCellFormatted + 1;
+          break;
+        case 9:
+          ProcCount = (int)ePLProcs.ePL_ValueToARGB + 1;
+          break;
+
+        default:
+          ProcCount = (int)ePLProcs.ePL_PROCCOUNT;
+          break;
+      }
+      
+      // ensure all the procs we expect are there, this will throw on fail
+      GetFunction(ProcCount-1);
+
       return ePLRESULT.PLR_OK;
     }
 
@@ -854,11 +900,13 @@ namespace Planimate.Engine
     /// </summary>
     public void InitPLEngine(IntPtr[] pl_proctable)
     {
-      if (pl_proctable.Length < (int)ePLProcs.ePL_PROCCOUNT)
+      // currently require PL at our version for the PL call DLL API
+      ProcCount = (int)ePLProcs.ePL_PROCCOUNT;
+      if (pl_proctable.Length < ProcCount)
         throw new PLBindFailure();
 
       ProcTable = pl_proctable;
-
+      
       // no need for suspend when PL calls C# DLL, we are in PL's thread
       suspendLevel = 1;
     }
@@ -884,17 +932,22 @@ namespace Planimate.Engine
     /// return a non null pointer or throw exception if something is really
     /// wrong with the callback table.
     /// </summary>
-    private IntPtr GetFunction(ePLProcs function)
-    {    
-      if (ProcTable[(int)function] == IntPtr.Zero)
+    private IntPtr GetFunction(int function)
+    {
+      if (ProcTable[function] == IntPtr.Zero)
         if (ltPL_GetProc != null)
-          ProcTable[(int)function] = ltPL_GetProc(function);
+          ProcTable[function] = ltPL_GetProc((ePLProcs)function);
         else
           throw new PLBindFailure(); // should have been caught on init
           
-      return ProcTable[(int)function];
+      return ProcTable[function];
     }
 
+    private IntPtr GetFunction(ePLProcs function)
+    {
+      return GetFunction((int)function);
+    }
+    
     /// <summary>
     /// Return a callback delegate for function based on enum. Unfortuantely
     /// you cant template a case to a delegate so caller still has to typecast
@@ -994,7 +1047,19 @@ namespace Planimate.Engine
       internalResumeThread();
       return res;
     }
-
+    
+    /// <summary>
+    /// </summary>
+    public IntPtr FindDataObject(int DO_id)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_FindDataObject);
+      tPL_FindDataObject ltPL_FindDataObject = (tPL_FindDataObject)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_FindDataObject));
+      internalSuspendThread();
+      IntPtr res = ltPL_FindDataObject(DO_id);
+      internalResumeThread();
+      return res;
+    }    
+    
     /// <summary>Returns the data object type</summary>
     /// <param name='data_object'>Pointer to Planimate® data object</param>
     public eDOTypes DataObjectType(IntPtr data_object)
@@ -1287,6 +1352,19 @@ namespace Planimate.Engine
       return res;
     }
 
+    /// <summary>Delete's a row range from a table
+    /// 
+    /// </summary>
+    public ePLRESULT DeleteRow(IntPtr data_object, int row, int for_rows=1)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_DeleteRow);
+      tPL_DeleteRow ltPL_DeleteRow = (tPL_DeleteRow)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_DeleteRow));
+      internalSuspendThread();
+      ePLRESULT res = ltPL_DeleteRow(data_object,row,for_rows);
+      internalResumeThread();
+      return res;
+    }
+    
     void PrepareColumn(DataTable data_table,
                        int    i,
                        Type   the_type,
