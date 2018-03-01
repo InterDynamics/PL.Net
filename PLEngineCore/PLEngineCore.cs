@@ -558,7 +558,7 @@ namespace Planimate.Engine
     [DllImport("kernel32.dll")]
     private static extern bool FreeLibrary(IntPtr hModule);
     #endregion
-
+    
     #region PLLoader function delegations
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate int tPL_InitThread(IntPtr dll_handle,
@@ -683,6 +683,10 @@ namespace Planimate.Engine
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_TableResize(IntPtr dataobject, int rows, int cols);
 
+    // TODO:Att methods missing from proc table
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate ePLRESULT tPL_SetAttValue(IntPtr dataobject, double v);
+        
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate double tPL_GetCell(IntPtr dataobject, int row, int col);
 
@@ -709,7 +713,7 @@ namespace Planimate.Engine
     private delegate IntPtr tPL_GetOwnerWindow();
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate IntPtr tPL_WaitModelStarted(int timeout);
+    private delegate ePLRESULT tPL_WaitModelStarted(int timeout);
 
     /// <summary>Table changed callback function definition</summary>
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -766,7 +770,7 @@ namespace Planimate.Engine
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_StringToValue([MarshalAs(UnmanagedType.LPStr)] string str,
-                                                 IntPtr val,   // double*
+                                                 ref double val,   // double*
                                                  eTFUnit format);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -789,6 +793,13 @@ namespace Planimate.Engine
     
     #endregion
 
+    #region Special Compatibility
+    
+    // procs that aren't in enum but need to be callable for older versions of PL
+    tPL_SetAttValue  ltPL_SetAttValue;
+
+    #endregion
+    
     private tPL_GetProc ltPL_GetProc             = null;
     private tPL_SuspendThread ltPL_SuspendThread = null;
     private tPL_ResumeThread ltPL_ResumeThread   = null;
@@ -890,6 +901,12 @@ namespace Planimate.Engine
       // ensure all the procs we expect are there, this will throw on fail
       GetFunction(ProcCount-1);
 
+      // bindings not in proc table eeded for older version of Pl
+      pAddressOfFunctionToCall = GetProcAddress(dll_handle, "PL_SetAttValue");
+      if (pAddressOfFunctionToCall == IntPtr.Zero)
+        throw new PLBindFailure();
+      ltPL_SetAttValue = (tPL_SetAttValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetAttValue));
+      
       return ePLRESULT.PLR_OK;
     }
 
@@ -1073,6 +1090,23 @@ namespace Planimate.Engine
     }
     #endregion
 
+    #region Attribute Functions
+
+    /// <summary>
+    /// Get Attribute value
+    /// TODO: add attribute functions to proc table in PL
+    /// </summary>
+    public ePLRESULT SetAttValue(IntPtr data_object, double v)
+    {
+      internalSuspendThread();
+      var res = ltPL_SetAttValue(data_object,v);
+      internalResumeThread();
+
+      return res;
+    }
+    
+    #endregion
+
     #region Table Functions
     /// <summary>Returns the number of rows in a table data object</summary>
     /// <param name='data_object'>Pointer to Planimate® data object</param>
@@ -1185,7 +1219,7 @@ namespace Planimate.Engine
       internalResumeThread();
       return res;
     }
-
+    
     /// <summary>Sets the value of a cell</summary>
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
     /// <param name='row'>Cell row index</param>
@@ -1863,12 +1897,12 @@ namespace Planimate.Engine
     /// <param name='str'>String to convert</param>
     /// <param name='val'>Pointer to value that will be returned (as double)</param>
     /// <param name='format'>Planimate® format of the string 'str'</param>
-    public ePLRESULT ConvertStringToPLValue(string str, IntPtr val, eTFUnit format)
+    public ePLRESULT ConvertStringToPLValue(string str,ref double val, eTFUnit format)
     {
       IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_StringToValue);
       tPL_StringToValue ltPL_StringToValue = (tPL_StringToValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_StringToValue));
       internalSuspendThread();
-      ePLRESULT res = ltPL_StringToValue(str, val, format);
+      ePLRESULT res = ltPL_StringToValue(str,ref val, format);
       internalResumeThread();
       return res;
     }
@@ -2000,6 +2034,16 @@ namespace Planimate.Engine
       DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
       TimeSpan diff = date - origin;
       return diff.TotalSeconds - UnixTimeOffset();
+    }
+
+    /// <summary>
+    /// Wait for model run to start
+    /// </summary>
+    public ePLRESULT WaitModelStarted(int timeout)
+    {
+      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_WaitModelStarted);
+      tPL_WaitModelStarted ltPL_WaitModelStarted = (tPL_WaitModelStarted)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_WaitModelStarted));
+      return ltPL_WaitModelStarted(timeout);
     }
   }
 
