@@ -2045,6 +2045,14 @@ namespace Planimate.Engine
       tPL_WaitModelStarted ltPL_WaitModelStarted = (tPL_WaitModelStarted)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_WaitModelStarted));
       return ltPL_WaitModelStarted(timeout);
     }
+
+    /// <summary>
+    /// Return true if in simulate/process BC mode (not paused)
+    /// </summary>
+    public bool Processing()
+    {
+      return ePLMode.MD_SIMULATE == (ePLMode)Convert.ToInt32(GetSystemInfo(ePLSysInfo.PLSI_ENGINESTATE));
+    }
   }
 
   // class PLDataObject { }
