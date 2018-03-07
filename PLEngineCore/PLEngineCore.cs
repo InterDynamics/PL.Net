@@ -1027,6 +1027,14 @@ namespace Planimate.Engine
       return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(pl_version);
     }
 
+    /// <summary>
+    /// Control the run engine
+    /// </summary>
+    public ePLRESULT Run(ePLRunCMD runcmd)
+    {
+      return ((tPL_Run)GetFunction<tPL_Run>(ePLProcs.ePL_Run))(runcmd);
+    }
+    
     /// <summary>Gets Planimate® System info. Times are in seconds with 0 = the run start date</summary>
     /// <param name='sysinfo_id'>System info id from ePLSysInfo.</param>
     public double GetSystemInfo(ePLSysInfo sysinfo_id)
@@ -1210,13 +1218,15 @@ namespace Planimate.Engine
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
     /// <param name='row'>Cell row index</param>
     /// <param name='col'>Cell column index</param>
-    public double GetCell(IntPtr data_object, int row, int col)
+    public double GetCell(IntPtr data_object, int row, int col,bool no_suspend=false)
     {
       IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetCell);
       tPL_GetCell ltPL_GetCell = (tPL_GetCell)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetCell));
-      internalSuspendThread();
+      if (!no_suspend)
+       internalSuspendThread();
       double res = ltPL_GetCell(data_object, row, col);
-      internalResumeThread();
+      if (!no_suspend)
+       internalResumeThread();
       return res;
     }
     
