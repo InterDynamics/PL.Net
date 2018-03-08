@@ -685,6 +685,9 @@ namespace Planimate.Engine
 
     // TODO:Att methods missing from proc table
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate double    tPL_GetAttValue(IntPtr dataobject);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_SetAttValue(IntPtr dataobject, double v);
         
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -797,6 +800,7 @@ namespace Planimate.Engine
     
     // procs that aren't in enum but need to be callable for older versions of PL
     tPL_SetAttValue  ltPL_SetAttValue;
+    tPL_GetAttValue  ltPL_GetAttValue;
 
     #endregion
     
@@ -906,6 +910,11 @@ namespace Planimate.Engine
       if (pAddressOfFunctionToCall == IntPtr.Zero)
         throw new PLBindFailure();
       ltPL_SetAttValue = (tPL_SetAttValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetAttValue));
+
+      pAddressOfFunctionToCall = GetProcAddress(dll_handle, "PL_GetAttValue");
+      if (pAddressOfFunctionToCall == IntPtr.Zero)
+        throw new PLBindFailure();
+      ltPL_GetAttValue = (tPL_GetAttValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetAttValue));
       
       return ePLRESULT.PLR_OK;
     }
@@ -1017,6 +1026,26 @@ namespace Planimate.Engine
           ltPL_ResumeThread();
       }
     }
+
+    /// <summary>
+    /// Enable client to disable automatic suspend/resume of thread.
+    /// Must invoke EnableSuspendThread after this if you want to re-enable.
+    /// </summary>
+    public void DisableSuspendThread()
+    {
+      suspendLevel++;
+    }
+
+    /// <summary>
+    /// Enable client to disable automatic suspend/resume of thread
+    /// Must invoke DisableSuspendThread before this
+    /// </summary>
+    public void EnableSuspendThread()
+    {
+      if (suspendLevel > 0)
+        suspendLevel--;
+    }
+    
     #endregion
 
     /// <summary>Returns the Planimate® version powering the engine.</summary>
@@ -1110,6 +1139,18 @@ namespace Planimate.Engine
       var res = ltPL_SetAttValue(data_object,v);
       internalResumeThread();
 
+      return res;
+    }
+
+    /// <summary>
+    /// Return value of attribute
+    /// </summary>
+    public double GetAttValue(IntPtr data_object)
+    {
+      internalSuspendThread();
+      var res = ltPL_GetAttValue(data_object);
+      internalResumeThread();
+      
       return res;
     }
     
@@ -1218,15 +1259,13 @@ namespace Planimate.Engine
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
     /// <param name='row'>Cell row index</param>
     /// <param name='col'>Cell column index</param>
-    public double GetCell(IntPtr data_object, int row, int col,bool no_suspend=false)
+    public double GetCell(IntPtr data_object, int row, int col)
     {
       IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetCell);
       tPL_GetCell ltPL_GetCell = (tPL_GetCell)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetCell));
-      if (!no_suspend)
-       internalSuspendThread();
+      internalSuspendThread();
       double res = ltPL_GetCell(data_object, row, col);
-      if (!no_suspend)
-       internalResumeThread();
+      internalResumeThread();
       return res;
     }
     
