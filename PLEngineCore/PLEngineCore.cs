@@ -2102,7 +2102,15 @@ namespace Planimate.Engine
     {
       return ePLMode.MD_SIMULATE == (ePLMode)Convert.ToInt32(GetSystemInfo(ePLSysInfo.PLSI_ENGINESTATE));
     }
-  }
 
+    /// <summary>
+    /// Load model or reload PBA model
+    /// </summary>
+    public ePLRESULT LoadModel(string modelName,string dataSetFile)
+    {
+      return ((tPL_LoadModel)(GetFunction<tPL_LoadModel>(ePLProcs.ePL_LoadModel)))(modelName,dataSetFile);
+    }
+  }
+  
   // class PLDataObject { }
 }
