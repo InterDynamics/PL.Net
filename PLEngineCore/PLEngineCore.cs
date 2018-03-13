@@ -1037,13 +1037,15 @@ namespace Planimate.Engine
     }
 
     /// <summary>
-    /// Enable client to disable automatic suspend/resume of thread
+    /// Enable client to re-enable automatic suspend/resume of thread
     /// Must invoke DisableSuspendThread before this
     /// </summary>
     public void EnableSuspendThread()
     {
       if (suspendLevel > 0)
         suspendLevel--;
+      else
+        throw new Exception("plengine.EnableSuspendThread misused");
     }
     
     #endregion
