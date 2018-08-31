@@ -298,6 +298,8 @@ namespace Planimate.Engine
     UNIT_DATE2TIMES,
     /// <summary>Class instance reference</summary>
     UNIT_INSTANCE,
+    /// <summary>calendar yyyymmdd hh:mm:ss</summary>
+    UNIT_DATE6TIME,
     
     /// <summary>this counts unit modes</summary>
     UNIT_MODECOUNT,
@@ -423,6 +425,8 @@ namespace Planimate.Engine
     ePL_ValueToColor,
     ePL_GetCellFormatted,
     ePL_GetFormatClass,
+    ePL_ValueToARGB,
+    ePL_CreateTable,
     
     ePL_PROCCOUNT
   };
@@ -715,6 +719,9 @@ namespace Planimate.Engine
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate eUnitClass tPL_GetFormatClass(eTFUnit format);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate int tPL_CreateTable([MarshalAs(UnmanagedType.LPStr)] string name);
+    
     #endregion
 
     #region Broadcasts
@@ -952,8 +959,7 @@ namespace Planimate.Engine
     /// <summary>Returns the Planimate® version powering the engine.</summary>
     public string PlanimateVersion()
     {
-      IntPtr pl_version = ((tPL_AppVersion)GetFunction<tPL_AppVersion>(ePLProcs.ePL_AppVersion))();
-  
+      var pl_version = ((tPL_AppVersion)GetFunction<tPL_AppVersion>(ePLProcs.ePL_AppVersion))();  
       return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(pl_version);
     }
 
@@ -961,8 +967,7 @@ namespace Planimate.Engine
     /// <param name='sysinfo_id'>System info id from ePLSysInfo.</param>
     public double GetSystemInfo(ePLSysInfo sysinfo_id)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetSystemInfo);
-      tPL_GetSystemInfo ltPL_GetSystemInfo = (tPL_GetSystemInfo)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetSystemInfo));
+      var ltPL_GetSystemInfo = (tPL_GetSystemInfo)GetFunction<tPL_GetSystemInfo>(ePLProcs.ePL_GetSystemInfo);
       internalSuspendThread();
       double res = ltPL_GetSystemInfo(sysinfo_id);
       internalResumeThread();
@@ -974,8 +979,7 @@ namespace Planimate.Engine
     /// <param name='value'>Value to write.</param>
     public ePLRESULT SetSystemInfo(ePLSysInfo sysinfo_id, double value)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SetSystemInfo);
-      tPL_SetSystemInfo ltPL_SetSystemInfo = (tPL_SetSystemInfo)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetSystemInfo));
+      var ltPL_SetSystemInfo = (tPL_SetSystemInfo)GetFunction<tPL_SetSystemInfo>(ePLProcs.ePL_SetSystemInfo);
       internalSuspendThread();
       ePLRESULT res = ltPL_SetSystemInfo(sysinfo_id, value);
       internalResumeThread();
@@ -987,8 +991,7 @@ namespace Planimate.Engine
     /// <param name='DO_name'>String name of the Planimate® data object</param>
     public IntPtr FindDataObjectName(string DO_name)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_FindDataObjectName);
-      tPL_FindDataObjectName ltPL_FindDataObjectName = (tPL_FindDataObjectName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_FindDataObjectName));
+      var ltPL_FindDataObjectName = (tPL_FindDataObjectName)GetFunction<tPL_FindDataObjectName>(ePLProcs.ePL_FindDataObjectName);
       internalSuspendThread();
       IntPtr res = ltPL_FindDataObjectName(DO_name);
       internalResumeThread();
@@ -999,8 +1002,7 @@ namespace Planimate.Engine
     /// <param name='data_object'>Pointer to Planimate® data object</param>
     public eDOTypes DataObjectType(IntPtr data_object)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_DataObjectType);
-      tPL_DataObjectType ltPL_DataObjectType = (tPL_DataObjectType)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_DataObjectType));
+      var ltPL_DataObjectType = (tPL_DataObjectType)GetFunction<tPL_DataObjectType>(ePLProcs.ePL_DataObjectType);
       internalSuspendThread();
       eDOTypes res = ltPL_DataObjectType(data_object);
       internalResumeThread();
@@ -1013,8 +1015,7 @@ namespace Planimate.Engine
     /// <param name='data_object'>Pointer to Planimate® data object</param>
     public int Rows(IntPtr data_object)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_Rows);
-      tPL_Rows ltPL_Rows = (tPL_Rows)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_Rows));
+      var ltPL_Rows = (tPL_Rows)GetFunction<tPL_Rows>(ePLProcs.ePL_Rows);
       internalSuspendThread();
       int res = ltPL_Rows(data_object);
       internalResumeThread();
@@ -1025,8 +1026,7 @@ namespace Planimate.Engine
     /// <param name='data_object'>Pointer to Planimate® data object</param>
     public int Columns(IntPtr data_object)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_Columns);
-      tPL_Columns ltPL_Columns = (tPL_Columns)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_Columns));
+      var ltPL_Columns = (tPL_Columns)GetFunction<tPL_Columns>(ePLProcs.ePL_Columns);
       internalSuspendThread();
       int res = ltPL_Columns(data_object);
       internalResumeThread();
@@ -1038,8 +1038,7 @@ namespace Planimate.Engine
     /// <param name='column'>Index of the column</param>
     public string ColumnName(IntPtr data_object, int column)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_ColumnName);
-      tPL_ColumnName ltPL_ColumnName = (tPL_ColumnName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_ColumnName));
+      var ltPL_ColumnName = (tPL_ColumnName)GetFunction<tPL_ColumnName>(ePLProcs.ePL_ColumnName);
       internalSuspendThread();
       string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_ColumnName(data_object, column));
       internalResumeThread();
@@ -1051,8 +1050,7 @@ namespace Planimate.Engine
     /// <param name='column'>Index of the column</param>
     public eTFUnit GetColumnFormat(IntPtr data_object, int column)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetColumnFormat);
-      tPL_GetColumnFormat ltPL_GetColumnFormat = (tPL_GetColumnFormat)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetColumnFormat));
+      var ltPL_GetColumnFormat = (tPL_GetColumnFormat)GetFunction<tPL_GetColumnFormat>(ePLProcs.ePL_GetColumnFormat);
       internalSuspendThread();
       eTFUnit res = ltPL_GetColumnFormat(data_object, column);
       internalResumeThread();
@@ -1064,8 +1062,7 @@ namespace Planimate.Engine
     /// <param name='column'>Index of the column</param>
     public IntPtr GetColumnLabelList(IntPtr data_object, int column)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetColumnLabels);
-      tPL_GetColumnLabels ltPL_GetColumnLabels = (tPL_GetColumnLabels)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetColumnLabels));
+      var ltPL_GetColumnLabels = (tPL_GetColumnLabels)GetFunction<tPL_GetColumnLabels>(ePLProcs.ePL_GetColumnLabels);
       internalSuspendThread();
       IntPtr res = ltPL_GetColumnLabels(data_object, column);
       internalResumeThread();
@@ -1077,8 +1074,7 @@ namespace Planimate.Engine
     /// <param name='col_name'>String column name of the target column</param>
     public int FindColumn(IntPtr data_object, string col_name)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_FindColumn);
-      tPL_FindColumn ltPL_FindColumn = (tPL_FindColumn)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_FindColumn));
+      var ltPL_FindColumn = (tPL_FindColumn)GetFunction<tPL_FindColumn >(ePLProcs.ePL_FindColumn);
       internalSuspendThread();
       int res = ltPL_FindColumn(data_object, col_name);
       internalResumeThread();
@@ -1096,8 +1092,7 @@ namespace Planimate.Engine
 
       if (cols > 0)
       {
-        IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_TableResize);
-        tPL_TableResize ltPL_TableResize = (tPL_TableResize)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_TableResize));
+        var ltPL_TableResize = (tPL_TableResize)GetFunction<tPL_TableResize>(ePLProcs.ePL_TableResize);
         internalSuspendThread();
         ePLRESULT res = ltPL_TableResize(data_object, rows, cols);
         internalResumeThread();
@@ -1113,8 +1108,7 @@ namespace Planimate.Engine
     /// <param name='col'>Cell column index</param>
     public double GetCell(IntPtr data_object, int row, int col)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetCell);
-      tPL_GetCell ltPL_GetCell = (tPL_GetCell)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetCell));
+      var ltPL_GetCell = (tPL_GetCell)GetFunction<tPL_GetCell>(ePLProcs.ePL_GetCell);
       internalSuspendThread();
       double res = ltPL_GetCell(data_object, row, col);
       internalResumeThread();
@@ -1128,12 +1122,11 @@ namespace Planimate.Engine
     /// <param name='data'>Data to write to the cell</param>
     public ePLRESULT SetCell(IntPtr data_object, int row, int col, double data)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SetCell);
-      tPL_SetCell ltPL_SetCell = (tPL_SetCell)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetCell));
-      internalSuspendThread();
-      ePLRESULT res = ltPL_SetCell(data_object, row, col, data);
-      internalResumeThread();
-      return res;
+     var ltPL_SetCell = (tPL_SetCell)GetFunction<tPL_SetCell>(ePLProcs.ePL_SetCell);
+     internalSuspendThread();
+     ePLRESULT res = ltPL_SetCell(data_object, row, col, data);
+     internalResumeThread();
+     return res;
     }
 
     /// <summary>Sets the value of a Free Text cell</summary>
@@ -1143,8 +1136,7 @@ namespace Planimate.Engine
     /// <param name='data'>Data to write to the cell (string)</param>
     public ePLRESULT SetCell(IntPtr data_object, int row, int col, string data)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SetCellText);
-      tPL_SetCellText ltPL_SetCellText = (tPL_SetCellText)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetCellText));
+      var ltPL_SetCellText = (tPL_SetCellText)GetFunction<tPL_SetCellText>(ePLProcs.ePL_SetCellText);
       internalSuspendThread();
       ePLRESULT res = ltPL_SetCellText(data_object, row, col, data);
       internalResumeThread();
@@ -1157,8 +1149,7 @@ namespace Planimate.Engine
     /// <param name='col'>Cell column index</param>
     public string GetCellText(IntPtr data_object, int row, int col)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetCellText);
-      tPL_GetCellText ltPL_GetCellText = (tPL_GetCellText)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetCellText));
+      var ltPL_GetCellText = (tPL_GetCellText)GetFunction<tPL_GetCellText>(ePLProcs.ePL_GetCellText);
       internalSuspendThread();
       string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_GetCellText(data_object, row, col));
       internalResumeThread();
@@ -1171,8 +1162,7 @@ namespace Planimate.Engine
     /// <param name='list_name'>Label list name</param>
     public IntPtr GetNamedLabelList(string list_name)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetNamedLabelList);
-      tPL_GetNamedLabelList ltPL_GetNamedLabelList = (tPL_GetNamedLabelList)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetNamedLabelList));
+      var ltPL_GetNamedLabelList = (tPL_GetNamedLabelList)GetFunction<tPL_GetNamedLabelList>(ePLProcs.ePL_GetNamedLabelList);
       internalSuspendThread();
       IntPtr res = ltPL_GetNamedLabelList(list_name);
       internalResumeThread();
@@ -1184,8 +1174,7 @@ namespace Planimate.Engine
     /// <param name='index'>Label index as integer</param>
     public string LookUpLabelLValue(IntPtr data_object, Int32 index)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_LookUpLValue);
-      tPL_LookUpLValue ltPL_LookUpLValue = (tPL_LookUpLValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_LookUpLValue));
+      var ltPL_LookUpLValue = (tPL_LookUpLValue)GetFunction<tPL_LookUpLValue>(ePLProcs.ePL_LookUpLValue);
       internalSuspendThread();
       string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_LookUpLValue(data_object, index));
       internalResumeThread();
@@ -1197,8 +1186,7 @@ namespace Planimate.Engine
     /// <param name='index'>Label index as double</param>
     public string LookUpLabelDValue(IntPtr data_object, double index)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_LookUpDValue);
-      tPL_LookUpDValue ltPL_LookUpDValue = (tPL_LookUpDValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_LookUpDValue));
+      var ltPL_LookUpDValue = (tPL_LookUpDValue)GetFunction<tPL_LookUpDValue>(ePLProcs.ePL_LookUpDValue);
       internalSuspendThread();
       string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_LookUpDValue(data_object, index));
       internalResumeThread();
@@ -1210,8 +1198,7 @@ namespace Planimate.Engine
     /// </summary>
     public int LabelCount(IntPtr labellist)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_LabelCount);
-      tPL_LabelCount ltPL_LabelCount = (tPL_LabelCount)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_LabelCount));
+      var ltPL_LabelCount = (tPL_LabelCount)GetFunction<tPL_LabelCount>(ePLProcs.ePL_LabelCount);
       internalSuspendThread();
       int res = ltPL_LabelCount(labellist);
       internalResumeThread();
@@ -1223,8 +1210,7 @@ namespace Planimate.Engine
     /// </summary>
     public string GetLabelName(IntPtr labellist, int ordinal)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetLabelName);
-      tPL_GetLabelName ltPL_GetLabelName = (tPL_GetLabelName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetLabelName));
+      var ltPL_GetLabelName = (tPL_GetLabelName)GetFunction<tPL_GetLabelName>(ePLProcs.ePL_GetLabelName);
       internalSuspendThread();
       string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_GetLabelName(labellist, ordinal));
       internalResumeThread();
@@ -1247,8 +1233,7 @@ namespace Planimate.Engine
     /// <param name='label'>Label string</param>
     public Int32 LookUpLabelIndex(IntPtr data_object, string label)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_LookUpLabel);
-      tPL_LookUpLabel ltPL_LookUpLabel = (tPL_LookUpLabel)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_LookUpLabel));
+      var ltPL_LookUpLabel = (tPL_LookUpLabel)GetFunction<tPL_LookUpLabel>(ePLProcs.ePL_LookUpLabel);
       internalSuspendThread();
       Int32 res = ltPL_LookUpLabel(data_object, label);
       internalResumeThread();
@@ -1264,8 +1249,7 @@ namespace Planimate.Engine
     /// <param name='into'>Array of double to place column in</param>
     public ePLRESULT GetColumn(IntPtr data_object, int column, int rows, double[] into)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetColumn);
-      tPL_GetColumn ltPL_GetColumn = (tPL_GetColumn)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetColumn));
+      var ltPL_GetColumn = (tPL_GetColumn)GetFunction<tPL_GetColumn>(ePLProcs.ePL_GetColumn);
       internalSuspendThread();
       ePLRESULT res = ltPL_GetColumn(data_object, column, rows, into);
       internalResumeThread();
@@ -1279,8 +1263,7 @@ namespace Planimate.Engine
     /// <param name='to'>Array of doubles to place into the column</param>
     public ePLRESULT SetColumn(IntPtr data_object, int column, int rows, double[] to)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SetColumn);
-      tPL_SetColumn ltPL_SetColumn = (tPL_SetColumn)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SetColumn));
+      var ltPL_SetColumn = (tPL_SetColumn)GetFunction<tPL_SetColumn>(ePLProcs.ePL_SetColumn);
       internalSuspendThread();
       ePLRESULT res = ltPL_SetColumn(data_object, column, rows, to);
       internalResumeThread();
@@ -1481,7 +1464,7 @@ namespace Planimate.Engine
     /// <param name='formatted'>Specifies if the returned DataTable should be formatted. True = format</param>
     public ePLRESULT UpdateDataTable(DataTable rTable, string DO_name, Boolean formatted)
     {
-      IntPtr PL_data_object = FindDataObjectName(DO_name);
+      var PL_data_object = FindDataObjectName(DO_name);
       if (PL_data_object == IntPtr.Zero)
         return ePLRESULT.PLR_NOTFOUND;
 
@@ -1511,7 +1494,7 @@ namespace Planimate.Engine
     /// <param name='formatted'>Specifies if the returned DataTable should be formatted. True = format</param>
     public DataTable GetDataTable(string DO_name, Boolean formatted,Boolean labels_as_text=false)
     {
-      IntPtr PL_data_object = FindDataObjectName(DO_name);
+      var PL_data_object = FindDataObjectName(DO_name);
       if (PL_data_object == IntPtr.Zero)
         return null;
 
@@ -1581,11 +1564,7 @@ namespace Planimate.Engine
     /// <param name='BC_name'>Name of broadcast (string)</param>
     public IntPtr FindBroadcastName(string BC_name)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetBroadcastName);
-      if (pAddressOfFunctionToCall == IntPtr.Zero)
-        return IntPtr.Zero;
-
-      tPL_GetBroadcastName ltPL_GetBroadcastName = (tPL_GetBroadcastName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetBroadcastName));
+      var ltPL_GetBroadcastName = (tPL_GetBroadcastName)GetFunction<tPL_GetBroadcastName>(ePLProcs.ePL_GetBroadcastName);
       internalSuspendThread();
       IntPtr res = ltPL_GetBroadcastName(BC_name);
       internalResumeThread();
@@ -1599,14 +1578,10 @@ namespace Planimate.Engine
       ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
       if (broadcast != IntPtr.Zero)
       {
-        IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcast);
-        if (pAddressOfFunctionToCall != IntPtr.Zero)
-        {
-          tPL_SendBroadcast ltPL_SendBroadcast = (tPL_SendBroadcast)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcast));
-          internalSuspendThread();
-          res = ltPL_SendBroadcast(broadcast);
-          internalResumeThread();
-        }
+        var ltPL_SendBroadcast = (tPL_SendBroadcast)GetFunction<tPL_SendBroadcast>(ePLProcs.ePL_SendBroadcast);
+        internalSuspendThread();
+        res = ltPL_SendBroadcast(broadcast);
+        internalResumeThread();
       }
       return res;
     }
@@ -1632,15 +1607,12 @@ namespace Planimate.Engine
       ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
       if (broadcast != IntPtr.Zero)
       {
-        IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcastTuple);
-        if (pAddressOfFunctionToCall != IntPtr.Zero)
-        {
-          tPL_SendBroadcastTuple ltPL_SendBroadcastTuple = (tPL_SendBroadcastTuple)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcastTuple));
-          internalSuspendThread();
-          res = ltPL_SendBroadcastTuple(broadcast, no_params, tuple_names, tuple_values);
-          internalResumeThread();
-        }
+        var ltPL_SendBroadcastTuple = (tPL_SendBroadcastTuple)GetFunction<tPL_SendBroadcastTuple>(ePLProcs.ePL_SendBroadcastTuple);
+        internalSuspendThread();
+        res = ltPL_SendBroadcastTuple(broadcast, no_params, tuple_names, tuple_values);
+        internalResumeThread();
       }
+
       return res;
     }
 
@@ -1651,24 +1623,15 @@ namespace Planimate.Engine
     /// <param name='tuple_values'>Array of tuple values (length = no_params)</param>
     public ePLRESULT SendBroadcast(string BC_name, int no_params, string[] tuple_names, double[] tuple_values)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetBroadcastName);
-      if (pAddressOfFunctionToCall == IntPtr.Zero)
-        return ePLRESULT.PLR_NOTFOUND;
-
-      tPL_GetBroadcastName ltPL_GetBroadcastName = (tPL_GetBroadcastName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetBroadcastName));
-
-      pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_SendBroadcastTuple);
-      if (pAddressOfFunctionToCall == IntPtr.Zero)
-        return ePLRESULT.PLR_NOTFOUND;
-
-      tPL_SendBroadcastTuple ltPL_SendBroadcastTuple = (tPL_SendBroadcastTuple)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_SendBroadcastTuple));
-
+      var ltPL_GetBroadcastName = (tPL_GetBroadcastName)GetFunction<tPL_GetBroadcastName>(ePLProcs.ePL_GetBroadcastName);
+      var ltPL_SendBroadcastTuple = (tPL_SendBroadcastTuple)GetFunction<tPL_SendBroadcastTuple>(ePLProcs.ePL_SendBroadcastTuple);
+      
       ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
       internalSuspendThread();
       IntPtr broadcast = ltPL_GetBroadcastName(BC_name);
       if (broadcast != IntPtr.Zero)
         res = ltPL_SendBroadcastTuple(broadcast, no_params, tuple_names, tuple_values);
-
+      
       internalResumeThread();
       return res;
     }
@@ -1690,15 +1653,10 @@ namespace Planimate.Engine
     /// <param name='callback_func'>Function to register as callback</param>
     public ePLRESULT RegisterBroadcastCallback(IntPtr broadcast, tPL_BroadcastCallback callback_func)
     {
-      ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RegisterBroadcastCallback);
-      if (pAddressOfFunctionToCall != IntPtr.Zero)
-      {
-        internalSuspendThread();
-        tPL_RegisterBroadcastCallback ltPL_RegisterBroadcastCallback = (tPL_RegisterBroadcastCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterBroadcastCallback));
-        res = ltPL_RegisterBroadcastCallback(broadcast, callback_func);
-        internalResumeThread();
-      }
+      var ltPL_RegisterBroadcastCallback = (tPL_RegisterBroadcastCallback)GetFunction<tPL_RegisterBroadcastCallback>(ePLProcs.ePL_RegisterBroadcastCallback);
+      internalSuspendThread();
+      var res = ltPL_RegisterBroadcastCallback(broadcast, callback_func);
+      internalResumeThread();
       return res;
     }
 
@@ -1709,24 +1667,14 @@ namespace Planimate.Engine
     /// <param name='callback_func'>Function to register as callback</param>
     public ePLRESULT RegisterBroadcastCallback(string BC_name, tPL_BroadcastCallback callback_func)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetBroadcastName);
-      if (pAddressOfFunctionToCall == IntPtr.Zero)
-        return ePLRESULT.PLR_NOTFOUND;
-
-      tPL_GetBroadcastName ltPL_GetBroadcastName = (tPL_GetBroadcastName)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetBroadcastName));
-
-      pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RegisterBroadcastCallback);
-      if (pAddressOfFunctionToCall == IntPtr.Zero)
-        return ePLRESULT.PLR_NOTFOUND;
-
-      tPL_RegisterBroadcastCallback ltPL_RegisterBroadcastCallback = (tPL_RegisterBroadcastCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterBroadcastCallback));
-
+      var ltPL_GetBroadcastName = (tPL_GetBroadcastName)GetFunction<tPL_GetBroadcastName>(ePLProcs.ePL_GetBroadcastName);
+      var ltPL_RegisterBroadcastCallback = (tPL_RegisterBroadcastCallback)GetFunction<tPL_RegisterBroadcastCallback>(ePLProcs.ePL_RegisterBroadcastCallback);
+      
       ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
       internalSuspendThread();
       IntPtr broadcast = ltPL_GetBroadcastName(BC_name);
       if (broadcast != IntPtr.Zero)
         res = ltPL_RegisterBroadcastCallback(broadcast, callback_func);
-
       internalResumeThread();
       return res;
     }
@@ -1738,9 +1686,8 @@ namespace Planimate.Engine
     /// </summary>
     public int AddTableChangeCallback(tPL_TableChangeCallback callback,IntPtr dataobject)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_AddTableChangeCallback);
+      var ltPL_AddTableChangeCallback = (tPL_AddTableChangeCallback)GetFunction<tPL_AddTableChangeCallback>(ePLProcs.ePL_AddTableChangeCallback);
       internalSuspendThread();
-      tPL_AddTableChangeCallback ltPL_AddTableChangeCallback = (tPL_AddTableChangeCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_AddTableChangeCallback));
       int handle = ltPL_AddTableChangeCallback(callback,dataobject);
       internalResumeThread();
       return handle;
@@ -1751,9 +1698,8 @@ namespace Planimate.Engine
     /// </summary>
     public void RemoveTableChangeCallback(int handle,IntPtr dataobject)
     {
+      var ltPL_RemoveTableChangeCallback = (tPL_RemoveTableChangeCallback)GetFunction<tPL_RemoveTableChangeCallback>(ePLProcs.ePL_RemoveTableChangeCallback);
       internalSuspendThread();
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RemoveTableChangeCallback);
-      tPL_RemoveTableChangeCallback ltPL_RemoveTableChangeCallback = (tPL_RemoveTableChangeCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RemoveTableChangeCallback));
       ltPL_RemoveTableChangeCallback(handle,dataobject);
       internalResumeThread();
     }    
@@ -1769,15 +1715,10 @@ namespace Planimate.Engine
     /// <param name='userdata'>User data</param>
     public ePLRESULT RegisterPauseCallback(tPL_PauseCallback callback_func, IntPtr userdata)
     {
-      ePLRESULT res = ePLRESULT.PLR_NOTFOUND;
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_RegisterPauseCallback);
-      if (pAddressOfFunctionToCall != IntPtr.Zero)
-      {
-        tPL_RegisterPauseCallback ltPL_RegisterPauseCallback = (tPL_RegisterPauseCallback)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_RegisterPauseCallback));
-        internalSuspendThread();
-        res = ltPL_RegisterPauseCallback(callback_func, userdata);
-        internalResumeThread();
-      }
+      var ltPL_RegisterPauseCallback = (tPL_RegisterPauseCallback)GetFunction<tPL_RegisterPauseCallback>(ePLProcs.ePL_RegisterPauseCallback);
+      internalSuspendThread();
+      var res = ltPL_RegisterPauseCallback(callback_func, userdata);
+      internalResumeThread();
       return res;
     }
 
@@ -1787,14 +1728,13 @@ namespace Planimate.Engine
     /// <param name='format'>Planimate® format of the string 'str'</param>
     public ePLRESULT ConvertStringToPLValue(string str, IntPtr val, eTFUnit format)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_StringToValue);
-      tPL_StringToValue ltPL_StringToValue = (tPL_StringToValue)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_StringToValue));
+      var ltPL_StringToValue = (tPL_StringToValue)GetFunction<tPL_StringToValue >(ePLProcs.ePL_StringToValue);
       internalSuspendThread();
       ePLRESULT res = ltPL_StringToValue(str, val, format);
       internalResumeThread();
       return res;
     }
-
+    
     /// <summary>Gets Planimate to process a value to a string based on the
     /// specified Planimate® format</summary>
     /// <param name='value'>Value to convert</param>
@@ -1804,9 +1744,7 @@ namespace Planimate.Engine
                                          eTFUnit format,
                                          out ePLRESULT result)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_ValueToString);
-      tPL_ValueToString ltPL_ValueToString = (tPL_ValueToString)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_ValueToString));
-
+      var ltPL_ValueToString = (tPL_ValueToString)GetFunction<tPL_ValueToString>(ePLProcs.ePL_ValueToString);
       internalSuspendThread();
       StringBuilder buffer = new StringBuilder(PLMaxString);
       result = ltPL_ValueToString(value,PLMaxString,buffer,format);
@@ -1834,10 +1772,9 @@ namespace Planimate.Engine
     /// <param name='value'>Planimate colour value</param>
     public string PLValueToColor(double value)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_ValueToColor);
-      tPL_ValueToColor ltPL_ValueToColor = (tPL_ValueToColor)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_ValueToColor));
-      internalSuspendThread();
+      var ltPL_ValueToColor = (tPL_ValueToColor)GetFunction<tPL_ValueToColor>(ePLProcs.ePL_ValueToColor);
 
+      internalSuspendThread();
       StringBuilder buffer = new StringBuilder(10);  // #AARRGGBBnul
       ePLRESULT res = ltPL_ValueToColor(value,10,buffer);
       string str = buffer.ToString();
@@ -1856,9 +1793,7 @@ namespace Planimate.Engine
                                    int    col,
                                    out ePLRESULT result)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetCellFormatted);
-      tPL_GetCellFormatted ltPL_GetCellFormatted = (tPL_GetCellFormatted)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetCellFormatted));
-
+      var ltPL_GetCellFormatted = (tPL_GetCellFormatted)GetFunction<tPL_GetCellFormatted>(ePLProcs.ePL_GetCellFormatted);
       internalSuspendThread();
       StringBuilder buffer = new StringBuilder(PLMaxString);
       result = ltPL_GetCellFormatted(data_object, row, col,PLMaxString,buffer);
@@ -1875,9 +1810,7 @@ namespace Planimate.Engine
     /// </summary>
     public eUnitClass GetFormatClass(eTFUnit format)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetFormatClass);
-      tPL_GetFormatClass ltPL_GetFormatClass = (tPL_GetFormatClass)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetFormatClass));
-
+      var ltPL_GetFormatClass = (tPL_GetFormatClass)GetFunction<tPL_GetFormatClass>(ePLProcs.ePL_GetFormatClass);
       return ltPL_GetFormatClass(format);
     }
     
@@ -1901,9 +1834,18 @@ namespace Planimate.Engine
     public double UnixTimeOffset()
     {
       // no need to suspend thread for this one
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_GetSystemInfo);
-      tPL_GetSystemInfo ltPL_GetSystemInfo = (tPL_GetSystemInfo)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_GetSystemInfo));
+      var ltPL_GetSystemInfo = (tPL_GetSystemInfo)GetFunction<tPL_GetSystemInfo>(ePLProcs.ePL_GetSystemInfo);
       return ltPL_GetSystemInfo(ePLSysInfo.PLSI_UNIXTIMEOFFSET);
+    }
+
+    /// <summary>
+    ///  Create a table returning its index or 0 if name collision
+    /// </summary>
+    public int CreateTable(string name)
+    {
+      // no need to suspend thread for this one
+      var ltPL_CreateTable = (tPL_CreateTable)GetFunction<tPL_CreateTable>(ePLProcs.ePL_CreateTable);
+      return ltPL_CreateTable(name);
     }
     
     /// <summary>Converts a Planimate® timestamp (seconds) into a DateTime structure.</summary>
