@@ -437,6 +437,7 @@ namespace Planimate.Engine
 
     // v10
     ePL_CreateTable,
+    ePL_InsertColumnNamed,
     
     //
     ePL_PROCCOUNT
@@ -714,6 +715,12 @@ namespace Planimate.Engine
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_SetColumn(IntPtr dataobject, int column, int rows, double[] to);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate ePLRESULT tPL_InsertColumn(IntPtr dataobject, int atCol,int count);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate ePLRESULT tPL_InsertColumnNamed(IntPtr dataobject, int atCol,int units,string name,IntPtr labels);
+    
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_DeleteRow(IntPtr dataobject, int row,int for_rows);
     
@@ -1112,8 +1119,7 @@ namespace Planimate.Engine
     /// </summary>
     public IntPtr FindDataObject(int DO_id)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_FindDataObject);
-      tPL_FindDataObject ltPL_FindDataObject = (tPL_FindDataObject)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_FindDataObject));
+      var ltPL_FindDataObject = (tPL_FindDataObject)GetFunction<tPL_FindDataObject>(ePLProcs.ePL_FindDataObject);
       internalSuspendThread();
       IntPtr res = ltPL_FindDataObject(DO_id);
       internalResumeThread();
@@ -1421,18 +1427,40 @@ namespace Planimate.Engine
       return res;
     }
 
+    /// <summary>Insert a Column into Table
+    /// </summary>
+    public ePLRESULT InsertColumn(IntPtr data_object, int atCol, int count=1)
+    {
+      var ltPL_InsertColumn = (tPL_InsertColumn)GetFunction<tPL_InsertColumn>(ePLProcs.ePL_InsertColumn);
+      internalSuspendThread();
+      ePLRESULT res = ltPL_InsertColumn(data_object,atCol,count);
+      internalResumeThread();
+      return res;
+    }
+    
+    /// <summary>Insert a Column into Table
+    /// </summary>
+    public ePLRESULT InsertColumnNamed(IntPtr data_object, int atCol, eTFUnit units, string name,IntPtr ? labels=null)
+    {
+      var ltPL_InsertColumnNamed = (tPL_InsertColumnNamed)GetFunction<tPL_InsertColumnNamed>(ePLProcs.ePL_InsertColumnNamed);
+      internalSuspendThread();
+      ePLRESULT res = ltPL_InsertColumnNamed(data_object,atCol,(int)units,name,labels??IntPtr.Zero);
+      internalResumeThread();
+      return res;
+    }
+
     /// <summary>Delete's a row range from a table
-    /// 
     /// </summary>
     public ePLRESULT DeleteRow(IntPtr data_object, int row, int for_rows=1)
     {
-      IntPtr pAddressOfFunctionToCall = GetFunction(ePLProcs.ePL_DeleteRow);
-      tPL_DeleteRow ltPL_DeleteRow = (tPL_DeleteRow)Marshal.GetDelegateForFunctionPointer(pAddressOfFunctionToCall, typeof(tPL_DeleteRow));
+      var ltPL_DeleteRow = (tPL_DeleteRow)GetFunction<tPL_DeleteRow>(ePLProcs.ePL_DeleteRow);
       internalSuspendThread();
       ePLRESULT res = ltPL_DeleteRow(data_object,row,for_rows);
       internalResumeThread();
       return res;
     }
+
+    //
     
     void PrepareColumn(DataTable data_table,
                        int    i,
@@ -1466,7 +1494,10 @@ namespace Planimate.Engine
     /// <param name='data_table'>DataTable that will be updated</param>
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
     /// <param name='formatted'>Specifies if the returned DataTable should be formatted. True = format</param>
-    public ePLRESULT UpdateDataTable(DataTable data_table, IntPtr data_object, Boolean formatted,Boolean labels_as_text=false)
+    public ePLRESULT UpdateDataTable(DataTable data_table,
+                                     IntPtr data_object,
+                                     Boolean formatted,
+                                     Boolean labels_as_text=false)
     {
       ePLRESULT res = ePLRESULT.PLR_OK;
 
@@ -1626,7 +1657,9 @@ namespace Planimate.Engine
     /// <param name='rTable'>DataTable that will be updated.</param>
     /// <param name='DO_name'>String name of the Planimate® table data object</param>
     /// <param name='formatted'>Specifies if the returned DataTable should be formatted. True = format</param>
-    public ePLRESULT UpdateDataTable(DataTable rTable, string DO_name, Boolean formatted)
+    public ePLRESULT UpdateDataTable(DataTable rTable,
+                                     string DO_name,
+                                     Boolean formatted)
     {
       var PL_data_object = FindDataObjectName(DO_name);
       if (PL_data_object == IntPtr.Zero)
@@ -1656,7 +1689,9 @@ namespace Planimate.Engine
     /// Unformatted data is formatted as type Double</summary>
     /// <param name='DO_name'>String name of the Planimate® table data object</param>
     /// <param name='formatted'>Specifies if the returned DataTable should be formatted. True = format</param>
-    public DataTable GetDataTable(string DO_name, Boolean formatted,Boolean labels_as_text=false)
+    public DataTable GetDataTable(string DO_name,
+                                  Boolean formatted,
+                                  Boolean labels_as_text=false)
     {
       var PL_data_object = FindDataObjectName(DO_name);
       if (PL_data_object == IntPtr.Zero)
@@ -1665,10 +1700,73 @@ namespace Planimate.Engine
       return GetDataTable(PL_data_object, formatted,labels_as_text);
     }
 
+    /// <summary>
+    /// Return PL units corresponding to c# type
+    /// </summary>
+    public eTFUnit MapDataTypeToPL(Type type)
+    {
+      if (type == typeof(double) ||
+          type == typeof(int) ||
+          type == typeof(bool))
+        return eTFUnit.UNIT_VALUE;
+      if (type == typeof(string))
+        return eTFUnit.UNIT_FREETEXT;
+      else
+        if (type == typeof(DateTime))
+          return eTFUnit.UNIT_ABSTIME;
+        else
+          if (type ==  typeof(TimeSpan))
+            return eTFUnit.UNIT_TIME;
+          else
+            return eTFUnit.UNIT_NULL;
+    }    
+    
+    public ePLRESULT SetFromDataTable(DataTable data_table,
+                                      int dt_r,
+                                      int dt_c,
+                                      IntPtr data_object,
+                                      int r,
+                                      int c)
+    {
+      if (data_table.Columns[dt_c].DataType == typeof(double))
+        SetCell(data_object, r, c, (double)data_table.Rows[dt_r][dt_c]);
+      else
+        if (data_table.Columns[dt_c].DataType == typeof(int))
+          SetCell(data_object, r, c, (int)data_table.Rows[dt_r][dt_c]);
+        else
+          if (data_table.Columns[dt_c].DataType == typeof(string))
+          {
+            eTFUnit col_unit = GetColumnFormat(data_object, c);
+            if (col_unit == eTFUnit.UNIT_LABEL)
+            {
+              IntPtr llist = GetColumnLabelList(data_object, c);
+              if (llist == IntPtr.Zero)
+                return ePLRESULT.PLR_BADFORMAT;
+                
+              SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data_table.Rows[dt_r][dt_c])));
+            }
+            else
+              SetCell(data_object, r, c, (string)data_table.Rows[dt_r][dt_c]);
+          }
+          else
+            if (data_table.Columns[dt_c].DataType == typeof(DateTime))
+              SetCell(data_object, r, c, ConvertToPLTimestamp((DateTime)data_table.Rows[dt_r][dt_c]));
+            else
+              if (data_table.Columns[dt_c].DataType == typeof(TimeSpan))
+              {
+                TimeSpan span = (TimeSpan)data_table.Rows[dt_r][dt_c];
+                SetCell(data_object, r, c, span.TotalSeconds);
+              }
+              else
+                return ePLRESULT.PLR_BADFORMAT;
+
+      return ePLRESULT.PLR_OK;
+    }
     /// <summary>Sets a Planimate® data object table and from a DataTable.</summary>
     /// <param name='data_table'>Reference to the DataTable to be written to Planimate®</param>
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
-    public ePLRESULT SetFromDataTable(DataTable data_table, IntPtr data_object)
+    public ePLRESULT SetFromDataTable(DataTable data_table,
+                                      IntPtr    data_object)
     {
       if (data_table == null || data_object == IntPtr.Zero)
         return ePLRESULT.PLR_BADINDEX;
@@ -1680,49 +1778,15 @@ namespace Planimate.Engine
       for (int c = 0; c < data_table.Columns.Count; c++)
         for (int r = 0; r < data_table.Rows.Count; r++)
         {
-          ePLRESULT res = SetFromDataTable(data_table,data_object,r,c);
+          ePLRESULT res = SetFromDataTable(data_table,r,c,data_object,r,c);
           if (res != ePLRESULT.PLR_OK)
             return res;
         }
-      return ePLRESULT.PLR_OK;
-    }            
 
-    public ePLRESULT SetFromDataTable(DataTable data_table,IntPtr data_object,int r,int c)
-    {
-      if (data_table.Columns[c].DataType == typeof(double))
-        SetCell(data_object, r, c, (double)data_table.Rows[r][c]);
-      else
-        if (data_table.Columns[c].DataType == typeof(int))
-          SetCell(data_object, r, c, (int)data_table.Rows[r][c]);
-        else
-          if (data_table.Columns[c].DataType == typeof(string))
-          {
-            eTFUnit col_unit = GetColumnFormat(data_object, c);
-            if (col_unit == eTFUnit.UNIT_LABEL)
-            {
-              IntPtr llist = GetColumnLabelList(data_object, c);
-              if (llist == IntPtr.Zero)
-                return ePLRESULT.PLR_BADFORMAT;
-                
-              SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data_table.Rows[r][c])));
-            }
-            else
-              SetCell(data_object, r, c, (string)data_table.Rows[r][c]);
-          }
-          else
-            if (data_table.Columns[c].DataType == typeof(DateTime))
-              SetCell(data_object, r, c, ConvertToPLTimestamp((DateTime)data_table.Rows[r][c]));
-            else
-              if (data_table.Columns[c].DataType == typeof(TimeSpan))
-              {
-                TimeSpan span = (TimeSpan)data_table.Rows[r][c];
-                SetCell(data_object, r, c, span.TotalSeconds);
-              }
-              else
-                return ePLRESULT.PLR_BADFORMAT;
       return ePLRESULT.PLR_OK;
     }
 
+    
     #region Broadcast Functions
     /// <summary>Returns a broadcast object based on a string broadcast name</summary>
     /// <param name='BC_name'>Name of broadcast (string)</param>
