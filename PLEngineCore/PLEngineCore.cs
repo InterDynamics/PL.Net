@@ -437,6 +437,7 @@ namespace Planimate.Engine
 
     // v10
     ePL_CreateTable,
+    ePL_DeleteTable,
     ePL_InsertColumnNamed,
     
     //
@@ -719,7 +720,7 @@ namespace Planimate.Engine
     private delegate ePLRESULT tPL_InsertColumn(IntPtr dataobject, int atCol,int count);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate ePLRESULT tPL_InsertColumnNamed(IntPtr dataobject, int atCol,int units,string name,IntPtr labels);
+    private delegate ePLRESULT tPL_InsertColumnNamed(IntPtr dataobject, int atCol,int units,[MarshalAs(UnmanagedType.LPStr)]string name,IntPtr labels);
     
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_DeleteRow(IntPtr dataobject, int row,int for_rows);
@@ -748,8 +749,11 @@ namespace Planimate.Engine
     private delegate eUnitClass tPL_GetFormatClass(eTFUnit format);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int tPL_CreateTable([MarshalAs(UnmanagedType.LPStr)] string name);
-    
+    private delegate int tPL_CreateTable([MarshalAs(UnmanagedType.LPStr)] string name,int scope);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate int tPL_DeleteTable(int tableDO);
+
     #endregion
 
     #region Broadcasts
@@ -2067,11 +2071,20 @@ namespace Planimate.Engine
     /// <summary>
     ///  Create a table returning its index or 0 if name collision
     /// </summary>
-    public int CreateTable(string name)
+    public int CreateTable(string name,int scope=0)
     {
       // no need to suspend thread for this one
       var ltPL_CreateTable = (tPL_CreateTable)GetFunction<tPL_CreateTable>(ePLProcs.ePL_CreateTable);
-      return ltPL_CreateTable(name);
+      return ltPL_CreateTable(name,scope);
+    }
+
+    /// <summary>
+    ///   Delete a table - assuming no code references!
+    /// </summary>
+    public int DeleteTable(int tableDO)
+    {
+      var ltPL_DeleteTable = (tPL_DeleteTable)GetFunction<tPL_DeleteTable>(ePLProcs.ePL_DeleteTable);
+      return ltPL_DeleteTable(tableDO);
     }
     
     /// <summary>Converts a Planimate® timestamp (seconds) into a DateTime structure.</summary>
