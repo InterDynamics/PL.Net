@@ -1732,40 +1732,67 @@ namespace Planimate.Engine
                                       int r,
                                       int c)
     {
+      var data = data_table.Rows[dt_r][dt_c];
+      
       if (data_table.Columns[dt_c].DataType == typeof(double))
-        SetCell(data_object, r, c, (double)data_table.Rows[dt_r][dt_c]);
+      {
+        if (data is System.DBNull)
+          SetCell(data_object, r, c,0.0);
+        else
+          SetCell(data_object, r, c, (double)data);
+      }
       else
         if (data_table.Columns[dt_c].DataType == typeof(int))
-          SetCell(data_object, r, c, (int)data_table.Rows[dt_r][dt_c]);
+        {
+          if (data is System.DBNull)
+            SetCell(data_object, r, c,0);
+          else
+            SetCell(data_object, r, c, (int)data);
+        }
         else
           if (data_table.Columns[dt_c].DataType == typeof(string))
           {
+            if (data is System.DBNull)
+              data = "";
+              
             eTFUnit col_unit = GetColumnFormat(data_object, c);
             if (col_unit == eTFUnit.UNIT_LABEL)
             {
               IntPtr llist = GetColumnLabelList(data_object, c);
               if (llist == IntPtr.Zero)
                 return ePLRESULT.PLR_BADFORMAT;
-                
-              SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data_table.Rows[dt_r][dt_c])));
+
+              SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data)));
             }
             else
-              SetCell(data_object, r, c, (string)data_table.Rows[dt_r][dt_c]);
+              SetCell(data_object, r, c, (string)data);
           }
           else
             if (data_table.Columns[dt_c].DataType == typeof(DateTime))
-              SetCell(data_object, r, c, ConvertToPLTimestamp((DateTime)data_table.Rows[dt_r][dt_c]));
+            {
+              if (data is System.DBNull)
+                SetCell(data_object, r, c, 0.0);
+              else
+                SetCell(data_object, r, c, ConvertToPLTimestamp((DateTime)data));
+            }
             else
               if (data_table.Columns[dt_c].DataType == typeof(TimeSpan))
               {
-                TimeSpan span = (TimeSpan)data_table.Rows[dt_r][dt_c];
-                SetCell(data_object, r, c, span.TotalSeconds);
+                if (data is System.DBNull)
+                  SetCell(data_object, r, c, 0.0);
+                else
+                {
+                  TimeSpan span = (TimeSpan)data;
+                  SetCell(data_object, r, c, span.TotalSeconds);
+                }
               }
               else
                 return ePLRESULT.PLR_BADFORMAT;
-
+     
+      
       return ePLRESULT.PLR_OK;
     }
+
     /// <summary>Sets a Planimate® data object table and from a DataTable.</summary>
     /// <param name='data_table'>Reference to the DataTable to be written to Planimate®</param>
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
