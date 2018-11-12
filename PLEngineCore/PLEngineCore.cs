@@ -300,6 +300,8 @@ namespace Planimate.Engine
     UNIT_INSTANCE,
     /// <summary>calendar yyyymmdd hh:mm:ss</summary>
     UNIT_DATE6TIME,
+    /// <summary>calendar  DD/Mmm/YYYY hh:mm:ss</summary>
+    UNIT_ABSTIMESLASH, 
     
     /// <summary>this counts unit modes</summary>
     UNIT_MODECOUNT,
