@@ -7,9 +7,6 @@
 *.so.*
 *.dbg
 *.dll
-PLCLR/Test/*
-PLCLR/misc/*
-PLAzure/TEst/*
 *.suo
 *.user
 *.userosscache
@@ -17,7 +14,7 @@ PLAzure/TEst/*
 CloudRun/DockerImage/ContainerBinary
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-
+*/Properties
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
