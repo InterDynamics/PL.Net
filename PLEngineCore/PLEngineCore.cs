@@ -1712,7 +1712,8 @@ namespace Planimate.Engine
     public eTFUnit MapDataTypeToPL(Type type)
     {
       if (type == typeof(double) ||
-          type == typeof(int) ||
+          type == typeof(Int32) ||
+          type == typeof(Int64) ||
           type == typeof(bool))
         return eTFUnit.UNIT_VALUE;
       if (type == typeof(string))
@@ -1743,55 +1744,57 @@ namespace Planimate.Engine
         else
           SetCell(data_object, r, c, (double)data);
       }
-      else
-        if (data_table.Columns[dt_c].DataType == typeof(int))
+      else if (data_table.Columns[dt_c].DataType == typeof(Int32))
+      {
+        if (data is System.DBNull)
+          SetCell(data_object, r, c,0);
+        else
+          SetCell(data_object, r, c, (Int32)data);
+      }
+      else if (data_table.Columns[dt_c].DataType == typeof(Int64))
+      {
+        if (data is System.DBNull)
+          SetCell(data_object, r, c,0);
+        else
+          SetCell(data_object, r, c, (Int64)data);
+      }
+      else if (data_table.Columns[dt_c].DataType == typeof(string))
+      {
+        if (data is System.DBNull)
+          data = "";
+              
+        eTFUnit col_unit = GetColumnFormat(data_object, c);
+        if (col_unit == eTFUnit.UNIT_LABEL)
         {
-          if (data is System.DBNull)
-            SetCell(data_object, r, c,0);
-          else
-            SetCell(data_object, r, c, (int)data);
+          IntPtr llist = GetColumnLabelList(data_object, c);
+          if (llist == IntPtr.Zero)
+            return ePLRESULT.PLR_BADFORMAT;
+
+          SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data)));
         }
         else
-          if (data_table.Columns[dt_c].DataType == typeof(string))
-          {
-            if (data is System.DBNull)
-              data = "";
-              
-            eTFUnit col_unit = GetColumnFormat(data_object, c);
-            if (col_unit == eTFUnit.UNIT_LABEL)
-            {
-              IntPtr llist = GetColumnLabelList(data_object, c);
-              if (llist == IntPtr.Zero)
-                return ePLRESULT.PLR_BADFORMAT;
-
-              SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data)));
-            }
-            else
-              SetCell(data_object, r, c, (string)data);
-          }
-          else
-            if (data_table.Columns[dt_c].DataType == typeof(DateTime))
-            {
-              if (data is System.DBNull)
-                SetCell(data_object, r, c, 0.0);
-              else
-                SetCell(data_object, r, c, ConvertToPLTimestamp((DateTime)data));
-            }
-            else
-              if (data_table.Columns[dt_c].DataType == typeof(TimeSpan))
-              {
-                if (data is System.DBNull)
-                  SetCell(data_object, r, c, 0.0);
-                else
-                {
-                  TimeSpan span = (TimeSpan)data;
-                  SetCell(data_object, r, c, span.TotalSeconds);
-                }
-              }
-              else
-                return ePLRESULT.PLR_BADFORMAT;
-     
-      
+          SetCell(data_object, r, c, (string)data);
+      }
+      else if (data_table.Columns[dt_c].DataType == typeof(DateTime))
+      {
+        if (data is System.DBNull)
+          SetCell(data_object, r, c, 0.0);
+        else
+          SetCell(data_object, r, c, ConvertToPLTimestamp((DateTime)data));
+      }
+      else if (data_table.Columns[dt_c].DataType == typeof(TimeSpan))
+      {
+        if (data is System.DBNull)
+          SetCell(data_object, r, c, 0.0);
+        else
+        {
+          TimeSpan span = (TimeSpan)data;
+          SetCell(data_object, r, c, span.TotalSeconds);
+        }
+      }
+      else
+        return ePLRESULT.PLR_BADFORMAT;
+           
       return ePLRESULT.PLR_OK;
     }
 
