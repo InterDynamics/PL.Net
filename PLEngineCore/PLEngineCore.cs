@@ -667,6 +667,10 @@ namespace Planimate.Engine
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr tPL_LookUpDValue(IntPtr labellist, double index);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate int tPL_FindLabelAutoAdd(IntPtr labellist,[MarshalAs(UnmanagedType.LPStr)] string label);
+
     #endregion
 
     #region For Table data objects:
@@ -1292,16 +1296,63 @@ namespace Planimate.Engine
       return res;
     }
 
-    /// <summary>Sets the value of a Free Text cell</summary>
+    /// <summary>Sets the text of a Free Text cell</summary>
+    /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
+    /// <param name='row'>Cell row index</param>
+    /// <param name='col'>Cell column index</param>
+    /// <param name='data'>Data to write to the cell (string)</param>
+    public ePLRESULT SetTextCell(IntPtr data_object, int row, int col, string data)
+    {
+      var ltPL_SetCellText = (tPL_SetCellText)GetFunction<tPL_SetCellText>(ePLProcs.ePL_SetCellText);
+      internalSuspendThread();
+      ePLRESULT res = ltPL_SetCellText(data_object, row, col, data);
+      internalResumeThread();
+      return res;
+    }
+
+    /// <summary>Sets the value or text of a cell parsing or adding labels as needed.</summary>
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
     /// <param name='row'>Cell row index</param>
     /// <param name='col'>Cell column index</param>
     /// <param name='data'>Data to write to the cell (string)</param>
     public ePLRESULT SetCell(IntPtr data_object, int row, int col, string data)
     {
-      var ltPL_SetCellText = (tPL_SetCellText)GetFunction<tPL_SetCellText>(ePLProcs.ePL_SetCellText);
       internalSuspendThread();
-      ePLRESULT res = ltPL_SetCellText(data_object, row, col, data);
+
+      var col_unit = GetColumnFormat(data_object, col);
+      ePLRESULT res = ePLRESULT.PLR_OK;;
+      if (col_unit == eTFUnit.UNIT_FREETEXT)
+      {
+        var ltPL_SetCellText = (tPL_SetCellText)GetFunction<tPL_SetCellText>(ePLProcs.ePL_SetCellText);
+        res = ltPL_SetCellText(data_object, row, col, data);
+      }
+      else if (col_unit == eTFUnit.UNIT_LABEL)
+      {
+        IntPtr label_list = GetColumnLabelList(data_object, col);
+        if (label_list == IntPtr.Zero)
+          res = ePLRESULT.PLR_BADFORMAT;
+        else
+        {
+          var ltPL_FindLabelAutoAdd = (tPL_FindLabelAutoAdd)GetFunction<tPL_FindLabelAutoAdd>(ePLProcs.ePL_FindLabelAutoAdd);
+          int ordinal = ltPL_FindLabelAutoAdd(label_list,data);
+          if (ordinal < 0)
+            res = ePLRESULT.PLR_BADINDEX;
+          else
+          {        
+            var index = ((tPL_GetLabelIndex)(GetFunction<tPL_GetLabelIndex>(ePLProcs.ePL_GetLabelIndex)))(label_list,ordinal);
+            res = SetCell(data_object,row,col,Convert.ToDouble(index));
+          }
+        }
+      }
+      else 
+      {
+        var ltPL_StringToValue = (tPL_StringToValue)GetFunction<tPL_StringToValue >(ePLProcs.ePL_StringToValue);
+        double value = 0.0;
+        res = ltPL_StringToValue(data,ref value,col_unit);
+        if (res == ePLRESULT.PLR_OK)
+          res = SetCell(data_object, row, col, value);
+      }
+      
       internalResumeThread();
       return res;
     }
@@ -1356,6 +1407,19 @@ namespace Planimate.Engine
       return res;
     }
 
+    /// <summary>Returns ordinal index (not label index value) of a label, adding if needed.
+    /// <param name='labellist'>Pointer to label list"</param>
+    /// <param name='label'>Label to find or add"</param>    
+    /// </summary>
+    public int FindOrAddLabel(IntPtr label_list,string label)
+    {
+      var ltPL_FindLabelAutoAdd = (tPL_FindLabelAutoAdd)GetFunction<tPL_GetNamedLabelList>(ePLProcs.ePL_FindLabelAutoAdd);
+      internalSuspendThread();
+      int res = ltPL_FindLabelAutoAdd(label_list,label);
+      internalResumeThread();
+      return res;
+    }
+    
     /// <summary>
     /// Get Number of labels in a Planimate label list
     /// </summary>
@@ -1769,11 +1833,9 @@ namespace Planimate.Engine
           IntPtr llist = GetColumnLabelList(data_object, c);
           if (llist == IntPtr.Zero)
             return ePLRESULT.PLR_BADFORMAT;
-
-          SetCell(data_object, r, c, Convert.ToDouble(LookUpLabelIndex(llist, (string)data)));
         }
-        else
-          SetCell(data_object, r, c, (string)data);
+
+        SetCell(data_object, r, c, (string)data);
       }
       else if (data_table.Columns[dt_c].DataType == typeof(DateTime))
       {
