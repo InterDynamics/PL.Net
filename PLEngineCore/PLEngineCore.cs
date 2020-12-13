@@ -1315,11 +1315,17 @@ namespace Planimate.Engine
     /// <param name='row'>Cell row index</param>
     /// <param name='col'>Cell column index</param>
     /// <param name='data'>Data to write to the cell (string)</param>
-    public ePLRESULT SetCell(IntPtr data_object, int row, int col, string data)
+    public ePLRESULT SetCell(IntPtr data_object, int row, int col, string data, eTFUnit useFormat=eTFUnit.UNIT_NULL)
     {
       internalSuspendThread();
 
-      var col_unit = GetColumnFormat(data_object, col);
+      // enable caller to provide the units to avoid an extra lookup
+      eTFUnit col_unit;
+      if (useFormat != eTFUnit.UNIT_NULL)
+        col_unit = useFormat;
+      else
+        col_unit = GetColumnFormat(data_object, col);
+
       ePLRESULT res = ePLRESULT.PLR_OK;;
       if (col_unit == eTFUnit.UNIT_FREETEXT)
       {
