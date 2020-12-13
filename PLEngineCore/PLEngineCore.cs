@@ -1254,19 +1254,11 @@ namespace Planimate.Engine
     /// <param name='rows'>Number of columns to resize table to (default leaves unchanged)</param>
     public ePLRESULT TableResize(IntPtr data_object, int rows, int cols = -1)
     {
-      if (cols == -1)
-        cols = Columns(data_object);
-
-      if (cols > 0)
-      {
-        var ltPL_TableResize = (tPL_TableResize)GetFunction<tPL_TableResize>(ePLProcs.ePL_TableResize);
-        internalSuspendThread();
-        ePLRESULT res = ltPL_TableResize(data_object, rows, cols);
-        internalResumeThread();
-        return res;
-      }
-      else
-        return ePLRESULT.PLR_INVALID;
+      var ltPL_TableResize = (tPL_TableResize)GetFunction<tPL_TableResize>(ePLProcs.ePL_TableResize);
+      internalSuspendThread();
+      ePLRESULT res = ltPL_TableResize(data_object, rows, cols);
+      internalResumeThread();
+      return res;
     }
       
     /// <summary>Gets the value from a cell</summary>
