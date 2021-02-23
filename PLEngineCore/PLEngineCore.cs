@@ -441,6 +441,9 @@ namespace Planimate.Engine
     ePL_CreateTable,
     ePL_DeleteTable,
     ePL_InsertColumnNamed,
+
+    // v11
+    ePL_ColumnTitle,
     
     //
     ePL_PROCCOUNT
@@ -682,6 +685,9 @@ namespace Planimate.Engine
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr tPL_ColumnName(IntPtr dataobject, int column);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate IntPtr tPL_ColumnTitle(IntPtr dataobject, int column);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate eTFUnit tPL_GetColumnFormat(IntPtr dataobject, int column);
@@ -1200,7 +1206,7 @@ namespace Planimate.Engine
       return res;
     }
 
-    /// <summary>Returns the column name of the specified column</summary>
+    /// <summary>Returns the column internal/tuple name of the specified column</summary>
     /// <param name='data_object'>Pointer to Planimate® data object</param>
     /// <param name='column'>Index of the column</param>
     public string ColumnName(IntPtr data_object, int column)
@@ -1208,6 +1214,18 @@ namespace Planimate.Engine
       var ltPL_ColumnName = (tPL_ColumnName)GetFunction<tPL_ColumnName>(ePLProcs.ePL_ColumnName);
       internalSuspendThread();
       string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_ColumnName(data_object, column));
+      internalResumeThread();
+      return res;
+    }
+
+    /// <summary>Returns the column title of the specified column</summary>
+    /// <param name='data_object'>Pointer to Planimate® data object</param>
+    /// <param name='column'>Index of the column</param>
+    public string ColumnTitle(IntPtr data_object, int column)
+    {
+      var ltPL_ColumnTitle = (tPL_ColumnTitle)GetFunction<tPL_ColumnTitle>(ePLProcs.ePL_ColumnTitle);
+      internalSuspendThread();
+      string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_ColumnTitle(data_object, column));
       internalResumeThread();
       return res;
     }
