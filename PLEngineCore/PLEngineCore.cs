@@ -335,6 +335,17 @@ namespace Planimate.Engine
     /// <summary>other type (text, label, colour etc</summary>
     TUF_OTH     // other basic type
   };
+
+  /// <summary>
+  ///   Font Familys
+  /// </summary>
+  public enum FontFamily
+  {
+    Default,
+    Fixed,
+    Variable,
+    Undefined
+  };
   
   /// <summary>
   /// Thread proc status for Planimate DLL loader class
@@ -444,6 +455,9 @@ namespace Planimate.Engine
 
     // v11
     ePL_ColumnTitle,
+
+    // v12
+    ePL_GetFontInfo,
     
     //
     ePL_PROCCOUNT
@@ -766,6 +780,20 @@ namespace Planimate.Engine
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate int tPL_DeleteTable(int tableDO);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate int tPL_GetFontInfo(IntPtr table, int row, int col,
+                                         bool wantTitleFont,
+                                         out uint textColor,
+                                         out uint backColor,
+                                         out int  colWidthChars,
+                                         out IntPtr fontName,
+                                         out int fontHeightPoints,
+                                         out int fontWeight,
+                                         out bool fontItalic,
+                                         out bool fontUnderline,
+                                         out int fontFamily);
+
+                                         
     #endregion
 
     #region Broadcasts
@@ -1226,6 +1254,36 @@ namespace Planimate.Engine
       var ltPL_ColumnTitle = (tPL_ColumnTitle)GetFunction<tPL_ColumnTitle>(ePLProcs.ePL_ColumnTitle);
       internalSuspendThread();
       string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_ColumnTitle(data_object, column));
+      internalResumeThread();
+      return res;
+    }
+    
+    /// <summary>
+    ///   Return information about what font is used for a cell
+    /// </summary>
+    public int GetFontInfo(IntPtr table, int row, int col,
+                           bool wantTitleFont,
+                           out uint textColor,out uint backColor,
+                           out int  colWidthChars,
+                           out string fontName,
+                           out int fontHeightPoints,
+                           out int fontWeight,
+                           out bool fontItalic,
+                           out bool fontUnderline,
+                           out FontFamily fontFamily)
+    {
+      var ltPL_GetFontInfo = (tPL_GetFontInfo)GetFunction<tPL_GetFontInfo>(ePLProcs.ePL_GetFontInfo);
+      internalSuspendThread();
+      int fontFamilyI;
+      IntPtr fontNamePtr = IntPtr.Zero;
+      var res = ltPL_GetFontInfo(table,row,col,wantTitleFont,
+                                 out textColor,out backColor,out colWidthChars,
+                                 out fontNamePtr,
+                                 out fontHeightPoints,out fontWeight,
+                                 out fontItalic,out fontUnderline,
+                                 out fontFamilyI);
+      fontName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(fontNamePtr);
+      fontFamily = (FontFamily)fontFamilyI;
       internalResumeThread();
       return res;
     }
@@ -2122,6 +2180,17 @@ namespace Planimate.Engine
       return str;
     }
 
+    public string PLValueToColor(uint value)
+    {
+      var ltPL_ValueToColor = (tPL_ValueToColor)GetFunction<tPL_ValueToColor>(ePLProcs.ePL_ValueToColor);
+      internalSuspendThread();
+      StringBuilder buffer = new StringBuilder(10);  // #AARRGGBBnul
+      ePLRESULT res = ltPL_ValueToColor((double)value,10,buffer);
+      string str = buffer.ToString();
+      internalResumeThread();
+      return str;
+    }
+    
     /// <summary>Retrieve a table cell in its textually formatted form.
     //  Works for numeric formats, label and text formatted cells.
     /// <param name='data_object'>Pointer to Planimate® data object (table)</param>
