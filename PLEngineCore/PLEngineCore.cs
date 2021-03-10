@@ -346,6 +346,13 @@ namespace Planimate.Engine
     Variable,
     Undefined
   };
+
+  public enum AlignMode
+  {
+    ALIGN_LEFT,
+    ALIGN_RIGHT,
+    ALIGN_CENTER
+  };
   
   /// <summary>
   /// Thread proc status for Planimate DLL loader class
@@ -457,7 +464,10 @@ namespace Planimate.Engine
     ePL_ColumnTitle,
 
     // v12
-    ePL_GetFontInfo,
+    ePL_GetTitleFont,
+    ePL_GetColumnInfo,
+    ePL_GetCellInfo,
+    ePL_PLColorToARGB,
     
     //
     ePL_PROCCOUNT
@@ -781,11 +791,34 @@ namespace Planimate.Engine
     private delegate int tPL_DeleteTable(int tableDO);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int tPL_GetFontInfo(IntPtr table, int row, int col,
-                                         bool wantTitleFont,
+    private delegate int tPL_GetTitleFont(IntPtr table, int col,
+                                          out IntPtr fontName,
+                                          out int fontHeightPoints,
+                                          out int fontWeight,
+                                          out bool fontItalic,
+                                          out bool fontUnderline,
+                                          out int fontFamily);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate int tPL_GetColumnInfo(IntPtr table, int col,
+                                           out uint textColor,
+                                           out uint backColor,
+                                           out int  colWidthChars,
+                                           out int  colTextMode,
+                                           out int  format,
+                                           out bool hasCellInfo,                                           
+                                           out IntPtr fontName,
+                                           out int fontHeightPoints,
+                                           out int fontWeight,
+                                           out bool fontItalic,
+                                           out bool fontUnderline,
+                                           out int fontFamily);
+    
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate int tPL_GetCellInfo(IntPtr table, int row, int col,
                                          out uint textColor,
                                          out uint backColor,
-                                         out int  colWidthChars,
+                                         out int format,
                                          out IntPtr fontName,
                                          out int fontHeightPoints,
                                          out int fontWeight,
@@ -793,7 +826,6 @@ namespace Planimate.Engine
                                          out bool fontUnderline,
                                          out int fontFamily);
 
-                                         
     #endregion
 
     #region Broadcasts
@@ -845,7 +877,15 @@ namespace Planimate.Engine
     private delegate ePLRESULT tPL_ValueToColor(double v,
                                                 int buffer_len,
                                                 StringBuilder buffer);
-
+    
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate ePLRESULT tPL_PLColorToARGB(uint color,
+                                                 out byte a,
+                                                 out byte r,
+                                                 out byte g,
+                                                 out byte b);
+    
+    
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_GetCellFormatted(IntPtr table,
                                                     int    r,
@@ -1261,10 +1301,71 @@ namespace Planimate.Engine
     /// <summary>
     ///   Return information about what font is used for a cell
     /// </summary>
-    public int GetFontInfo(IntPtr table, int row, int col,
-                           bool wantTitleFont,
+    public int GetTitleInfo(IntPtr table, int col,
+                            out string fontName,
+                            out int fontHeightPoints,
+                            out int fontWeight,
+                            out bool fontItalic,
+                            out bool fontUnderline,
+                            out FontFamily fontFamily)
+    {
+      var ltPL_GetTitleFont = (tPL_GetTitleFont)GetFunction<tPL_GetTitleFont>(ePLProcs.ePL_GetTitleFont);
+      internalSuspendThread();
+      int fontFamilyI;
+      IntPtr fontNamePtr = IntPtr.Zero;
+      var res = ltPL_GetTitleFont(table,col,
+                                  out fontNamePtr,
+                                  out fontHeightPoints,out fontWeight,
+                                  out fontItalic,out fontUnderline,
+                                  out fontFamilyI);
+      fontName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(fontNamePtr);
+      fontFamily = (FontFamily)fontFamilyI;
+      internalResumeThread();
+      return res;
+    }
+
+    /// <summary>
+    ///   Return information about what font is used for a cell
+    /// </summary>
+    public int GetColumnInfo(IntPtr table, int col,
+                             out uint textColor,out uint backColor,
+                             out int  colWidthChars,
+                             out AlignMode colTextMode,
+                             out eTFUnit format,
+                             out bool hasCellInfo,
+                             out string fontName,
+                             out int fontHeightPoints,
+                             out int fontWeight,
+                             out bool fontItalic,
+                             out bool fontUnderline,
+                             out FontFamily fontFamily)
+    {
+      var ltPL_GetColumnInfo = (tPL_GetColumnInfo)GetFunction<tPL_GetColumnInfo>(ePLProcs.ePL_GetColumnInfo);
+      internalSuspendThread();
+      int fontFamilyI,colTextModeI,formatI;
+      IntPtr fontNamePtr = IntPtr.Zero;
+      var res = ltPL_GetColumnInfo(table,col,
+                                   out textColor,out backColor,out colWidthChars,
+                                   out colTextModeI,out formatI,
+                                   out hasCellInfo,                                   
+                                   out fontNamePtr,
+                                   out fontHeightPoints,out fontWeight,
+                                   out fontItalic,out fontUnderline,
+                                   out fontFamilyI);
+      fontName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(fontNamePtr);
+      fontFamily = (FontFamily)fontFamilyI;
+      colTextMode = (AlignMode)(colTextModeI & 3);  // only horz bits at moment
+      format = (eTFUnit)formatI;
+      internalResumeThread();
+      return res;
+    }
+
+    /// <summary>
+    ///   Return information about what font is used for a cell
+    /// </summary>
+    public int GetCellInfo(IntPtr table, int row, int col,
                            out uint textColor,out uint backColor,
-                           out int  colWidthChars,
+                           out eTFUnit format,
                            out string fontName,
                            out int fontHeightPoints,
                            out int fontWeight,
@@ -1272,18 +1373,20 @@ namespace Planimate.Engine
                            out bool fontUnderline,
                            out FontFamily fontFamily)
     {
-      var ltPL_GetFontInfo = (tPL_GetFontInfo)GetFunction<tPL_GetFontInfo>(ePLProcs.ePL_GetFontInfo);
+      var ltPL_GetCellInfo = (tPL_GetCellInfo)GetFunction<tPL_GetCellInfo>(ePLProcs.ePL_GetCellInfo);
       internalSuspendThread();
-      int fontFamilyI;
+      int fontFamilyI,formatI;
       IntPtr fontNamePtr = IntPtr.Zero;
-      var res = ltPL_GetFontInfo(table,row,col,wantTitleFont,
-                                 out textColor,out backColor,out colWidthChars,
+      var res = ltPL_GetCellInfo(table,row,col,
+                                 out textColor,out backColor,
+                                 out formatI,
                                  out fontNamePtr,
                                  out fontHeightPoints,out fontWeight,
                                  out fontItalic,out fontUnderline,
                                  out fontFamilyI);
       fontName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(fontNamePtr);
       fontFamily = (FontFamily)fontFamilyI;
+      format = (eTFUnit)formatI;
       internalResumeThread();
       return res;
     }
@@ -2180,15 +2283,25 @@ namespace Planimate.Engine
       return str;
     }
 
+    /// <summary>
+    ///    Convert a PLColor uint to #aarrggbb. Note you should not
+    ///     call if ISNoneColor() returns true.
+    /// </summary>
     public string PLValueToColor(uint value)
     {
-      var ltPL_ValueToColor = (tPL_ValueToColor)GetFunction<tPL_ValueToColor>(ePLProcs.ePL_ValueToColor);
-      internalSuspendThread();
-      StringBuilder buffer = new StringBuilder(10);  // #AARRGGBBnul
-      ePLRESULT res = ltPL_ValueToColor((double)value,10,buffer);
-      string str = buffer.ToString();
-      internalResumeThread();
-      return str;
+      return PLValueToColor((double)value);
+    }
+
+    /// <summary>
+    ///   Convert PL colour value/palette index ro A/R/G/B values.
+    ///   Before calling check for none colour using IsNoneColor()
+    /// </summary>
+    public void PLColorToARGB(uint color,out byte a,out byte r,
+                              out byte g,out byte b)
+    {
+      // this doesn't invoke any unsafe APIs in PL so no need to threadlock
+      var ltPL_PLColorToARGB = (tPL_PLColorToARGB)GetFunction<tPL_PLColorToARGB>(ePLProcs.ePL_PLColorToARGB);
+      ePLRESULT res = ltPL_PLColorToARGB(color,out a,out r,out g,out b);
     }
     
     /// <summary>Retrieve a table cell in its textually formatted form.
@@ -2308,6 +2421,13 @@ namespace Planimate.Engine
     {
       var fn = (tPL_LoadModel)GetFunction<tPL_LoadModel>(ePLProcs.ePL_LoadModel); 
       return fn(modelName,dataSetFile);
+    }
+
+    public bool IsNoneColor(uint plColor)
+    {
+      // PLColor value is a palette index when alpha is 0
+      // note packed as 0xAABBGGRR to be compatible with ye olde GDI
+      return plColor == 0x000000FF;
     }
   }
   
