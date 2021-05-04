@@ -468,7 +468,12 @@ namespace Planimate.Engine
     ePL_GetColumnInfo,
     ePL_GetCellInfo,
     ePL_PLColorToARGB,
-    
+
+    // v13
+    ePL_TableTitle,
+    ePL_DataObjectExportName,
+    ePL_DataObjectIndex,
+
     //
     ePL_PROCCOUNT
   };
@@ -725,7 +730,16 @@ namespace Planimate.Engine
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate ePLRESULT tPL_TableResize(IntPtr dataobject, int rows, int cols);
+    
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate IntPtr tPL_TableTitle(IntPtr dataobject);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate IntPtr tPL_DataObjectExportName(IntPtr dataobject);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate int tPL_DataObjectIndex(IntPtr dataobject);
+    
     // TODO:Att methods missing from proc table
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate double    tPL_GetAttValue(IntPtr dataobject);
@@ -1149,11 +1163,18 @@ namespace Planimate.Engine
     
     #endregion
 
+    string UTF8ToString(IntPtr ptr)
+    {
+      // todo either update dotnet 6 for UTF8 version or callback PL to do it
+      return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ptr);
+    }
+  
+    
     /// <summary>Returns the Planimate® version powering the engine.</summary>
     public string PlanimateVersion()
     {
       var pl_version = ((tPL_AppVersion)GetFunction<tPL_AppVersion>(ePLProcs.ePL_AppVersion))();  
-      return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(pl_version);
+      return UTF8ToString(pl_version);
     }
 
     /// <summary>
@@ -1281,7 +1302,7 @@ namespace Planimate.Engine
     {
       var ltPL_ColumnName = (tPL_ColumnName)GetFunction<tPL_ColumnName>(ePLProcs.ePL_ColumnName);
       internalSuspendThread();
-      string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_ColumnName(data_object, column));
+      string res = UTF8ToString(ltPL_ColumnName(data_object, column));
       internalResumeThread();
       return res;
     }
@@ -1293,7 +1314,7 @@ namespace Planimate.Engine
     {
       var ltPL_ColumnTitle = (tPL_ColumnTitle)GetFunction<tPL_ColumnTitle>(ePLProcs.ePL_ColumnTitle);
       internalSuspendThread();
-      string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_ColumnTitle(data_object, column));
+      string res = UTF8ToString(ltPL_ColumnTitle(data_object, column));
       internalResumeThread();
       return res;
     }
@@ -1318,7 +1339,7 @@ namespace Planimate.Engine
                                   out fontHeightPoints,out fontWeight,
                                   out fontItalic,out fontUnderline,
                                   out fontFamilyI);
-      fontName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(fontNamePtr);
+      fontName = UTF8ToString(fontNamePtr);
       fontFamily = (FontFamily)fontFamilyI;
       internalResumeThread();
       return res;
@@ -1352,7 +1373,7 @@ namespace Planimate.Engine
                                    out fontHeightPoints,out fontWeight,
                                    out fontItalic,out fontUnderline,
                                    out fontFamilyI);
-      fontName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(fontNamePtr);
+      fontName = UTF8ToString(fontNamePtr);
       fontFamily = (FontFamily)fontFamilyI;
       colTextMode = (AlignMode)(colTextModeI & 3);  // only horz bits at moment
       format = (eTFUnit)formatI;
@@ -1384,7 +1405,7 @@ namespace Planimate.Engine
                                  out fontHeightPoints,out fontWeight,
                                  out fontItalic,out fontUnderline,
                                  out fontFamilyI);
-      fontName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(fontNamePtr);
+      fontName = UTF8ToString(fontNamePtr);
       fontFamily = (FontFamily)fontFamilyI;
       format = (eTFUnit)formatI;
       internalResumeThread();
@@ -1542,7 +1563,7 @@ namespace Planimate.Engine
     {
       var ltPL_GetCellText = (tPL_GetCellText)GetFunction<tPL_GetCellText>(ePLProcs.ePL_GetCellText);
       internalSuspendThread();
-      string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_GetCellText(data_object, row, col));
+      string res = UTF8ToString(ltPL_GetCellText(data_object, row, col));
       internalResumeThread();
       return res;
     }
@@ -1567,7 +1588,7 @@ namespace Planimate.Engine
     {
       var ltPL_LookUpLValue = (tPL_LookUpLValue)GetFunction<tPL_LookUpLValue>(ePLProcs.ePL_LookUpLValue);
       internalSuspendThread();
-      string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_LookUpLValue(data_object, index));
+      string res = UTF8ToString(ltPL_LookUpLValue(data_object, index));
       internalResumeThread();
       return res;
     }
@@ -1579,7 +1600,7 @@ namespace Planimate.Engine
     {
       var ltPL_LookUpDValue = (tPL_LookUpDValue)GetFunction<tPL_LookUpDValue>(ePLProcs.ePL_LookUpDValue);
       internalSuspendThread();
-      string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_LookUpDValue(data_object, index));
+      string res = UTF8ToString(ltPL_LookUpDValue(data_object, index));
       internalResumeThread();
       return res;
     }
@@ -1616,7 +1637,7 @@ namespace Planimate.Engine
     {
       var ltPL_GetLabelName = (tPL_GetLabelName)GetFunction<tPL_GetLabelName>(ePLProcs.ePL_GetLabelName);
       internalSuspendThread();
-      string res = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ltPL_GetLabelName(labellist, ordinal));
+      string res = UTF8ToString(ltPL_GetLabelName(labellist, ordinal));
       internalResumeThread();
       return res;
     }
@@ -1922,7 +1943,11 @@ namespace Planimate.Engine
     /// <param name='formatted'>Specifies if the returned DataTable should be formatted. True = format</param>
     public DataTable GetDataTable(IntPtr data_object, Boolean formatted, Boolean labels_as_text=false)
     {
-      DataTable data_table = new DataTable();
+      DataTable data_table = new DataTable();      
+      data_table.TableName = DataObjectName(data_object);
+      data_table.ExtendedProperties.Add("TableTitle",TableTitle(data_object));
+      data_table.ExtendedProperties.Add("DataObjectIndex",DataObjectIndex(data_object));
+      
       ePLRESULT res = UpdateDataTable(data_table,data_object,formatted,labels_as_text);
       
       if (res == ePLRESULT.PLR_OK)
@@ -2423,12 +2448,51 @@ namespace Planimate.Engine
       return fn(modelName,dataSetFile);
     }
 
+    /// <summary>
+    ///   Is Planimate color value the Planimate NONE color
+    /// </summary>
     public bool IsNoneColor(uint plColor)
     {
       // PLColor value is a palette index when alpha is 0
       // note packed as 0xAABBGGRR to be compatible with ye olde GDI
       return plColor == 0x000000FF;
     }
+
+    /// <summary>
+    ///   Title of a table
+    /// </summary>
+    public string TableTitle(IntPtr data_object)
+    {
+      var name = ((tPL_TableTitle)GetFunction<tPL_TableTitle>(ePLProcs.ePL_TableTitle))(data_object);
+      return UTF8ToString(name);
+    }
+
+    /// <summary>
+    ///   Name of table, attribute, label list
+    /// </summary>
+    public string DataObjectName(IntPtr data_object)
+    {
+      var name = ((tPL_DataObjectName)GetFunction<tPL_DataObjectName>(ePLProcs.ePL_DataObjectName))(data_object);
+      return UTF8ToString(name);
+    }
+
+    /// <summary>
+    ///   Data Object Export name of object or ""
+    /// </summary>
+    public string DataObjectExportName(IntPtr data_object)
+    {
+      var name = ((tPL_DataObjectExportName)GetFunction<tPL_DataObjectExportName>(ePLProcs.ePL_DataObjectExportName))(data_object);
+      return UTF8ToString(name);
+    }
+
+    /// <summary>
+    ///  Data object export index of object or -1
+    /// </summary>
+    public int DataObjectIndex(IntPtr data_object)
+    {
+      return ((tPL_DataObjectIndex)GetFunction<tPL_DataObjectIndex>(ePLProcs.ePL_DataObjectIndex))(data_object);
+    }
+
   }
   
   // class PLDataObject { }
